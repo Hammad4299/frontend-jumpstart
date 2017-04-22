@@ -4,4 +4,4 @@ import * as a from './common/test';
 
 a.text();
 
-let aa = require('react');
+require('react');

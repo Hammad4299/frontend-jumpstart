@@ -16,6 +16,7 @@ module.exports = function () {
         entry: {
             'bundle': './src/js/entrypoints/index.js',
             'bundle2': './src/js/entrypoints/index2.js',
+            'dependencies': ['babel-polyfill','react'],
             'vendor': ['./src/js/vendor/vendor1.js','./src/js/vendor/vendor2.js','./src/js/vendor/vendor3.js'],
             'css': './src/js/entrypoints/css.js'
         },
@@ -36,7 +37,7 @@ module.exports = function () {
                 chunks: ['bundle','bundle2']                       //Important, don't include vendor here. If you put it here, then any common code between vendor chunkk and other will be moved from vendor chunk to "common" and then following vendor chunk will be left without that
             }),
             new webpack.optimize.CommonsChunkPlugin({
-                name: "vendor",
+                name: ["dependencies","vendor"],
                 minChunks: Infinity                                 //Don't put anything else except whats already in entry point. It move any common code which was already part of vendor in vendor chunk and remove it from other chunks
             }),
             new webpack.optimize.CommonsChunkPlugin({

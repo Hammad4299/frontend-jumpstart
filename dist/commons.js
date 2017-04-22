@@ -1,1 +1,1 @@
-webpackJsonp([4],{11:function(e,t,o){"use strict";function text(){console.log("global")}Object.defineProperty(t,"__esModule",{value:!0}),t.text=text}});
+webpackJsonp([5],{97:function(e,t,o){"use strict";function text(){console.log("global")}Object.defineProperty(t,"__esModule",{value:!0}),t.text=text}});

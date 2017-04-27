@@ -1,1 +1,1 @@
-require('../../css/common/global.scss')
+require('../../css/global.scss')

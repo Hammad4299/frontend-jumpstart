@@ -5,3 +5,4 @@ import * as a from './common/test';
 a.text();
 
 require('react');
+alert(1);

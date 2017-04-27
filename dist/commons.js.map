@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/js/common/test.js"],"names":["text","console","log"],"mappings":";;;;;;;;;;;QAAgBA,I,GAAAA,I;AAAT,SAASA,IAAT,GAAgB;AACnBC,YAAQC,GAAR,CAAY,QAAZ;AACH,C","file":"commons.js","sourcesContent":["export function text() {\r\n    console.log('global');\r\n}\n\n\n// WEBPACK FOOTER //\n// ./src/js/common/test.js"],"sourceRoot":""}

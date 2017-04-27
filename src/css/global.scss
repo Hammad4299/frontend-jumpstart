@@ -1,0 +1,19 @@
+@import "variables";
+
+body{
+  background: $primaryColor;
+}
+
+@font-face {
+  font-family: myFirstFont;
+  src: url('../fonts/Pacifico.ttf');
+}
+
+.bg1{
+  font-family: myFirstFont;
+  background: $img2;
+}
+
+.bg2{
+  background: $img1;
+}

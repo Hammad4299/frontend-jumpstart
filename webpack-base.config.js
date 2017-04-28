@@ -1,15 +1,26 @@
 var path = require('path');
 var webpack = require('webpack');
-
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 let paths = {
     public: 'http://localhost:8080/Testing/dist/',
     contentOutput: path.join(__dirname,'dist'),
-    font: 'font',
+    font: 'fonts',
     images: 'images',
-    src: path.join(__dirname,'src')
+    src: path.join(__dirname,'src'),
+    toCopy: null
 };
+
+paths.toCopy = [
+    {from: 'images', to: paths.images},
+    {from: 'fonts', to: paths.font},
+];
+
+paths.toCopy.map(function (item) {
+    item.from = path.join(paths.src,item.from);
+    item.to = path.join(paths.contentOutput,item.to);
+});
 
 const extractSass = new ExtractTextPlugin({
     filename: "[name].min.css",
@@ -35,6 +46,7 @@ module.exports = function () {
             publicPath: paths.public
         },
         plugins: [
+            new CopyWebpackPlugin(paths.toCopy),
             new webpack.optimize.CommonsChunkPlugin({
                 name: "css/commons",                                                        //If same as entry name, it will overrite entry content
                 chunks: ['css/app-bundle'],                                         //Can omit it if wants to find common from all (entry and other common chunks before this chunk)
@@ -75,18 +87,18 @@ module.exports = function () {
                     loader: "babel-loader"
                 },
                 {
-                    test: /\.(png|jpg|svg|bmp)$/,
+                    test: /\.(png|jpg|svg|bmp|gif)$/,
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        name: 'images/[name].[ext]',
+                        name: path.join(paths.images,'[name].[ext]'),
                     }
                 },
                 {
                     test: /\.(ttf|woff|woff2|otf)$/,
                     loader: 'file-loader',
                     options: {
-                        name: 'fonts/[name].[ext]',
+                        name: path.join(paths.font,'[name].[ext]'),
                     },
                 },
             ]

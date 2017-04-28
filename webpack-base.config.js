@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var urljoin = require('url-join');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
@@ -91,14 +92,14 @@ module.exports = function () {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        name: path.join(paths.images,'[name].[ext]'),
+                        name: urljoin(paths.images,'[name].[ext]'),
                     }
                 },
                 {
                     test: /\.(ttf|woff|woff2|otf)$/,
                     loader: 'file-loader',
                     options: {
-                        name: path.join(paths.font,'[name].[ext]'),
+                        name: urljoin(paths.font,'[name].[ext]'),
                     },
                 },
             ]

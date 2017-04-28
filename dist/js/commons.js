@@ -1,1 +1,20 @@
-webpackJsonp([5],{97:function(e,t,o){"use strict";function text(){console.log("global")}Object.defineProperty(t,"__esModule",{value:!0}),t.text=text}});
+webpackJsonp([5],{
+
+/***/ 100:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.text = text;
+function text() {
+    console.log('global');
+}
+
+/***/ })
+
+});
+//# sourceMappingURL=commons.js.map

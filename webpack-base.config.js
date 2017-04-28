@@ -3,6 +3,10 @@ var webpack = require('webpack');
 var urljoin = require('url-join');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var AssetsPlugin = require('assets-webpack-plugin');
+var assetsPluginInstance = new AssetsPlugin({
+
+});
 
 let paths = {
     public: 'http://localhost:8080/Testing/dist/',
@@ -47,6 +51,7 @@ module.exports = function () {
             publicPath: paths.public
         },
         plugins: [
+            assetsPluginInstance,
             new CopyWebpackPlugin(paths.toCopy),
             new webpack.optimize.CommonsChunkPlugin({
                 name: "css/commons",                                                        //If same as entry name, it will overrite entry content

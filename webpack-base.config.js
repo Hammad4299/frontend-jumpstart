@@ -101,7 +101,7 @@ module.exports = function () {
                     }
                 },
                 {
-                    test: /\.(ttf|woff|woff2|otf)$/,
+                    test: /\.(ttf|woff|woff2|otf|eot)$/,
                     loader: 'file-loader',
                     options: {
                         name: urljoin(paths.font,'[name].[ext]'),

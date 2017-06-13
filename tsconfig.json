@@ -1,11 +1,14 @@
+//Need for es6 and then es6 to es5 because of
+//https://www.reddit.com/r/typescript/comments/4fuo7v/is_it_possible_to_typescriptes6babeles5/
+//#Awesome
 {
   "compilerOptions": {
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es6",
-    "jsx": "react",
-    "allowJs": true
+    "jsx": "preserve",
+    "allowJs": true //Necessary
   },
 //  "include": [
 //    "src/**/*"

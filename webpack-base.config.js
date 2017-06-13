@@ -8,6 +8,8 @@ var assetsPluginInstance = new AssetsPlugin({
 
 });
 
+const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
+
 let paths = {
     public: 'http://localhost:8080/Testing/dist/',
     contentOutput: path.join(__dirname,'dist'),
@@ -38,6 +40,12 @@ const extractSass = new ExtractTextPlugin({
 module.exports = function () {
     return {
         devtool: 'source-map',  //For debugging purposes
+        resolve: {
+            extensions: [".ts", ".tsx", ".js", ".json"],
+            plugins: [
+                new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
+            ]
+        },
         entry: {
             'js/app-bundle1': path.join(paths.src,'js/entrypoints/index.js'),
             'js/app-bundle2': path.join(paths.src,'js/entrypoints/index2.js'),
@@ -87,11 +95,14 @@ module.exports = function () {
                         fallback: "style-loader"
                     })
                 },
+                // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
                 {
-                    test: /\.js[x]*$/,
-                    exclude: /node_modules/,
-                    loader: "babel-loader"
+                    test: /\.ts[x]*|\.js[x]*$/,
+                    loader: "awesome-typescript-loader",
+                    exclude: /node_modules/
                 },
+                // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+                { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
                 {
                     test: /\.(png|jpg|svg|bmp|gif)$/,
                     loader: 'url-loader',

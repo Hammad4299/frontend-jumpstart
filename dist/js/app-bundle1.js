@@ -1,27 +1,23 @@
-webpackJsonp([3],{
+webpackJsonp([2],{
 
-/***/ 136:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _test = __webpack_require__(100);
-
-var a1 = _interopRequireWildcard(_test);
-
-var _vendor = __webpack_require__(66);
-
-var a2 = _interopRequireWildcard(_vendor);
-
-var _vendor2 = __webpack_require__(67);
-
-var a = _interopRequireWildcard(_vendor2);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var a1 = __webpack_require__(67);
 a1.text();
 alert(1);
+
+/***/ }),
+
+/***/ 139:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["page"] = __webpack_require__(142);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(99)))
 
 /***/ }),
 
@@ -31,9 +27,24 @@ alert(1);
 "use strict";
 
 
-__webpack_require__(136);
+Object.defineProperty(exports, "__esModule", { value: true });
+var a = __webpack_require__(67);
+a.text();
+__webpack_require__(66);
+alert(1);
+
+/***/ }),
+
+/***/ 144:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(134);
+__webpack_require__(139); //Make page2 available as 'page' in window
 
 /***/ })
 
-},[142]);
+},[144]);
 //# sourceMappingURL=app-bundle1.js.map

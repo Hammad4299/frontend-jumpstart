@@ -32,6 +32,11 @@ const extractSass = new ExtractTextPlugin({
     disable: false
 });
 
+const extractHtml = new ExtractTextPlugin({
+    filename: "html/[name].html",
+    disable: false
+});
+
 //https://webpack.js.org/plugins/commons-chunk-plugin/
 //http://stackoverflow.com/questions/39548175/can-someone-explain-webpacks-commonschunkplugin
 
@@ -45,6 +50,7 @@ module.exports = function () {
             ]
         },
         entry: {
+            'twig1': [path.join(paths.src,'js/entrypoints/twig-test.js')],
             'js/app-bundle1': path.join(paths.src,'js/entrypoints/index.js'),
             'js/app-bundle2': path.join(paths.src,'js/entrypoints/index2.js'),
             'js/dependencies-bundle': ['babel-polyfill','react'],
@@ -77,7 +83,8 @@ module.exports = function () {
                 name: "js/manifest"
             }),
             new webpack.optimize.OccurrenceOrderPlugin(),
-            extractSass    //Separate css
+            extractSass,    //Separate css
+            extractHtml     //Html from templates
         ],
         module: {
             rules: [
@@ -93,6 +100,16 @@ module.exports = function () {
                         fallback: "style-loader"
                     })
                 },
+                {
+                    test: /\.twig|\.swig|\.ejs|\.pug$/,
+                    use: extractHtml.extract({
+                        use: [{
+                            loader: "html-loader"
+                        }, {
+                            loader: "template-html-loader?raw=true"
+                        }]
+                    })
+                },
                 // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
                 {
                     test: /\.ts[x]*|\.js[x]*$/,
@@ -100,7 +117,11 @@ module.exports = function () {
                     exclude: /node_modules/
                 },
                 // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-                { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+                {
+                    enforce: "pre",
+                    test: /\.js$/,
+                    loader: "source-map-loader"
+                },
                 {
                     test: /\.(png|jpg|svg|bmp|gif)$/,
                     loader: 'url-loader',

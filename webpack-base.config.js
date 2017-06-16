@@ -4,9 +4,7 @@ var urljoin = require('url-join');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 var AssetsPlugin = require('assets-webpack-plugin');
-var assetsPluginInstance = new AssetsPlugin({
-
-});
+var assetsPluginInstance = new AssetsPlugin({});
 
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
@@ -20,8 +18,8 @@ let paths = {
 };
 
 paths.toCopy = [
-    {from: 'images', to: paths.images},
-    {from: 'fonts', to: paths.font},
+    {from: paths.images, to: paths.images},
+    {from: paths.font, to: paths.font},
 ];
 
 paths.toCopy.map(function (item) {
@@ -108,7 +106,7 @@ module.exports = function () {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        name: urljoin(paths.images,'[name].[ext]'),
+                        name: urljoin(paths.images,'[name].[ext]'), //Storing it in images/[name].[ext]
                     }
                 },
                 {

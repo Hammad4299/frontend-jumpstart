@@ -8,6 +8,7 @@
     "module": "commonjs",
     "target": "es6",
     "jsx": "preserve",
+    "allowUnreachableCode": true,
     "allowJs": true //Necessary
   },
 //  "include": [

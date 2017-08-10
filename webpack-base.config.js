@@ -8,14 +8,7 @@ var assetsPluginInstance = new AssetsPlugin({});
 
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
-let paths = {
-    public: 'http://localhost:8080/Testing/dist/',
-    contentOutput: path.join(__dirname,'dist'),
-    font: 'fonts',
-    images: 'images',
-    src: path.join(__dirname,'src'),
-    toCopy: null
-};
+let paths = require('./webpack-path-base.config')();
 
 paths.toCopy = [
     {from: paths.images, to: paths.images},

@@ -47,6 +47,7 @@
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2",
+    "cssnano": "^3.10.0",
     "redux-devtools": "^3.4.0",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",

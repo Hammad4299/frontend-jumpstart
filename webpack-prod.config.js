@@ -11,25 +11,16 @@ module.exports = function() {
                 debug: false
             }),
             new OptimizeCssAssetsPlugin({
+                //uses processor cssnano by default
                 assetNameRegExp: /\.min.css$/,
-                cssProcessorOptions: { discardComments: { removeAll: true } }
+                cssProcessorOptions: { zindex:false, discardComments: { removeAll: true } }
             }),
             new webpack.DefinePlugin({
                 'process.env': {
                     'NODE_ENV': JSON.stringify('production')
                 }
             }),
-            new webpack.optimize.UglifyJsPlugin({
-                beautify: false,
-                mangle: {
-                    screw_ie8: true,
-                    keep_fnames: true
-                },
-                compress: {
-                    screw_ie8: true
-                },
-                comments: false
-            })
+            new webpack.optimize.UglifyJsPlugin()
         ]
     })
 }

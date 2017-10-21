@@ -12,11 +12,8 @@
     "allowJs": true //Necessary
   },
   "include": [
-    "src/**/*"
+    "src"
   ],
-//  "exclude": [
-//    "node_modules"
-//  ],
   "awesomeTypescriptLoaderOptions": {
     "useCache": true,
     "useBabel": true

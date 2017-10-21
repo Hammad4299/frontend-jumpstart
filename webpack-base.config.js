@@ -37,7 +37,7 @@ module.exports = function () {
     return {
         devtool: 'source-map',  //For debugging purposes
         resolve: {
-            extensions: [".ts", ".tsx", ".js", ".json"],
+            extensions: [".ts", ".tsx", ".js", ".jsx"],
             plugins: [
                 new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
             ]
@@ -105,8 +105,12 @@ module.exports = function () {
                 },
                 // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
                 {
-                    test: /\.ts[x]*|\.js[x]*$/,
+                    test: /\.ts[x]*$/,
                     loader: "awesome-typescript-loader"
+                },
+                {
+                    test: /\.js[x]*$/,
+                    loader: "babel-loader"
                 },
                 // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
                 {

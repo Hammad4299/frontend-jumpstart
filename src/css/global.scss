@@ -1,7 +1,9 @@
 @import "variables";
+@import "mixins";
+@import "extendables";
 
 body{
-  background: $primaryColor;
+  background: $color-panel-header-bg;
 }
 
 @font-face {
@@ -11,9 +13,9 @@ body{
 
 .bg1{
   font-family: myFirstFont;
-  background: $img2;
+  background: $color-primary2-bg;
 }
 
 .bg2{
-  background: $img1;
+  background: $color-text-primary;
 }

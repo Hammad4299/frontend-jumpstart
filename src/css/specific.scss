@@ -1,0 +1,8 @@
+@import "variables";
+@import "mixins";
+@import "extendables";
+
+body{
+  @extend %color-pm;
+  background: $color-panel-header-bg;
+}

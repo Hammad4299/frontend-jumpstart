@@ -21,13 +21,15 @@ paths.toCopy.map(function (item) {
 });
 
 const extractSass = new ExtractTextPlugin({
-    filename: "[name].min.css",
-    disable: false
+    filename: "css/[name].min.css",
+    disable: false,
+    allChunks: true
 });
 
 const extractHtml = new ExtractTextPlugin({
     filename: "html/[name].html",
-    disable: false
+    disable: false,
+    allChunks: true
 });
 
 //https://webpack.js.org/plugins/commons-chunk-plugin/
@@ -43,37 +45,35 @@ module.exports = function () {
             ]
         },
         entry: {
-            'twig1': [path.join(paths.src,'js/entrypoints/twig-test.js')],
-            'js/app-bundle1': path.join(paths.src,'js/entrypoints/index.js'),
-            'js/app-bundle2': path.join(paths.src,'js/entrypoints/index2.js'),
-            'js/dependencies-bundle': ['babel-polyfill','react'],
-            'js/vendor-bundle': [path.join(paths.src,'js/vendor/vendor1.js'),path.join(paths.src,'js/vendor/vendor2.js'),path.join(paths.src,'js/vendor/vendor3.js')],
-            'css/app-bundle': path.join(paths.src,'js/entrypoints/css.js')
+            'index': path.join(paths.src,'js/entrypoints/index.js'),
+            'index2': path.join(paths.src,'js/entrypoints/index2.js'),
+            'react-bundle': ['react-dom','react','babel-polyfill'],
+            'vendor-bundle': [path.join(paths.src,'js/vendor/vendor1.js'),path.join(paths.src,'js/vendor/vendor2.js'),path.join(paths.src,'js/vendor/vendor3.js')]
         },
         output: {
             path: paths.contentOutput,
-            filename: '[name].js',
+            filename: 'js/[name].js',
             publicPath: paths.public
         },
         plugins: [
             assetsPluginInstance,
             new CopyWebpackPlugin(paths.toCopy),
             new webpack.optimize.CommonsChunkPlugin({
-                name: "css/commons",                                                        //If same as entry name, it will overrite entry content
-                chunks: ['css/app-bundle'],                                         //Can omit it if wants to find common from all (entry and other common chunks before this chunk)
-                minChunks: 2
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: "js/commons",                                                    //They shouldn't contain any common thing from "vendor" because its already in vendor common chunks//Can omit it if wants to find common from all (entry and other common chunks before this chunk),
+                name: "commons",                                                        //If same as entry name, it will overrite entry content
                 minChunks: 2,
-                chunks: ['js/app-bundle1','js/app-bundle2']                         //Important, don't include vendor here. If you put it here, then any common code between vendor chunkk and other will be moved from vendor chunk to "common" and then following vendor chunk will be left without that
+                chunks: ["index","index2"]
             }),
+            //For separate all 3rd party vendor from your code
+            //Don't specify vendor entrypoint in your common chunks.
+            //      Important, If you put it here, then any common code between vendor chunk and other will be moved from vendor chunk to "common" and then following vendor chunk will be left without that
+            //Create separate common chunk for vendor with only entry points (in "name" property instead of chunks)for vendor ccntent. Set minChunks to "infinity".
+            //      Don't put anything else except whats already in entry point. It move any common code which was already part of vendor in vendor chunk and remove it from other chunks
             new webpack.optimize.CommonsChunkPlugin({
-                name: ["js/dependencies-bundle","js/vendor-bundle"],
+                name: ["react-bundle","vendor-bundle"],
                 minChunks: Infinity                                 //Don't put anything else except whats already in entry point. It move any common code which was already part of vendor in vendor chunk and remove it from other chunks
             }),
             new webpack.optimize.CommonsChunkPlugin({
-                name: "js/manifest"
+                name: "manifest"
             }),
             new webpack.optimize.OccurrenceOrderPlugin(),
             extractSass,    //Separate css
@@ -94,12 +94,15 @@ module.exports = function () {
                     })
                 },
                 {
-                    test: /\.twig|\.swig|\.ejs|\.pug$/,
+                    test: /.pug/,
                     use: extractHtml.extract({
                         use: [{
                             loader: "html-loader"
                         }, {
-                            loader: "template-html-loader?raw=true"
+                            loader: "pug-html-loader",
+                            options: {
+                                pretty: true
+                            }
                         }]
                     })
                 },
@@ -134,6 +137,13 @@ module.exports = function () {
                     },
                 },
             ]
+        },
+        externals: {
+            moment: 'moment',
+            bootstrap: "bootstrap",
+            flatpickr: "flatpickr",
+            'moment-duration-format': 'moment-duration-format',
+            jQuery: "jquery"
         }
     };
 }

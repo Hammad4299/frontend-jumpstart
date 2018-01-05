@@ -1,0 +1,29 @@
+include ../partials/variables.pug
+
+doctype html
+html(lang="en")
+    head
+        title
+            block pageTitle
+
+        block metatags
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet")
+        link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+        link(href= rootUrl+"css/commons.min.css", rel="stylesheet")
+        block styles
+    body
+        include ../partials/header.pug
+        div.main-content
+            div.container
+                block content
+
+        block pre-footer
+        include ../partials/footer-copyright.pug
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+        script(src=rootUrl+"js/manifest.js")
+        script(src=rootUrl+"js/react-bundle.js")
+        script(src=rootUrl+"js/vendor-bundle.js")
+        script(src=rootUrl+"js/commons.js")
+        block scripts

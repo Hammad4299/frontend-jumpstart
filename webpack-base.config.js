@@ -47,7 +47,7 @@ module.exports = function () {
         entry: {
             'index': path.join(paths.src,'js/entrypoints/index.js'),
             'index2': path.join(paths.src,'js/entrypoints/index2.js'),
-            'react-bundle': ['react-dom','react','babel-polyfill'],
+            'react-bundle': ['react-dom','react','redux','babel-polyfill','react-redux'],
             'vendor-bundle': [path.join(paths.src,'js/vendor/vendor1.js'),path.join(paths.src,'js/vendor/vendor2.js'),path.join(paths.src,'js/vendor/vendor3.js')]
         },
         output: {

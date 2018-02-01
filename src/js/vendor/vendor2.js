@@ -1,1 +1,3 @@
-module.exports = "vendor2";
+export default function vendor2() {
+    return "vendor2";
+}

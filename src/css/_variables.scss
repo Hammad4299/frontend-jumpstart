@@ -1,30 +1,30 @@
 //Navbar
-$font-size-navbar-brand: 20px;
-$font-size-navbar-items: 14px !important;
+$font-size-navbar-brand: 20px !default;
+$font-size-navbar-items: 14px !important !default;
 
 //Background
-$color-primary-bg: #eee;
-$color-secondary-bg: #fff;
-$color-primary2-bg: #C3262D;
+$color-primary-bg: #eee !default;
+$color-secondary-bg: #fff !default;
+$color-primary2-bg: #C3262D !default;
 
 //Buttons
-$color-secondary-button-bg: #fff;
-$color-secondary-button-text: #000;
+$color-secondary-button-bg: #fff !default;
+$color-secondary-button-text: #000 !default;
 
-$color-primary-button-bg: #C3262D;
-$color-primary-button-text: #fff;
+$color-primary-button-bg: #C3262D !default;
+$color-primary-button-text: #fff !default;
 
-$color-primary-rev-button-bg: #fff;
-$color-primary-rev-button-text: #C3262D;
+$color-primary-rev-button-bg: #fff !default;
+$color-primary-rev-button-text: #C3262D !default;
 
 //Panels
-$color-panel-header-bg: '';
-$color-panel-header-text: '';
+$color-panel-header-bg: '' !default;
+$color-panel-header-text: '' !default;
 
 //Colors
-$color-primary: #fff;
+$color-primary: #fff !default;
 
-$color-text-primary: #313030;
-$color-text-secondary: #C3262D;
+$color-text-primary: #313030 !default;
+$color-text-secondary: #C3262D !default;
 
-$primary-font: "Ubuntu";
+$primary-font: "Ubuntu" !default;

@@ -1,11 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
-var urljoin = require('url-join');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const urljoin = require('url-join');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-var AssetsPlugin = require('assets-webpack-plugin');
-var assetsPluginInstance = new AssetsPlugin({});
-
+const AssetsPlugin = require('assets-webpack-plugin');
+const assetsPluginInstance = new AssetsPlugin({});
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CSSSplitWebpackPlugin = require('css-split-webpack-plugin').default;
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 let paths = require('./webpack-path-base.config')();
@@ -20,7 +22,7 @@ paths.toCopy.map(function (item) {
     item.to = path.join(paths.contentOutput,item.to);
 });
 
-const extractSass = new ExtractTextPlugin({
+const extractCss = new ExtractTextPlugin({
     filename: "css/[name].min.css",
     disable: false,
     allChunks: true
@@ -32,12 +34,25 @@ const extractHtml = new ExtractTextPlugin({
     allChunks: true
 });
 
+// the path(s) that should be cleaned
+let pathsToClean = [
+	'dist'
+];
+
+// the clean options to use
+let cleanOptions = {
+    root:     __dirname,
+    exclude:  [],
+    verbose:  true,
+    dry:      false,
+    watch: false		//It could cause issues, e.g. webpack only copies modified images via copy plugin, so we should clear images on watch
+};
+
 //https://webpack.js.org/plugins/commons-chunk-plugin/
 //http://stackoverflow.com/questions/39548175/can-someone-explain-webpacks-commonschunkplugin
 
 module.exports = function () {
     return {
-        devtool: 'source-map',  //For debugging purposes
         resolve: {
             extensions: [".ts", ".tsx", ".js", ".jsx"],
             plugins: [
@@ -47,7 +62,7 @@ module.exports = function () {
         entry: {
             'index': path.join(paths.src,'js/entrypoints/index.js'),
             'index2': path.join(paths.src,'js/entrypoints/index2.js'),
-            'react-bundle': ['react-dom','react','redux','babel-polyfill','react-redux'],
+            'react-bundle': ['react-dom','react','redux','react-redux'],
             'vendor-bundle': [path.join(paths.src,'js/vendor/vendor1.js'),path.join(paths.src,'js/vendor/vendor2.js'),path.join(paths.src,'js/vendor/vendor3.js')]
         },
         output: {
@@ -56,6 +71,20 @@ module.exports = function () {
             publicPath: paths.public
         },
         plugins: [
+            new CleanWebpackPlugin(pathsToClean, cleanOptions),
+            new HardSourceWebpackPlugin(),  //For build cachings. Can cause issues. If so, try disabling it or deleting its cache folder. (default location node_modules/.cache)
+            new webpack.optimize.ModuleConcatenationPlugin(),   //Causes bailouts if array specified as entrypoints
+            extractCss,    //Separate css
+            // new CSSSplitWebpackPlugin({
+            // //     //Splitting also mess up AssetPlugin. Only use, if required
+            //      size: 100, //For IE 9, it is 4095
+            // //     //Make it true if you want to include single css file as before. This single file will have imports for other split files.
+            // //     // Note, this would make additional request and could effect performance for browser which don't even require splitting.
+            // //     // Better way to be to include preserved (non-splitted css) for browser which can work with them, and splitted css for browsers which don't
+            //      imports: 'css/generated/[name]-split.css',
+            //      preserve: true,
+            //      filename: "css/generated/[name]-[part].[ext]"   //Might need to modify regex of OptimizeCssAssetsPlugin
+            // }),
             assetsPluginInstance,
             new CopyWebpackPlugin(paths.toCopy),
             new webpack.optimize.CommonsChunkPlugin({
@@ -75,22 +104,68 @@ module.exports = function () {
             new webpack.optimize.CommonsChunkPlugin({
                 name: "manifest"
             }),
-            new webpack.optimize.OccurrenceOrderPlugin(),
-            extractSass,    //Separate css
             extractHtml     //Html from templates
         ],
         module: {
             rules: [
                 {
                     test: /\.[s]*css$/,
-                    use: extractSass.extract({
-                        use: [{
-                            loader: "css-loader"
-                        }, {
-                            loader: "sass-loader"
-                        }],
+                    use: extractCss.extract({
+                        use: [
+                            {
+                                loader: "css-loader",
+                                options: {
+                                    importLoaders: 1,
+                                    sourceMap: true
+                                }
+                            }, {
+                                loader: "postcss-loader",
+                                options: {
+                                    sourceMap: true
+                                }
+                            },
+                            {
+                                loader: "sass-loader",
+                                options: {
+                                    sourceMap: true
+                                }
+                            }
+                        ],
                         // use style-loader in development
-                        fallback: "style-loader"
+                        fallback: {
+                            loader: "style-loader",
+                            options: { sourceMap: true }
+                        }
+                    })
+                },
+                {
+                    test: /\.less$/,
+                    use: extractCss.extract({
+                        use: [
+                            {
+                                loader: "css-loader",
+                                options: {
+                                    importLoaders: 1,
+                                    sourceMap: true
+                                }
+                            }, {
+                                loader: "postcss-loader",
+                                options: {
+                                    sourceMap: true
+                                }
+                            },
+                            {
+                                loader: "less-loader",
+                                options: {
+                                    sourceMap: true
+                                }
+                            }
+                        ],
+                        // use style-loader in development
+                        fallback: {
+                            loader: "style-loader",
+                            options: { sourceMap: true }
+                        }
                     })
                 },
                 {
@@ -115,12 +190,6 @@ module.exports = function () {
                     test: /\.js[x]*$/,
                     loader: "babel-loader"
                 },
-                // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-                {
-                    enforce: "pre",
-                    test: /\.js$/,
-                    loader: "source-map-loader"
-                },
                 {
                     test: /\.(png|jpg|svg|bmp|gif)$/,
                     loader: 'url-loader',
@@ -144,6 +213,12 @@ module.exports = function () {
             flatpickr: "flatpickr",
             'moment-duration-format': 'moment-duration-format',
             jQuery: "jquery"
+        },
+        stats: {
+            // Examine all modules
+            maxModules: Infinity,
+            // Display bailout reasons
+            optimizationBailout: true
         }
     };
 }

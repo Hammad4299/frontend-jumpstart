@@ -1,6 +1,8 @@
 import * as a1 from './common/test';
-import * as a2 from './vendor/vendor1';
-import * as a from './vendor/vendor2';
+import vendor1 from "./vendor/vendor1";
+import vendor3 from "./vendor/vendor3";
 
+vendor1();
+vendor3();
 a1.text();
 alert(1);

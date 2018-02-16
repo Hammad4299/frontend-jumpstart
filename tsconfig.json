@@ -21,7 +21,7 @@
   ],
   "exclude": [
   ],
-  "awesomeTypescriptLoaderOptions": {
+  "awesomeTypescriptLoaderOptions": { //Not in use anymore since ts-loader is being used
     "useCache": true,
     "useBabel": true
   }

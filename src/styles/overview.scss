@@ -1,0 +1,105 @@
+$full-item: (
+  "width": 100%, "height": 100%
+);
+
+$half-width-item: (
+  "width": 50%, "height": 100%
+);
+
+$quater-item: (
+  "width": 50%, "height": 50%
+);
+
+$hex-item: (
+    "width": 33.33%, "height": 50%
+);
+
+$nine-item: (
+    "width": 33.33%, "height": 33.33%
+);
+
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+$item-sizes-map: (
+    1: $full-item,
+    2: $half-width-item,
+    3: $quater-item,
+    4: $quater-item,
+    5: $hex-item,
+    6: $hex-item,
+    7: $nine-item,
+    8: $nine-item,
+    9: $nine-item
+);
+
+.overview{
+  position: absolute;
+  top:0px;
+  width:100%;
+  height: 100%;
+  left: 0px;
+  background: #000;
+  z-index: 11;
+
+  .no-item{
+    display: none;
+  }
+
+  .close{
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+  }
+
+  &.items-0{
+    .no-item{
+      display: block;
+      color: white;
+      position: absolute;
+      left: 40%;
+      top: 40%;
+    }
+  }
+
+  .overview-item{
+    display: none;
+    float: left;
+
+    video{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  @each $itemCount, $size in $item-sizes-map {
+    @for $var2 from 1 through $itemCount{
+      &.items-#{$itemCount}{
+        .overview-item:nth-child(#{$var2}){
+          display: block;
+        }
+      }
+    }
+    //.overview-item:nth-child(#{$itemCount}){
+    //  $s-min: 20;
+    //  $s-max: 70;
+    //  $l-min: 30;
+    //  $l-max: 90;
+    //  background-color: hsl(random(360),$s-min+random($s-max+-$s-min),$l-min+random($l-max+-$l-min));
+    //}
+
+    &.items-#{$itemCount} {
+      .overview-item {
+        width: map_get($size,"width");
+        height: map_get($size,"height");
+      }
+    }
+  }
+}

@@ -34,7 +34,7 @@ module.exports = function() {
             // Display bailout reasons
             optimizationBailout: true
         }
-    })
+    });
 
     config.module.rules.push(helpers.jsJSXWithBabel(config));
     config.module.rules.push(helpers.tsWithTsLoaderRule(config));

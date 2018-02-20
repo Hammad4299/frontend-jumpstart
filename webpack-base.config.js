@@ -69,6 +69,7 @@ module.exports = function (env) {
         entry: {
             'index': 'js/entrypoints/index.js', //No need for absolution path due to resolve.alias
             'index2': 'js/entrypoints/index2.js',
+            'overview': 'js/entrypoints/overview.js',
             'react-bundle': ['react-dom','react','redux','react-redux'],
             'vendor-bundle': [path.join(paths.src,'js/vendor/vendor1.js'),path.join(paths.src,'js/vendor/vendor2.js'),path.join(paths.src,'js/vendor/vendor3.js')]
         },

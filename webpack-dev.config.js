@@ -17,7 +17,8 @@ module.exports = function() {
         ]
     });
 
-    config.module.rules.push(helpers.jsJSXWithBabelWithoutThreadLoader(config));
-    config.module.rules.push(helpers.tsWithATLRule(config));
+    // config.module.rules.push(helpers.jsJSXWithBabelWithoutThreadLoader(config));
+    // config.module.rules.push(helpers.tsWithATLRule(config));
+    //helpers.imageminPlugin(config,true); //must be at end
     return config;
 };

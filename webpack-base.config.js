@@ -60,7 +60,8 @@ module.exports = function (env) {
                 styles: path.join(paths.src,'styles'),    //Now, we can use 'css/myfile-inside-css-folder' from anywhere
                 fonts: path.join(paths.src,'fonts'),
                 images: path.join(paths.src,'images'),
-                js: path.join(paths.src,'js')
+                js: path.join(paths.src,'js'),
+                views: path.join(paths.src,'views')
             },
             plugins: [
                 new TsConfigPathsPlugin({ /*configFile: "./path/to/tsconfig.json" */ })
@@ -75,7 +76,7 @@ module.exports = function (env) {
         },
         output: {
             path: paths.contentOutput,
-            filename: 'js/[name].js',
+            filename: 'js/[name].min.js',
             publicPath: paths.public
         },
         plugins: [
@@ -113,21 +114,16 @@ module.exports = function (env) {
         module: {
             rules: [
                 {
-                    test: /\.(png|jpg|svg|bmp|gif)$/,
-                    include: paths.src,
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: urljoin(paths.images,'[name].[ext]'), //Storing it in images/[name].[ext]
-                    }
-                },
-                {
                     test: /\.(ttf|woff|woff2|otf|eot)$/,
                     include: paths.src,
-                    loader: 'file-loader',
-                    options: {
-                        name: urljoin(paths.font,'[name].[ext]'),
-                    },
+                    rules: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: urljoin(paths.font,'[name].[hash].[ext]'),
+                            },
+                        }
+                    ]
                 }
             ]
         },
@@ -140,8 +136,29 @@ module.exports = function (env) {
         }
     };
 
+
+    const imageRule = {
+        test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
+        include: paths.src,
+        use: [
+            {
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: urljoin(paths.images, '[name].[hash].[ext]'), //Storing it in images/[name].[ext],
+                    // fallback: 'responsive-loader',
+                    // adapter: require('responsive-loader/sharp')
+                }
+            }
+        ]
+    };
+
+    configBase.module.rules.push(imageRule);
+    helpers.responsiveImages(configBase, imageRule);
     configBase.module.rules.push(helpers.extractStyleRule(configBase, extractCss, helpers.sassRule(configBase)));
     configBase.module.rules.push(helpers.extractStyleRule(configBase, extractCss, helpers.lessRule(configBase)));
     configBase.module.rules.push(helpers.extractTextRule(configBase, extractHtml, helpers.pugRule(configBase)));
+    configBase.module.rules.push(helpers.jsJSXWithBabel(configBase));
+    configBase.module.rules.push(helpers.tsWithTsLoaderRule(configBase));
     return configBase;
 };

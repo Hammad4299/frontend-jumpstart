@@ -1,5 +1,8 @@
 let paths = require('./webpack-path-base.config')();
 const webpack = require('webpack');
+let urljoin = require('url-join');
+const path = require('path');
+const glob = require('glob');
 
 const babelLoader = {
     loader: 'babel-loader',
@@ -23,6 +26,55 @@ function enableHardSourcePlugin(config) {
     );
 }
 
+function faviconPlugin(config, name, statJsonFile, bg, title) {
+    const favicon = require('favicons-webpack-plugin');
+    config.plugins.push(
+        new favicon({
+            logo: name,
+            prefix: 'faviicons-[hash]/',
+            // Emit all stats of the generated icons
+            emitStats: !!statJsonFile,
+            // The name of the json containing all favicon information
+            statsFilename: statJsonFile ? statJsonFile : 'faviconstats.json',
+            // Generate a cache file with control hashes and
+            // don't rebuild the favicons until those hashes change
+            persistentCache: true,
+            // Inject the html into the html-webpack-plugin
+            inject: false,
+            // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
+            background: bg? bg : '#fff',
+            // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+            title: title ? title : 'Untitled',
+            // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+            icons: {
+                android: true,
+                appleIcon: true,
+                appleStartup: true,
+                coast: true,
+                favicons: true,
+                firefox: true,
+                opengraph: true,
+                twitter: true,
+                yandex: true,
+                windows: true
+            }
+        })
+    )
+}
+
+function responsiveImages(config, loadersArr) {
+    // const obj = {
+    //     loader: 'responsive-loader',
+    //     options: {
+    //         // If you want to enable sharp support:
+    //         name: urljoin(paths.images, '[name].[hash].[ext]'), //Storing it in images/[name].[ext]
+    //         adapter: require('responsive-loader/sharp')
+    //     }
+    // };
+    //
+    // loadersArr.use.push(obj);
+}
+
 module.exports = {
     enableHardSourcePlugin: enableHardSourcePlugin,
     tsWithTsLoaderRule: tsWithTsLoaderRule,
@@ -33,13 +85,72 @@ module.exports = {
     extractStyleRule: extractStyleRule,
     jsJSXWithBabel: jsJSXWithBabel,
     tsWithATLRule: tsWithATLRule,
-    jsJSXWithBabelWithoutThreadLoader: jsJSXWithBabelWithoutThreadLoader
+    jsJSXWithBabelWithoutThreadLoader: jsJSXWithBabelWithoutThreadLoader,
+    responsiveImages: responsiveImages,
+    faviconPlugin: faviconPlugin,
+    imageminPlugin: imageminPlugin
 };
 
+// Make sure that the plugin is after any plugins that add images
+function imageminPlugin(configArr, disable) {
+    const ImageminPlugin = require('imagemin-webpack-plugin').default;
+    const imageminMozjpeg = require('imagemin-mozjpeg');
+    const imageminWebp = require('imagemin-webp');
+
+    const pl = new ImageminPlugin({ //non-webp-version
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        disable: !!disable, // Disable during development
+        pngquant: {
+            // quality: '65-90',
+            // speed: 4
+        },
+        gifsicle: {
+            // interlaced: false,
+        },
+        jpegtran: null,
+        svgo: {
+        },
+        plugins: [
+            imageminMozjpeg({
+                // progressive: true,
+                // quality: 65
+            }),
+        ]
+    });
+
+    const pl2 = new ImageminPlugin({
+        //test: /\.(jpe?g|png)$/i,
+        externalImages: {
+            context: path.join(paths.src,paths.images), //this will help correct name of destination
+            sources: glob.sync(path.join(paths.src,paths.images,'**/*.jpg')),
+            destination: path.join(paths.contentOutput,paths.images,'webp')
+        },
+        disable: !!disable, // Disable during development
+        pngquant: null,
+        gifsicle: null,
+        jpegtran: null,
+        svgo: null,
+        plugins: [
+            imageminWebp({
+                loseless: true
+            })
+        ]
+    });
+
+    configArr.plugins.push(pl);
+    configArr.plugins.push(pl2);
+}
 
 function baseTypescriptRule() {
     return {
         test: /\.ts[x]*$/,
+        include: paths.src
+    }
+}
+
+function baseJavacriptRule() {
+    return {
+        test: /\.js[x]*$/,
         include: paths.src
     }
 }
@@ -160,7 +271,7 @@ function tsWithATLRule(config) {
 }
 
 function jsJSXWithBabel(config) {
-    const rule = baseTypescriptRule();
+    const rule = baseJavacriptRule();
     rule.use = [
         {
             loader: 'cache-loader'
@@ -172,7 +283,7 @@ function jsJSXWithBabel(config) {
 }
 
 function jsJSXWithBabelWithoutThreadLoader(config) {
-    const rule = baseTypescriptRule();
+    const rule = baseJavacriptRule();
     rule.use = [
         babelLoader
     ];

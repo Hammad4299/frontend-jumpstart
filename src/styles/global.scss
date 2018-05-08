@@ -13,9 +13,11 @@ body{
 
 .bg1{
   font-family: myFirstFont;
+  background: url('../images/download.png');
   background: $color-primary2-bg;
 }
 
 .bg2{
+  background: url('../images/CMSCreativeKingfisher.jpg');
   background: $color-text-primary;
 }

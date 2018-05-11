@@ -5,3 +5,8 @@ npm-debug.log
 dist/
 webpack-assets.json
 .cache-loader/
+yarn-error.log
+webpack.prod.config.js
+webpack.env.js
+webpack.devserver.config.js
+webpack.config.js

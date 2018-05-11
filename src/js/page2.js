@@ -1,9 +1,7 @@
-import vendor1 from './vendor/vendor1';
-import vendor2 from './vendor/vendor2';
-import * as a from './common/test';
+import clicked from 'js/page.js';
 
-a.text();
-vendor1();
-vendor2();
-require('react');
-alert(1);
+if(module.hot){
+    module.hot.accept('js/page',()=>{
+        clicked();
+    });
+}

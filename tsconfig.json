@@ -4,6 +4,8 @@
 {
   "compilerOptions": {
     "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "noImplicitAny": true,
     "module": "es6",        //to es6 modules. So, webpack can handle it after passing through babel
     "target": "es6",
@@ -12,12 +14,10 @@
     //Since for ModuleConcatenationPlugin, we changed module from "commonjs" to "es6", this reverted to "Node".
     //For previous behaviour, it needs to be node again.
     "moduleResolution": "node",
-
     "jsx": "preserve",      //let babel do it
     "allowJs": true         //Necessary. To run js files as typescript,
   },
   "include": [
-    "src"
   ],
   "exclude": [
   ],

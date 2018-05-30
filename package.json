@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "devserver": "yarn run jsconfig webpack.devserver.config.ts && webpack-dev-server --config webpack.devserver.config.js",
-    "jsconfig": "tsc --esModuleInterop true --lib es6",
+    "jsconfig": "tsc --esModuleInterop true --lib es6,dom",
     "build": "yarn run jsconfig webpack.prod.config.ts && webpack --config webpack.prod.config.js",
     "watch": "yarn run jsconfig webpack.watch.config.ts && webpack --watch --config webpack.watch.config.js"
   },
@@ -18,6 +18,7 @@
   "devDependencies": {
     "@types/node": "^10.0.5",
     "@types/webpack": "^4.1.4",
+    "@types/webpack-env": "^1.13.6",
     "awesome-typescript-loader": "^5.0.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",

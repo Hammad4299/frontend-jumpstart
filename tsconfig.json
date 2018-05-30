@@ -13,13 +13,20 @@
     //default was (module === "AMD" or "System" or "ES6" ? "Classic" : "Node").
     //Since for ModuleConcatenationPlugin, we changed module from "commonjs" to "es6", this reverted to "Node".
     //For previous behaviour, it needs to be node again.
+    "baseUrl": ".",
+    "paths": {
+      "js/*": ["src/js/*"]
+    },
+    "typeRoots": [
+      "./node_modules/types-redux-orm",
+      "./node_modules/@types"
+    ],
     "moduleResolution": "node",
     "jsx": "preserve",      //let babel do it
     "allowJs": true         //Necessary. To run js files as typescript,
   },
   "include": [
-  ],
-  "exclude": [
+    "src"
   ],
   "awesomeTypescriptLoaderOptions": { //Not in use anymore since ts-loader is being used
     "useCache": true,

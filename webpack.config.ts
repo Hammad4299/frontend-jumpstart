@@ -100,14 +100,14 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             // jquery: 'jQuery'     //e.g. import $ from 'jquery'
         },
         resolve: {
-            alias: {
-                js: path.resolve(env.src, 'js'),
-                images: path.resolve(env.src, 'images')
-            },
+            // alias: {
+            //     js: path.resolve(env.src, 'js'),
+            //     images: path.resolve(env.src, 'images')
+            // },
             modules: ['node_modules'],
-            //extensions: [
-            //     'js', 'jsx', 'ts', 'tsx'
-            // ],
+            extensions: [
+                '.js', '.jsx', '.ts', '.tsx'
+            ],
             plugins: [
                 new TsConfigPathsPlugin(/* { configFileName, compiler } */)
             ]
@@ -115,14 +115,14 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         module: {
             rules: [
                 {
-                    test: /\.(ts[x]|js[x])$/,
+                    test: /\.(tsx|jsx|ts|js)$/,
                     include: path.resolve(env.src),
                     use: [
                         'awesome-typescript-loader'
                     ]
                 },
                 {
-                    test: /\.[s][ca]ss$/,
+                    test: /\.(css|scss|sass)$/,
                     include: path.resolve(env.src),
                     use: [
                         modifier.hmrNeeded ? {

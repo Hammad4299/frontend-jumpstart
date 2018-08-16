@@ -9,5 +9,6 @@ yarn-error.log
 webpack.prod.config.js
 webpack.env.js
 webpack.devserver.config.js
+webpack.watch.config.js
 webpack.config.js
 src/images/

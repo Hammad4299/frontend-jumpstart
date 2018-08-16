@@ -151,7 +151,10 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                         }, {
                             loader: "postcss-loader", // creates style nodes from JS strings
                             options: {
-                                sourceMap: modifier.shouldGenerateSourceMaps
+                                sourceMap: modifier.shouldGenerateSourceMaps,
+                                config: {
+                                    path: path.resolve('./')
+                                }
                             }
                         }
                     ]

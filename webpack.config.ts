@@ -77,6 +77,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             rules: [
                 {
                     test: /\.(tsx|jsx|ts|js)$/,
+                    exclude: /node_modules/,
                     use: [
                         'awesome-typescript-loader'
                     ]

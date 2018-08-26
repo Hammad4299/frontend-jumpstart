@@ -13,7 +13,7 @@
     //default was (module === "AMD" or "System" or "ES6" ? "Classic" : "Node").
     //Since for ModuleConcatenationPlugin, we changed module from "commonjs" to "es6", this reverted to "Node".
     //For previous behaviour, it needs to be node again.
-    "baseUrl": "../",
+    "baseUrl": "./",
     "paths": {
       "js/*": ["src/js/*"]
     },
@@ -26,7 +26,7 @@
     "allowJs": true         //Necessary. To run js files as typescript,
   },
   "include": [
-    "../src"
+    "./src"
   ],
   "awesomeTypescriptLoaderOptions": { //Not in use anymore since ts-loader is being used
     "useCache": true,

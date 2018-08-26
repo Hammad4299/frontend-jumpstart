@@ -1,8 +1,8 @@
 import {AssetsType, IBaseConfigOptions, IProjectSettings} from './webpack-utils';
 import path from 'path';
 //Settings specific to this project. Other things if need to be adjusted should be modified directly in config files
-const src = path.resolve('../src');
-const output = path.resolve('../dist');
+const src = path.resolve('./src');
+const output = path.resolve('./dist');
 //These can be overridden by environment specific configuration
 export const configDefaults:IBaseConfigOptions = {
     shouldClean: true,  //Whether to clean output directories as specified in "projectConfig"
@@ -44,7 +44,7 @@ const projectConfig:IProjectSettings = {
         {from: path.join(src,'images'), to: path.join(output,'images')},
         {from: path.join(src,'fonts'), to: path.join(output,'fonts')},
     ],
-    root:path.resolve('../'),
+    root:path.resolve('./'),
     splitChunks:{
         cacheGroups: {
             vendors: {

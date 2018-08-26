@@ -147,7 +147,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             ]
         },
         plugins: [
-            new HtmlWebpackPlugin(),
+            configDefaults.htmlPlugin ? new HtmlWebpackPlugin() : new NullPlugin(),
             new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional

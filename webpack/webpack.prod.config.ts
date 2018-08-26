@@ -4,18 +4,21 @@ import commonConfig from './webpack.config';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import CompressionPlugin from 'compression-webpack-plugin';
 import path from 'path';
-//noinspection TypeScriptCheckImport
 import {ImageminWebpackPlugin} from "imagemin-webpack";
 import ImageminGifsicle from "imagemin-gifsicle";
 import ImageminJpegtran from "imagemin-jpegtran";
 import ImageminOptipng from "imagemin-optipng";
 import ImageminSvgo from "imagemin-svgo";
 import ImageminWebp from 'imagemin-webp';
+import {configDefaults} from "./webpack-project";
+import {constructConfigOptions} from "./webpack-utils";
 
 
-const config = webpackMerge(commonConfig({
+const modifier = constructConfigOptions({
+    shouldClean: true,
     minimizeCss: true
-}), {
+},configDefaults);
+const config = webpackMerge(commonConfig(modifier), {
     //devtool: 'source-map',            //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
     mode: 'production',
     devtool: 'nosources-source-map',  //Production ready separate sourcemap files with no original source code. SourceMaps Can be deployed securely
@@ -38,7 +41,7 @@ const config = webpackMerge(commonConfig({
 
 const imagemin = new ImageminWebpackPlugin({
     //test: /\.(jpe?g|png|gif|svg)$/i,
-    name: path.join(env.images,"[name].hash-[hash].[ext]"),
+    name: modifier.buildOutputName('image'),
     imageminOptions: {
         // Lossless optimization with custom option
         plugins: [

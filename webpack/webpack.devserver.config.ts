@@ -1,13 +1,14 @@
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config';
 import path from 'path';
-import env from './webpack.env';
 import webpack from 'webpack';
+import projectConfig, {configDefaults} from "./webpack-project";
+import {AssetsType} from "./webpack-utils";
 
 const baseConfig = commonConfig({
     hmrNeeded: true,
-    buildOutputName: (name: string, hashedPart: string):string => {
-        return name.replace('[chunkhash]','[hash]');
+    buildOutputName: (type:AssetsType)=>{
+        return configDefaults.buildOutputName(type).replace('[chunkhash]','[hash]').replace('[contenthash]','[hash]');
     }
 });
 
@@ -18,7 +19,7 @@ const config = webpackMerge(baseConfig, {
     //devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
     devServer: {
         hotOnly: true,
-        contentBase: path.resolve(env.contentOutput)
+        contentBase: path.resolve(projectConfig.contentOutput)
     }
 });
 

@@ -41,7 +41,7 @@ const config = webpackMerge(commonConfig(modifier), {
 
 const imagemin = new ImageminWebpackPlugin({
     //test: /\.(jpe?g|png|gif|svg)$/i,
-    name: modifier.buildOutputName('image'),
+    name: modifier.buildOutputName('image-imagemin'),
     imageminOptions: {
         // Lossless optimization with custom option
         plugins: [

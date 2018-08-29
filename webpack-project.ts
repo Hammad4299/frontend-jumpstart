@@ -15,8 +15,10 @@ export const configDefaults:IBaseConfigOptions = {
         switch(type) {
             case 'font':
                 return 'fonts/[name].[hash].[ext]';
+            case 'image-imagemin':
+                return '/[path][name].hash-[hash].[ext]';   // "/" is very important otherwise it will skip first letter.
             case 'image':
-                return 'images/[name].hash-[hash].[ext]';
+                return 'images/loaded/[name].hash-[hash].[ext]';
             case 'favicon':
                 return 'favicon-[hash]/';
             case 'style':

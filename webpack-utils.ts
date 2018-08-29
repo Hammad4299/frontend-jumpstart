@@ -6,7 +6,7 @@ export interface FaviconSetting {
     logo:string
 }
 
-export type AssetsType = 'js'|'style'|'font'|'image'|'favicon';
+export type AssetsType = 'js'|'style'|'font'|'image'|'favicon'|'image-imagemin';
 
 export interface IBaseConfigOptions {
     readonly shouldClean?: boolean;

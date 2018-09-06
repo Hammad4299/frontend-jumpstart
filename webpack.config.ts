@@ -32,6 +32,9 @@ let cleanOptions = {
 
 const cleanupPlugin = new CleanWebpackPlugin(projectSettings.toClean, cleanOptions);
 const copyPlugin = new CopyWebpackPlugin(projectSettings.toCopy);
+//required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
+const manifestSeed:{[index:string]:string} = {};    
+
 
 export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
     modifier = constructConfigOptions(modifier,configDefaults);
@@ -191,6 +194,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             new ManifestPlugin({
                 fileName: 'webpack-manifest.json',
                 writeToFileEmit: true,
+				seed: manifestSeed,
                 map: (obj:any)=>{
                     if(obj.name){
                         obj.name = obj.name.replace(/\.hash-.*\./,'.'); //fixes imagemin hashes

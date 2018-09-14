@@ -10,7 +10,7 @@ export const configDefaults:IBaseConfigOptions = {
     minimizeCss: false,
     htmlPlugin: false,
     hmrNeeded: false,
-    shouldGenerateSourceMaps: false,
+    shouldGenerateSourceMaps: true,
     buildOutputName: (type:AssetsType)=>{
         switch(type) {
             case 'font':

@@ -12,6 +12,7 @@ import ImageminSvgo from "imagemin-svgo";
 import ImageminWebp from 'imagemin-webp';
 import {configDefaults} from "./webpack-project";
 import {constructConfigOptions} from "./webpack-utils";
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 
 const modifier = constructConfigOptions({
@@ -35,6 +36,9 @@ const config = webpackMerge(commonConfig(modifier), {
         new CompressionPlugin({
             threshold: 0,
             test: /\.(js|css|ttf|otf|eot)/
+        }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static'
         })
     ]
 });

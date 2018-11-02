@@ -1,3 +1,4 @@
+import '../publicpath';
 import clicked from 'js/page.js';
 
 if(module.hot){

@@ -13,13 +13,17 @@ import responsiveSharp from 'responsive-loader/sharp';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import Favicon from 'favicons-webpack-plugin';
 import urljoin from 'url-join';
+import cssnano from 'cssnano';
 import ManifestPlugin from 'webpack-manifest-plugin';
-import { TsConfigPathsPlugin, CheckerPlugin } from 'awesome-typescript-loader';
+// import { TsConfigPathsPlugin, CheckerPlugin } from 'awesome-typescript-loader';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import env from './webpack.env';
 import NullPlugin from 'webpack-null-plugin';
 import SplitChunksOptions = webpack.Options.SplitChunksOptions;
 import projectSettings,{configDefaults} from './webpack-project';
 import { IBaseConfigOptions, constructConfigOptions } from './webpack-utils';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import postcssPresetEnv from 'postcss-preset-env';
 
 // the clean options to use
 let cleanOptions = {
@@ -34,7 +38,6 @@ const cleanupPlugin = new CleanWebpackPlugin(projectSettings.toClean, cleanOptio
 const copyPlugin = new CopyWebpackPlugin(projectSettings.toCopy);
 //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
 const manifestSeed:{[index:string]:string} = {};    
-
 
 export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
     modifier = constructConfigOptions(modifier,configDefaults);
@@ -68,12 +71,11 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         },
         externals: projectSettings.externals,
         resolve: {
-            modules: ['node_modules'],
             extensions: [
                 '.js', '.jsx', '.ts', '.tsx'
             ],
             plugins: [
-                new TsConfigPathsPlugin(/* { configFileName, compiler } */)
+                new TsconfigPathsPlugin(/* { configFileName, compiler } */)
             ]
         },
         module: {
@@ -82,7 +84,24 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                     test: /\.(tsx|jsx|ts|js)$/,
                     exclude: /node_modules/,
                     use: [
-                        'awesome-typescript-loader'
+                            ...(modifier.enableCacheBusting ? [{ loader: 'cache-loader' }] : []),
+                            ...[
+                                // 'awesome-typescript-loader'
+                                { loader: 'babel-loader' },
+                                {
+                                    loader: 'thread-loader',
+                                    options: {
+                                        // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                                        workers: require('os').cpus().length - 1,
+                                    },
+                                },
+                                {
+                                    loader: 'ts-loader',
+                                    options: {
+                                        happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
+                                    }
+                                }
+                        ]
                     ]
                 },
                 {
@@ -105,12 +124,29 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                             loader: "postcss-loader", // creates style nodes from JS strings
                             options: {
                                 sourceMap: modifier.shouldGenerateSourceMaps,
-                                config: {
-                                    path: path.resolve('./'),
-                                    ctx: {
-                                        minimize: modifier.minimizeCss
+                                ident: 'postcss',
+                                plugins: () => {
+                                    const plugins = [
+                                        postcssPresetEnv({
+                                            /* use stage 3 features + css nesting rules */
+                                            stage: 3,
+                                            features: {
+                                                'nesting-rules': true
+                                            }
+                                        })
+                                    ]
+                                    if(modifier.minimizeCss) {
+                                        plugins.push(cssnano());
                                     }
+
+                                    return plugins;
                                 }
+                                // config: {
+                                //     path: path.resolve('./'),
+                                //     ctx: {
+                                //         minimize: modifier.minimizeCss
+                                //     }
+                                // }
                             }
                         }, {
                             loader: "sass-loader", // creates style nodes from JS strings
@@ -152,7 +188,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         },
         plugins: [
             configDefaults.htmlPlugin ? new HtmlWebpackPlugin() : new NullPlugin(),
-            new MiniCssExtractPlugin({
+            modifier.hmrNeeded ? new NullPlugin() : new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional
                 filename: modifier.buildOutputName('style'),
@@ -160,7 +196,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             }),
             modifier.shouldClean ? cleanupPlugin : new NullPlugin(),
             copyPlugin,
-            new CheckerPlugin(),
+            new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
             modifier.favicon ? new Favicon({
                 logo: modifier.favicon.logo,
                 prefix: modifier.buildOutputName('favicon'),
@@ -170,7 +206,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                 statsFilename: 'faviconstats.json',
                 // Generate a cache file with control hashes and
                 // don't rebuild the favicons until those hashes change
-                persistentCache: true,
+                persistentCache: modifier.cacheResults,
                 // Inject the html into the html-webpack-plugin
                 inject: false,
                 // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
@@ -194,7 +230,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             new ManifestPlugin({
                 fileName: 'webpack-manifest.json',
                 writeToFileEmit: true,
-				seed: manifestSeed,
+                seed: manifestSeed,
                 map: (obj:any)=>{
                     if(obj.name){
                         obj.name = obj.name.replace(/\.hash-.*\./,'.'); //fixes imagemin hashes

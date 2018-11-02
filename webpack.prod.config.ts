@@ -15,8 +15,11 @@ import {constructConfigOptions} from "./webpack-utils";
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 
+
+
 const modifier = constructConfigOptions({
     shouldClean: true,
+    cacheResults: false,    //don't cache production, run from scratch
     minimizeCss: true
 },configDefaults);
 const config = webpackMerge(commonConfig(modifier), {

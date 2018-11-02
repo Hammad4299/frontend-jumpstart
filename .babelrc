@@ -1,7 +1,10 @@
 {
   "presets": [
-    ["env",{
+    ["@babel/preset-env",{
       "modules": false  //let webpack handle Ecmascript modules
     }]
-  ,"react"]     //Preset env by default is same as preset-latest. contains all (es2015,es2016,es2017 and more as time). babel-polyfill autohandled by preset
+  ,"@babel/preset-react"],     //Preset env by default is same as preset-latest. contains all (es2015,es2016,es2017 and more as time). babel-polyfill autohandled by preset
+  "plugins": [
+    "react-hot-loader/babel"
+  ]
 }

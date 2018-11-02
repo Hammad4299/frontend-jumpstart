@@ -1,3 +1,4 @@
+import './publicpath';
 // import '../page.js';
 // import '../common/react-test';
 

@@ -11,6 +11,7 @@ export type AssetsType = 'js'|'style'|'font'|'image'|'favicon'|'image-imagemin';
 export interface IBaseConfigOptions {
     readonly shouldClean?: boolean;
     readonly enableCacheBusting?:boolean;
+    readonly cacheResults?:boolean;
     readonly htmlPlugin?:boolean;
     readonly shouldGenerateSourceMaps?: boolean;
     readonly favicon?: FaviconSetting;

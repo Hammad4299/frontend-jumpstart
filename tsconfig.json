@@ -6,10 +6,13 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "noImplicitAny": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "noImplicitAny": false,
     "module": "es6",        //to es6 modules. So, webpack can handle it after passing through babel
     "target": "es6",
-
     //default was (module === "AMD" or "System" or "ES6" ? "Classic" : "Node").
     //Since for ModuleConcatenationPlugin, we changed module from "commonjs" to "es6", this reverted to "Node".
     //For previous behaviour, it needs to be node again.

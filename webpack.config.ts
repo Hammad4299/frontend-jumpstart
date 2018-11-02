@@ -2,28 +2,27 @@
 //TODO make css source map work with eval-source-map
 //TODO webp-loader might help in producing 2 outputs for images, one in current format, other in webp
 //TODO dynamic code splitting
-
+import webpack from 'webpack';
 import path from 'path';
 import * as _ from 'lodash';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import webpack from 'webpack';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import responsiveSharp from 'responsive-loader/sharp';
+// import hashFiles from 'hash-files';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import Favicon from 'favicons-webpack-plugin';
-import urljoin from 'url-join';
 import cssnano from 'cssnano';
 import ManifestPlugin from 'webpack-manifest-plugin';
 // import { TsConfigPathsPlugin, CheckerPlugin } from 'awesome-typescript-loader';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import env from './webpack.env';
 import NullPlugin from 'webpack-null-plugin';
-import SplitChunksOptions = webpack.Options.SplitChunksOptions;
-import projectSettings,{configDefaults} from './webpack-project';
+import projectSettings from './webpack-project';
 import { IBaseConfigOptions, constructConfigOptions } from './webpack-utils';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import postcssPresetEnv from 'postcss-preset-env';
+// import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 
 // the clean options to use
 let cleanOptions = {
@@ -37,10 +36,22 @@ let cleanOptions = {
 const cleanupPlugin = new CleanWebpackPlugin(projectSettings.toClean, cleanOptions);
 const copyPlugin = new CopyWebpackPlugin(projectSettings.toCopy);
 //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
-const manifestSeed:{[index:string]:string} = {};    
+const manifestSeed:{[index:string]:string} = {};
+
+
 
 export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
-    modifier = constructConfigOptions(modifier,configDefaults);
+    modifier = constructConfigOptions(modifier);
+    const cacheLoader = modifier.cacheResults ? [{ 
+        loader: 'cache-loader', 
+        options: {
+            cacheDirectory: path.resolve('node_modules/.cache/cache-loader')
+        } 
+    }] : [];
+    const optimizations = modifier.mode === 'dev' || modifier.mode === 'watch' ? {
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+    } : {};
     return {
         entry: projectSettings.entry,
         output: {
@@ -50,24 +61,8 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         },
         optimization: {
             runtimeChunk: "single",
-            splitChunks: <SplitChunksOptions>{
-                chunks: "all",
-                automaticNameDelimiter: '-',
-                cacheGroups: {
-                    default: false,
-                    vendors: {
-                        test: /[\\/]node_modules[\\/]/,
-                        priority: -10,
-                        name: projectSettings.splitChunks.cacheGroups['vendors'].name
-                    },
-                    common: {   //default config used by "default" cache group, just renamed it to "common:
-                        name: projectSettings.splitChunks.cacheGroups['common'].name,
-                        minChunks: 2,
-                        priority: -10,
-                        reuseExistingChunk: true
-                    }
-                }
-            }
+            splitChunks: modifier.splitChucks ? projectSettings.splitChunks : {},
+            ...optimizations
         },
         externals: projectSettings.externals,
         resolve: {
@@ -84,31 +79,30 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                     test: /\.(tsx|jsx|ts|js)$/,
                     exclude: /node_modules/,
                     use: [
-                            ...(modifier.enableCacheBusting ? [{ loader: 'cache-loader' }] : []),
-                            ...[
-                                // 'awesome-typescript-loader'
-                                { loader: 'babel-loader' },
-                                {
-                                    loader: 'thread-loader',
-                                    options: {
-                                        // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-                                        workers: require('os').cpus().length - 1,
-                                    },
-                                },
-                                {
-                                    loader: 'ts-loader',
-                                    options: {
-                                        happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
-                                    }
-                                }
-                        ]
+                        // 'awesome-typescript-loader',
+                        ...cacheLoader,
+                        // {
+                        //     loader: 'thread-loader',    //seems to significantly slow down incremental builds
+                        //     options: {
+                        //         // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                        //         workers: require('os').cpus().length - 1,
+                        //     },
+                        // },
+                        { loader: 'babel-loader' },
+                        {
+                            loader: 'ts-loader',
+                            options: {
+                                happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
+                            }
+                        }
                     ]
                 },
                 {
                     test: /\.(css|scss|sass)$/,
                     include: path.resolve(projectSettings.src),
                     use: [
-                        modifier.hmrNeeded ? {
+                        ...cacheLoader,
+                        modifier.hmrNeeded || !modifier.extractCss ? {
                             loader: 'style-loader',
                             options: {
                                 sourceMap: modifier.shouldGenerateSourceMaps
@@ -165,7 +159,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                             options: {
                                 limit: 10000,
                                 name: modifier.buildOutputName('image'),
-                                fallback: 'responsive-loader',
+                                fallback: modifier.responsiveImages ? 'responsive-loader' : 'file-loader',
  //                               quality: 100,
                                 adapter: responsiveSharp
                             }
@@ -187,16 +181,58 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             ]
         },
         plugins: [
-            configDefaults.htmlPlugin ? new HtmlWebpackPlugin() : new NullPlugin(),
-            modifier.hmrNeeded ? new NullPlugin() : new MiniCssExtractPlugin({
+            modifier.htmlPlugin ? new HtmlWebpackPlugin() : new NullPlugin(),
+            modifier.hmrNeeded || !modifier.extractCss ? new NullPlugin() : new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional
                 filename: modifier.buildOutputName('style'),
                 //chunkFilename: modifier.buildOutputName("css/[id].hash-[chunkhash].css",'.hash-[chunkhash]')
             }),
             modifier.shouldClean ? cleanupPlugin : new NullPlugin(),
+            // modifier.cacheResults ? new HardSourceWebpackPlugin({    //seems to slowdown/no speed effect rather than speed up especially incremental builds
+            //     // Either an absolute path or relative to webpack's options.context.
+            //     cacheDirectory: path.resolve('node_modules/.cache/hard-source/[confighash]'),
+            //     // Either a string of object hash function given a webpack config.
+            //     configHash: function(webpackConfig) {
+            //       // node-object-hash on npm can be used to build this.
+            //       return require('node-object-hash')({sort: false}).hash({
+            //           webpack: webpackConfig,
+            //           babelrc: hashFiles.sync({
+            //               files: [path.resolve('./.babelrc')]
+            //           }),
+            //           tsconfig: hashFiles.sync({
+            //             files: [path.resolve('./tsconfig.json')]
+            //         }),
+            //       });
+            //     },
+            //     // Either false, a string, an object, or a project hashing function.
+            //     environmentHash: {
+            //       root: process.cwd(),
+            //       directories: [],
+            //       files: ['package-lock.json', 'yarn.lock'],
+            //     },
+            //     // An object.
+            //     info: {
+            //       // 'none' or 'test'.
+            //       mode: 'none',
+            //       // 'debug', 'log', 'info', 'warn', or 'error'.
+            //       level: 'debug',
+            //     },
+            //     // Clean up large, old caches automatically.
+            //     cachePrune: {
+            //       // Caches younger than `maxAge` are not considered for deletion. They must
+            //       // be at least this (default: 2 days) old in milliseconds.
+            //       maxAge: 1 * 24 * 60 * 60 * 1000,
+            //       // All caches together must be larger than `sizeThreshold` before any
+            //       // caches will be deleted. Together they must be at least this
+            //       // (default: 50 MB) big in bytes.
+            //       sizeThreshold: 50 * 1024 * 1024
+            //     },
+            // }) : NullPlugin(),
             copyPlugin,
-            new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+            new ForkTsCheckerWebpackPlugin({ 
+                checkSyntacticErrors: true
+            }),
             modifier.favicon ? new Favicon({
                 logo: modifier.favicon.logo,
                 prefix: modifier.buildOutputName('favicon'),

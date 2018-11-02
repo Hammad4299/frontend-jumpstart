@@ -10,18 +10,14 @@ import ImageminJpegtran from "imagemin-jpegtran";
 import ImageminOptipng from "imagemin-optipng";
 import ImageminSvgo from "imagemin-svgo";
 import ImageminWebp from 'imagemin-webp';
-import {configDefaults} from "./webpack-project";
+import {prodConfigModifier} from "./webpack-project";
 import {constructConfigOptions} from "./webpack-utils";
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 
 
 
-const modifier = constructConfigOptions({
-    shouldClean: true,
-    cacheResults: false,    //don't cache production, run from scratch
-    minimizeCss: true
-},configDefaults);
+const modifier = constructConfigOptions(prodConfigModifier);
 const config = webpackMerge(commonConfig(modifier), {
     //devtool: 'source-map',            //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
     mode: 'production',

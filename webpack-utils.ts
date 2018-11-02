@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import webpack, { Entry, EntryFunc, ExternalsElement } from 'webpack';
 import SplitChunksOptions = webpack.Options.SplitChunksOptions;
 
@@ -9,6 +8,10 @@ export interface FaviconSetting {
 export type AssetsType = 'js'|'style'|'font'|'image'|'favicon'|'image-imagemin';
 
 export interface IBaseConfigOptions {
+    readonly mode?:'watch'|'dev'|'production'
+    readonly splitChucks?:boolean
+    readonly extractCss?:boolean
+    readonly responsiveImages?:boolean
     readonly shouldClean?: boolean;
     readonly enableCacheBusting?:boolean;
     readonly cacheResults?:boolean;
@@ -20,8 +23,8 @@ export interface IBaseConfigOptions {
     buildOutputName?(type:AssetsType): string;
 }
 
-export function constructConfigOptions(options:IBaseConfigOptions = {},defaults:IBaseConfigOptions){
-    return _.defaults(options,defaults);
+export function constructConfigOptions(options:IBaseConfigOptions){
+    return options;
 }
 
 export interface ICopySetting {

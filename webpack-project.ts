@@ -89,7 +89,7 @@ export const watchConfigModifier:IBaseConfigOptions = {
     ...configDefaults,
     mode:'watch',
     hmrNeeded: false,
-    cacheResults: true,
+    cacheResults: false,
     enableCacheBusting: false,
     extractCss: false,
     minimizeCss: false,

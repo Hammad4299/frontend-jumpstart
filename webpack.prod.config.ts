@@ -13,7 +13,7 @@ import ImageminWebp from 'imagemin-webp';
 import {prodConfigModifier} from "./webpack-project";
 import {constructConfigOptions} from "./webpack-utils";
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
-
+import MomentLocalesPlugin from 'moment-locales-webpack-plugin';
 
 
 
@@ -32,6 +32,7 @@ const config = webpackMerge(commonConfig(modifier), {
         ]
     },
     plugins: [
+        new MomentLocalesPlugin(),
         new CompressionPlugin({
             threshold: 0,
             test: /\.(js|css|ttf|otf|eot)/

@@ -48,7 +48,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             cacheDirectory: path.resolve('node_modules/.cache/cache-loader')
         } 
     }] : [];
-    const optimizations = modifier.mode === 'dev' || modifier.mode === 'watch' ? {
+    const optimizations = modifier.mode !== 'production' ? {
         removeAvailableModules: false,
         removeEmptyChunks: false,
     } : {};
@@ -57,11 +57,12 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         output: {
             path: path.resolve(projectSettings.contentOutput),
             filename: modifier.buildOutputName('js'),
+            pathinfo: false,
             publicPath: env.public
         },
         optimization: {
             runtimeChunk: "single",
-            splitChunks: modifier.splitChucks ? projectSettings.splitChunks : {},
+            splitChunks: modifier.splitChucks ? projectSettings.splitChunks : modifier.splitChucks,
             ...optimizations
         },
         externals: projectSettings.externals,
@@ -81,18 +82,22 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                     use: [
                         // 'awesome-typescript-loader',
                         ...cacheLoader,
-                        // {
-                        //     loader: 'thread-loader',    //seems to significantly slow down incremental builds
-                        //     options: {
-                        //         // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-                        //         workers: require('os').cpus().length - 1,
-                        //     },
-                        // },
+                        // ...(()=>{
+                        //     return modifier.mode === 'production' ? [{
+                        //         loader: 'thread-loader',    //seems to significantly slow down incremental builds as well as production builds
+                        //         options: {
+                        //             // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                        //             workers: require('os').cpus().length - 1,
+                        //         },
+                        //     }] : []
+                        // })(),
                         { loader: 'babel-loader' },
                         {
                             loader: 'ts-loader',
                             options: {
-                                happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
+                                happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack. Turing this on seems to reduce build time even on incremental builds
+                                experimentalWatchApi: modifier.mode !== 'production',
+                                transpileOnly: true
                             }
                         }
                     ]

@@ -92,14 +92,14 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                         //     }] : []
                         // })(),
                         { loader: 'babel-loader' },
-                        {
-                            loader: 'ts-loader',
-                            options: {
-                                happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack. Turing this on seems to reduce build time even on incremental builds
-                                experimentalWatchApi: modifier.mode !== 'production',
-                                transpileOnly: true
-                            }
-                        }
+                        // {
+                        //     loader: 'ts-loader',
+                        //     options: {
+                        //         happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack. Turing this on seems to reduce build time even on incremental builds
+                        //         experimentalWatchApi: modifier.mode !== 'production',
+                        //         transpileOnly: true
+                        //     }
+                        // }    //handled by babel. It seems faster but doesn't provide typechecking. For that TypeCheckFork plugin is used
                     ]
                 },
                 {

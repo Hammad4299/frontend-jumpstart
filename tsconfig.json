@@ -10,9 +10,12 @@
       "esnext",
       "dom"
     ],
+    // Don't emit; allow Babel to transform files.
+    "noEmit": true,
+    "isolatedModules": true,
     "noImplicitAny": false,
-    "module": "es6",        //to es6 modules. So, webpack can handle it after passing through babel
-    "target": "es6",
+    "module": "esnext",        //to es6 modules. So, webpack can handle it after passing through babel
+    "target": "esnext",
     //default was (module === "AMD" or "System" or "ES6" ? "Classic" : "Node").
     //Since for ModuleConcatenationPlugin, we changed module from "commonjs" to "es6", this reverted to "Node".
     //For previous behaviour, it needs to be node again.
@@ -29,7 +32,8 @@
     "allowJs": true         //Necessary. To run js files as typescript,
   },
   "include": [
-    "./src"
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ],
   "awesomeTypescriptLoaderOptions": { //Not in use anymore since ts-loader is being used
     "useCache": true,

@@ -1,3 +1,4 @@
+delete process.env.TS_NODE_PROJECT
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config';
 import path from 'path';

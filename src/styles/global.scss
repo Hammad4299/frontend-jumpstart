@@ -4,21 +4,20 @@
 
 body{
   //background: $color-panel-header-bg;
-  background: url('../images/CMSCreativeKingfisher.jpg?size=100');
+  background: url('~images/test.png');
 }
 
 @font-face {
   font-family: myFirstFont;
-  src: url('../fonts/Pacifico.ttf');
+  src: url('~fonts/Pacifico.ttf');
 }
 
 .bg1{
   font-family: myFirstFont;
-  background: url('../images/download.png?size=2');
+  background: url('~webp-images/test.png');
   background: $color-primary2-bg;
 }
 
 .bg2{
-  background: url('../images/CMSCreativeKingfisher.jpg');
   background: $color-text-primary;
 }

@@ -2,15 +2,19 @@ import {AssetsType, IBaseConfigOptions, IProjectSettings} from './webpack-utils'
 import webpack from 'webpack';
 import SplitChunksOptions = webpack.Options.SplitChunksOptions;
 import path from 'path';
-import env from "./webpack.env";
+import ImageminGifsicle from "imagemin-gifsicle";
+import ImageminJpegtran from "imagemin-jpegtran";
+import ImageminOptipng from "imagemin-optipng";
+import ImageminMozJpeg from 'imagemin-mozjpeg';
+import ImageminSvgo from "imagemin-svgo";
+import ImageminWebp from 'imagemin-webp';
 //Settings specific to this project. Other things if need to be adjusted should be modified directly in config files
 const src = path.resolve('./src');
 const output = path.resolve('./dist');
 
 const projectConfig:IProjectSettings = {
     entry: {
-        index: path.join(src, 'index.ts'),
-        page2: path.join(src, 'js/page2.js'),
+        index: path.join(src, 'js/index.ts')
     },
     externals: {
         window: 'window',
@@ -22,6 +26,7 @@ const projectConfig:IProjectSettings = {
     ],
     toCopy: [
         {from: path.join(src,'images'), to: path.join(output,'images')},
+        {from: path.join(src,'webp-images'), to: path.join(output,'webp-images')},
         {from: path.join(src,'fonts'), to: path.join(output,'fonts')},
     ],
     root:path.resolve('./'),
@@ -47,8 +52,6 @@ const projectConfig:IProjectSettings = {
 
 export default projectConfig;
 
-
-
 const emptyStr = (str:string, notEmpty:boolean)=>notEmpty ?  str : '';
 
 //These can be overridden by environment specific configuration
@@ -61,13 +64,13 @@ const configDefaults:IBaseConfigOptions = {
         const enableCacheBusting:boolean = this.enableCacheBusting;
         switch(type) {
             case 'font':
-                toRet = `fonts/[name]${emptyStr('.[hash]',enableCacheBusting)}.[ext]`;
+                toRet = `[path]/[name]${emptyStr('.[hash]',enableCacheBusting)}.[ext]`;
                 break;
             case 'image-imagemin':
-                toRet = `/[path][name]${emptyStr('.hash-[hash]',enableCacheBusting)}.[ext]`;   // "/" is very important otherwise it will skip first letter.
+                toRet = `/[path][name]${emptyStr('.hash-[hash]',enableCacheBusting)}.[ext]`;   // "/" is very important otherwise it will skip first letter (on windows).
                 break;
             case 'image':
-                toRet = `images/loaded/[name]${emptyStr('.hash-[hash]', enableCacheBusting)}.[ext]`;
+                toRet = `[path]/loaded/[name]${emptyStr('.hash-[hash]', enableCacheBusting)}.[ext]`;
                 break;
             case 'favicon':
                 toRet = `favicon${emptyStr('-[hash]', enableCacheBusting)}/`;
@@ -117,3 +120,35 @@ export const prodConfigModifier:IBaseConfigOptions = {
     shouldGenerateSourceMaps: true,
     splitChucks: true
 };
+
+
+export const imagminOptions = {
+    imageminOptions: {
+        // Lossless optimization with custom option
+        plugins: [
+            ImageminGifsicle({
+                interlaced: true
+            }),
+            ImageminJpegtran({
+                progressive: true
+            }),
+            ImageminOptipng({
+                optimizationLevel: 1
+            }),
+            ImageminSvgo({
+                removeViewBox: true
+            })
+        ]
+    }
+}
+
+export const imagminWebpOptions = {
+    imageminOptions: {
+        // Lossless optimization with custom option
+        plugins: [
+            ImageminWebp({
+                loseless: true
+            })
+        ]
+    }
+}

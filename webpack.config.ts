@@ -5,6 +5,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import * as _ from 'lodash';
+import ImageminWebp from 'imagemin-webp';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -22,6 +23,8 @@ import projectSettings from './webpack-project';
 import { IBaseConfigOptions, constructConfigOptions } from './webpack-utils';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import postcssPresetEnv from 'postcss-preset-env';
+import ImageminWebpack from 'imagemin-webpack';
+import { imagminWebpOptions, imagminOptions } from './webpack-project';
 // import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 
 // the clean options to use
@@ -67,6 +70,11 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         },
         externals: projectSettings.externals,
         resolve: {
+            alias: {
+                'images': path.join(projectSettings.src,'images'),
+                'fonts': path.join(projectSettings.src,'fonts'),
+                'webp-images': path.join(projectSettings.src,'webp-images'),
+            },
             extensions: [
                 '.js', '.jsx', '.ts', '.tsx'
             ],
@@ -158,15 +166,46 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                 {
                     test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
                     include: projectSettings.src,
+                    exclude: path.resolve(projectSettings.src,'webp-images'),   //they are handled by another loader
+                    use: [
+                        {
+                            loader: 'url-loader',
+                            options: {
+                                context: projectSettings.src,   //[path] is relative to this context
+                                limit: 10000,
+                                name: modifier.buildOutputName('image'),
+                                fallback: modifier.responsiveImages ? 'responsive-loader' : 'file-loader',
+                            //    quality: 100,
+                                adapter: responsiveSharp
+                            }
+                        },
+                        ...(modifier.mode === 'production' ? [{
+                            loader: ImageminWebpack.loader,
+                            options: {
+                                ...imagminOptions
+                            }
+                        }] : [])
+                    ]
+                },
+                {
+                    test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
+                    include: path.resolve(projectSettings.src,'webp-images'),
                     use: [
                         {
                             loader: 'url-loader',
                             options: {
                                 limit: 10000,
+                                context: projectSettings.src,   //[path] is relative to this context
                                 name: modifier.buildOutputName('image'),
                                 fallback: modifier.responsiveImages ? 'responsive-loader' : 'file-loader',
- //                               quality: 100,
+                            //    quality: 100,
                                 adapter: responsiveSharp
+                            }
+                        },
+                        {
+                            loader: ImageminWebpack.loader,
+                            options: {
+                                ...imagminWebpOptions
                             }
                         }
                     ]
@@ -178,6 +217,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                         {
                             loader: 'file-loader',
                             options: {
+                                context: projectSettings.src,   //[path] is relative to this context
                                 name: modifier.buildOutputName('font'),
                             }
                         }
@@ -235,9 +275,9 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             //     },
             // }) : NullPlugin(),
             copyPlugin,
-            new ForkTsCheckerWebpackPlugin({ 
-                checkSyntacticErrors: true
-            }),
+            // new ForkTsCheckerWebpackPlugin({ 
+            //     checkSyntacticErrors: true
+            // }),
             modifier.favicon ? new Favicon({
                 logo: modifier.favicon.logo,
                 prefix: modifier.buildOutputName('favicon'),
@@ -273,8 +313,10 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                 writeToFileEmit: true,
                 seed: manifestSeed,
                 map: (obj:any)=>{
-                    if(obj.name){
-                        obj.name = obj.name.replace(/\.hash-.*\./,'.'); //fixes imagemin hashes
+                    let name:string = obj.name;
+                    if(name){
+                        name = obj.name.replace(/\.hash-.*\./,'.'); //fixes imagemin hashes 
+                        obj.name = name.charAt(0) === '/' ? name.substring(1) : name;
                     }
 
                     return obj;

@@ -1,22 +1,14 @@
 delete process.env.TS_NODE_PROJECT
-import env from './webpack.env';
+import path from 'path';
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
-import CompressionPlugin from 'compression-webpack-plugin';
-import path from 'path';
-import {ImageminWebpackPlugin} from "imagemin-webpack";
-import ImageminGifsicle from "imagemin-gifsicle";
-import ImageminJpegtran from "imagemin-jpegtran";
-import ImageminOptipng from "imagemin-optipng";
-import ImageminSvgo from "imagemin-svgo";
-import ImageminWebp from 'imagemin-webp';
-import {prodConfigModifier} from "./webpack-project";
-import {constructConfigOptions} from "./webpack-utils";
+import TerserPlugin  from 'terser-webpack-plugin'
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+import CompressionPlugin from 'compression-webpack-plugin';
+import ImageminWebpackPlugin from "imagemin-webpack";
+import projectConfig, {prodConfigModifier, imagminOptions, imagminWebpOptions} from "./webpack-project";
+import {constructConfigOptions} from "./webpack-utils";
 import MomentLocalesPlugin from 'moment-locales-webpack-plugin';
-
-
 
 const modifier = constructConfigOptions(prodConfigModifier);
 const config = webpackMerge(commonConfig(modifier), {
@@ -25,10 +17,10 @@ const config = webpackMerge(commonConfig(modifier), {
     devtool: 'nosources-source-map',  //Production ready separate sourcemap files with no original source code. SourceMaps Can be deployed securely
     optimization: {
         minimizer: [
-            new UglifyJsPlugin({
+            new TerserPlugin ({
                 cache: true,
                 parallel: true,
-                sourceMap: true // set to true if you want JS source maps
+                sourceMap: true, // set to true if you want JS source maps
             })
         ]
     },
@@ -38,36 +30,28 @@ const config = webpackMerge(commonConfig(modifier), {
             threshold: 0,
             test: /\.(js|css|ttf|otf|eot)/
         }),
-        new BundleAnalyzerPlugin({
-            analyzerMode: 'static'
-        })
+        // new BundleAnalyzerPlugin({
+        //     analyzerMode: 'static'
+        // })
     ]
 });
 
 const imagemin = new ImageminWebpackPlugin({
-    //test: /\.(jpe?g|png|gif|svg)$/i,
+    test: /\.(jpe?g|png|gif|svg)$/i,
+    exclude: /webp-images/,
+    loader: false,
     name: modifier.buildOutputName('image-imagemin'),
-    imageminOptions: {
-        // Lossless optimization with custom option
-        plugins: [
-            ImageminGifsicle({
-                interlaced: true
-            }),
-            ImageminJpegtran({
-                progressive: true
-            }),
-            ImageminOptipng({
-                optimizationLevel: 1
-            }),
-            ImageminSvgo({
-                removeViewBox: true
-            }),
-            // ImageminWebp({
-            //     loseless: true
-            // })
-        ]
-    }
+    ...imagminOptions
+});
+
+const imagemin2 = new ImageminWebpackPlugin({
+    test: /\.(png|jpe?g|webp)$/i,
+    loader: false,
+    include: /webp-images/,
+    name: modifier.buildOutputName('image-imagemin'),
+    ...imagminWebpOptions
 });
 
 config.plugins.push(imagemin);
+config.plugins.push(imagemin2);
 export default config;

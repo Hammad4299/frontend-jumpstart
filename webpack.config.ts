@@ -3,9 +3,9 @@
 //TODO webp-loader might help in producing 2 outputs for images, one in current format, other in webp
 //TODO dynamic code splitting
 import webpack from 'webpack';
+import ImageminWebpackPlugin from "imagemin-webpack";
 import path from 'path';
 import * as _ from 'lodash';
-import ImageminWebp from 'imagemin-webp';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -55,7 +55,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         removeAvailableModules: false,
         removeEmptyChunks: false,
     } : {};
-    return {
+    const config = {
         entry: projectSettings.entry,
         output: {
             path: path.resolve(projectSettings.contentOutput),
@@ -72,6 +72,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
         resolve: {
             alias: {
                 'images': path.join(projectSettings.src,'images'),
+                'styles': path.join(projectSettings.src,'styles'),
                 'fonts': path.join(projectSettings.src,'fonts'),
                 'webp-images': path.join(projectSettings.src,'webp-images'),
             },
@@ -179,7 +180,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                                 adapter: responsiveSharp
                             }
                         },
-                        ...(modifier.mode === 'production' ? [{
+                        ...(modifier.imagemin ? [{
                             loader: ImageminWebpack.loader,
                             options: {
                                 ...imagminOptions
@@ -202,12 +203,12 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                                 adapter: responsiveSharp
                             }
                         },
-                        {
+                        ...(modifier.imagemin ? [{
                             loader: ImageminWebpack.loader,
                             options: {
                                 ...imagminWebpOptions
                             }
-                        }
+                        }]: [])
                     ]
                 },
                 {
@@ -324,4 +325,27 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             })
         ],
     };
+    
+    if(modifier.imagemin) {
+        const imagemin = new ImageminWebpackPlugin({
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            exclude: /webp-images/,
+            loader: false,
+            name: modifier.buildOutputName('image-imagemin'),
+            ...imagminOptions
+        });
+        
+        const imagemin2 = new ImageminWebpackPlugin({
+            test: /\.(png|jpe?g|webp)$/i,
+            loader: false,
+            include: /webp-images/,
+            name: modifier.buildOutputName('image-imagemin'),
+            ...imagminWebpOptions
+        });
+        
+        config.plugins.push(imagemin);
+        config.plugins.push(imagemin2);
+    }
+    
+    return config;
 }

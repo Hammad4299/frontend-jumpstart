@@ -21,7 +21,14 @@
     //For previous behaviour, it needs to be node again.
     "baseUrl": "./",
     "paths": {
-      "js/*": ["src/js/*"]
+      "js/*": ["src/js/*"],
+      "jquery-dependent/*": ["src/js/jquery-dependent/*"],
+      "models": ["src/js/models/index.ts"],
+      "externals/*": ["src/js/externals/*"],
+      "routing/*": ["src/js/routing/*"],
+      "interfaces/*": ["src/js/interfaces/*"],
+      "services/*": ["src/js/services/*"],
+      "shared": ["src/js/shared/index.ts"]
     },
     "typeRoots": [
       "./node_modules/types-redux-orm",

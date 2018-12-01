@@ -5,7 +5,6 @@ import path from 'path';
 import ImageminGifsicle from "imagemin-gifsicle";
 import ImageminJpegtran from "imagemin-jpegtran";
 import ImageminOptipng from "imagemin-optipng";
-import ImageminMozJpeg from 'imagemin-mozjpeg';
 import ImageminSvgo from "imagemin-svgo";
 import ImageminWebp from 'imagemin-webp';
 //Settings specific to this project. Other things if need to be adjusted should be modified directly in config files
@@ -92,6 +91,7 @@ export const watchConfigModifier:IBaseConfigOptions = {
     ...configDefaults,
     mode:'watch',
     hmrNeeded: false,
+    imagemin: false,
     cacheResults: false,
     enableCacheBusting: false,
     extractCss: false,
@@ -114,6 +114,7 @@ export const prodConfigModifier:IBaseConfigOptions = {
     cacheResults: false,        //don't cache production, run from scratch
     enableCacheBusting: true,
     extractCss: true,
+    imagemin: true,
     minimizeCss: true,
     responsiveImages: true,
     shouldClean: true,

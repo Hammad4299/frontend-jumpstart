@@ -17,6 +17,7 @@ export interface IBaseConfigOptions {
     readonly cacheResults?:boolean;
     readonly htmlPlugin?:boolean;
     readonly shouldGenerateSourceMaps?: boolean;
+    readonly imagemin?: boolean;
     readonly favicon?: FaviconSetting;
     readonly hmrNeeded?: boolean;
     readonly minimizeCss?: boolean;

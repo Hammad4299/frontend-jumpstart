@@ -135,6 +135,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "rollbar": "^2.5.1",
     "tiny-emitter": "^2.0.2",
     "utility-types": "^2.1.0",
     "webfontloader": "^1.6.28"

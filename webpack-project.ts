@@ -17,6 +17,9 @@ const projectConfig:IProjectSettings = {
     },
     externals: {
         window: 'window',
+        'externals/CSRFToken': 'csrftoken', //now import xyz from 'myExternal' should work
+		'externals/RemoteRoutes': 'routes',
+		'externals/SiteConfig': 'siteConfig',
     },
     src: src,
     contentOutput: output,
@@ -63,13 +66,13 @@ const configDefaults:IBaseConfigOptions = {
         const enableCacheBusting:boolean = this.enableCacheBusting;
         switch(type) {
             case 'font':
-                toRet = `[path]/[name]${emptyStr('.[hash]',enableCacheBusting)}.[ext]`;
+                toRet = `[path][name]${emptyStr('.[hash]',enableCacheBusting)}.[ext]`;
                 break;
             case 'image-imagemin':
                 toRet = `/[path][name]${emptyStr('.hash-[hash]',enableCacheBusting)}.[ext]`;   // "/" is very important otherwise it will skip first letter (on windows).
                 break;
             case 'image':
-                toRet = `[path]/loaded/[name]${emptyStr('.hash-[hash]', enableCacheBusting)}.[ext]`;
+                toRet = `[path]loaded/[name]${emptyStr('.hash-[hash]', enableCacheBusting)}.[ext]`;
                 break;
             case 'favicon':
                 toRet = `favicon${emptyStr('-[hash]', enableCacheBusting)}/`;

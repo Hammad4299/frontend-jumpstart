@@ -76,6 +76,8 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
                 'fonts': path.join(projectSettings.src,'fonts'),
                 'webp-images': path.join(projectSettings.src,'webp-images'),
             },
+			,
+            symlinks: false, // if you don't use symlinks (e.g. npm link or yarn link).
             extensions: [
                 '.js', '.jsx', '.ts', '.tsx'
             ],

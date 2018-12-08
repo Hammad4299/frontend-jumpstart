@@ -24,17 +24,19 @@ const _rollbarConfig:rollbar.Configuration = {
     },
     transform: function(payload) {
         var trace = payload.body.trace;
-        // Change 'yourdomainhere' to your domain.
-        var mainDomain = SiteConfig.publicDomain;
+        // Change to domain name from where static js for which sourcemaps are configured is servered. It doesn't have to be subdomain but rather root domain. e.g. teraception.com or cdn.com as per following regex
+		var mainDomain = SiteConfig.publicDomain;
         mainDomain = mainDomain.replace('.','\\.');
 
-        var locRegex = new RegExp(`^(https?):\\/\\/[a-zA-Z0-9._-]+${mainDomain}(.*)`);
+        var locRegex = new RegExp(`^(https?):\\/\\/[a-zA-Z0-9._-]*${mainDomain}(.*)`);
+
         if (trace && trace.frames) {
             for (var i = 0; i < trace.frames.length; i++) {
                 var filename = trace.frames[i].filename;
                 if (filename) {
                     var m = filename.match(locRegex);
                     // Be sure that the minified_url when uploading includes 'dynamichost'
+					//replace whole domain portion with dynamichost. Keep rest same
                     trace.frames[i].filename = m[1] + '://dynamichost' + m[2];
                 }
             }

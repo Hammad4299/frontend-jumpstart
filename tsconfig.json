@@ -6,10 +6,6 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
     // Don't emit; allow Babel to transform files.
     "noEmit": true,
     "isolatedModules": true,

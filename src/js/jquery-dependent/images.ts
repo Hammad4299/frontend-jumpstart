@@ -1,45 +1,20 @@
 import $ from 'jquery';
-interface ResponsiveImage {
-    [index:string]:any
-    src: string
-    srcSet: string
-}
-
-interface ImageSpec {
-    [index:string]:string|ResponsiveImage
-    webp?: string|ResponsiveImage
-    compressed?: string|ResponsiveImage
-    fallback?: string|ResponsiveImage
-}
-
-function getVal(val:string|ResponsiveImage):ResponsiveImage {
-    let spec:ResponsiveImage = {
-        srcSet: null,
-        src: null
-    };
-    
-    if(typeof val === 'string') {
-        spec.src = val;
-    } else {
-        spec = val;
-    }
-    return spec;
-}
+import { normalizeImage, ImageSpec } from 'types';
 
 export function setImagesInPicture(picture:any,image:ImageSpec) {
     const imgSource = picture.find(`[data-format=fallback]`);
     picture.find('source').remove();
     if(imgSource.length) {
-        let val = getVal(image.fallback);
+        let val = normalizeImage(image.fallback);
         imgSource.attr('src',val.src);
-        val = getVal(image.compressed);
+        val = normalizeImage(image.compressed);
         if(val.srcSet){
             imgSource.attr('srcset',val.srcSet);
         }
     }
     
     if(image.webp) {
-        const val = getVal(image.webp);
+        const val = normalizeImage(image.webp);
         if(val.srcSet) {
             let min = 0;
             val.images.forEach((img:any,index:number)=>{

@@ -1,9 +1,5 @@
 //requires @types/googlemaps
 
-interface PMap<T> {
-    [index:string]:T
-}
-
 const defaultComponents = {
     street_number: 'long_name',
     route: 'long_name',

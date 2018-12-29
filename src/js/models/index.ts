@@ -1,15 +1,9 @@
-export interface ErrorInfo {
-    hasError:boolean,
-    errors:string[]
-    error:string|null
-}
+//Domain Models
 
-export interface User {
-    id?: number,
-    username:string,
-    password?:string
-}
 
-export * from './FieldsState'
-export * from './Response'
-export * from './Pagination'
+export interface UploadedFile {
+    upload_rel?:string
+    full_url?:string
+    file?:Blob
+    name?:string
+}

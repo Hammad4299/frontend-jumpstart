@@ -18,13 +18,15 @@
     //For previous behaviour, it needs to be node again.
     "baseUrl": "./",
     "paths": {
-      "js/*": ["src/js/*"],
-      "jquery-dependent/*": ["src/js/jquery-dependent/*"],
       "models": ["src/js/models/index.ts"],
+      "viewmodels": ["src/js/viewmodels/index.ts"],
+      "types": ["src/js/types/index.ts"],
+      "services": ["src/js/services/index.ts"],
+      "redux-store": ["src/js/redux-store/index.ts"],
+      "breadcrumbs": ["src/js/breadcrumbs/index.ts"],
+      "routing": ["src/js/routing/index.ts"],
+      "typehelper": ["src/js/typescript/index.ts"],
       "externals/*": ["src/js/externals/*"],
-      "routing/*": ["src/js/routing/*"],
-      "interfaces/*": ["src/js/interfaces/*"],
-      "services/*": ["src/js/services/*"],
       "shared": ["src/js/shared/index.ts"]
     },
     "typeRoots": [

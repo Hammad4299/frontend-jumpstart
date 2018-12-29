@@ -15,3 +15,13 @@
 /webpack-utils.js
 /webpack-project.js
 .idea/
+
+
+src/js/react/backend/
+src/js/react/components/
+src/js/react/HOC/
+src/js/react/utility/
+src/js/react/kioskend/
+src/js/react/context/
+src/js/react/style/
+src/js/react/root.tsx

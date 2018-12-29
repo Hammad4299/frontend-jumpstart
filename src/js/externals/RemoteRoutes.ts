@@ -1,4 +1,7 @@
 const remoteRoutes = {
-    baseurl: ''
+    baseurl: '',
+    upload: {
+        bulk: ''
+    }
 };
 export default <typeof remoteRoutes>remoteRoutes;

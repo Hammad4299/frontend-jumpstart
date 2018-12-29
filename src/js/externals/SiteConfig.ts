@@ -3,7 +3,7 @@ interface SiteConfig {
     environmment:string,
     baseUrl:string
     appname: string,
-    publicDomain: string,
+    rollbarPublicDomain: string,
     code_version: string    //git hash
 }
 

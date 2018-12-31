@@ -2,12 +2,17 @@ import './rollbar'
 import { toNumber as _ToNumber } from 'lodash-es';
 import { parsePhoneNumber as _parsePhoneNumber } from 'react-phone-number-input/libphonenumber';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import SiteConfig from 'externals/SiteConfig';
 
 export interface PhoneNumberParseResult {
     formatted?: string
     persistable?: string
     original?: string
     isValid: boolean
+}
+
+export function buildPageTitle(title="Untitled", base = `${SiteConfig.appname} - `) {
+    return `${base}${title}`
 }
 
 export function phoneNumberValid(number:string):boolean {

@@ -19,15 +19,15 @@
     "baseUrl": "./",
     "paths": {
       "models": ["src/js/models/index.ts"],
-      "viewmodels": ["src/js/viewmodels/index.ts"],
       "types": ["src/js/types/index.ts"],
+      "components": ["src/js/react/components/index.ts"],
       "services": ["src/js/services/index.ts"],
       "redux-store": ["src/js/redux-store/index.ts"],
       "breadcrumbs": ["src/js/breadcrumbs/index.ts"],
       "routing": ["src/js/routing/index.ts"],
       "typehelper": ["src/js/typescript/index.ts"],
       "externals/*": ["src/js/externals/*"],
-      "shared": ["src/js/shared/index.ts"]
+      "helpers": ["src/js/helpers/index.ts"]
     },
     "typeRoots": [
       "./node_modules/types-redux-orm",

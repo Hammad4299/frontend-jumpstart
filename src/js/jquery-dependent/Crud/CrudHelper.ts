@@ -2,7 +2,7 @@
 import $ from 'jquery';
 import {serverApi, ServerApiResponse} from "services/RemoteService";
 import { getServerResponse, processResponse, updateFieldState } from "jquery-dependent/FormHelpers/Utils";
-import {extractResponseErrors} from "shared";
+import {extractResponseErrors} from "helpers";
 
 
 abstract class CrudHelper{

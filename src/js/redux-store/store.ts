@@ -1,6 +1,6 @@
 import { combineReducers, AnyAction, applyMiddleware, createStore } from "redux";
 import { routingStateReducer, breadcrumbStateReducer, RoutingState, BreadcrumbState } from "redux-store";
-import { ShowcaseBreadcrumbContext } from "breadcrumbs";
+import { BreadcrumbContext } from "breadcrumbs";
 import { BaseRoutingContext } from "routing";
 import thunkMiddleware from 'redux-thunk';
 
@@ -14,7 +14,7 @@ export type AppStore = Store;
 const initState:AppStore = {
     breadcrumbs: {
         breadcrumbs: [],
-        context: new ShowcaseBreadcrumbContext()
+        context: new BreadcrumbContext()
     },
     routing: {
         routingContext: new BaseRoutingContext()
@@ -30,6 +30,6 @@ const appReducer = combineReducers<AppStore,AnyAction>({
     routing: routingStateReducer
 });
 
-const store = createStore(rootReducer,  initState, applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer,  initState, applyMiddleware(thunkMiddleware));
 
 export default store;

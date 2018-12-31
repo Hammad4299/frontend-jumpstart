@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { BreadcrumbInfo, ShowcaseBreadcrumbContext } from 'breadcrumbs';
+import { BreadcrumbInfo, BreadcrumbContext } from 'breadcrumbs';
 import { AppStore } from 'redux-store';
 
 export enum BreadcrumbActions {
@@ -17,7 +17,7 @@ export function setBreadcrumbs(breadcrumbInfos:BreadcrumbInfo[]) {
     }
 }
 
-export function setBreadcrumbContext(context:ShowcaseBreadcrumbContext) {
+export function setBreadcrumbContext(context:BreadcrumbContext) {
     return {
         type: BreadcrumbActions.SET_CONTEXT,
         context: context

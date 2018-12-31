@@ -3,7 +3,7 @@ import { chunk } from 'lodash-es';
 import { BaseService } from 'services';
 import { UploadInfo, UploadFilesRequest } from './types';
 import { WithValidityState, AppResponse } from 'types';
-import { randomString } from 'shared';
+import { randomString } from 'helpers';
 import { QueryResultParams } from '../BaseService';
 
 

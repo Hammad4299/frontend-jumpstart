@@ -1,6 +1,6 @@
-import { ShowcaseBreadcrumbContext, BreadcrumbInfo } from 'breadcrumbs';
+import { BreadcrumbContext, BreadcrumbInfo } from 'breadcrumbs';
 
 export interface BreadcrumbState {
-    context:ShowcaseBreadcrumbContext
+    context:BreadcrumbContext
     breadcrumbs: BreadcrumbInfo[]
 }

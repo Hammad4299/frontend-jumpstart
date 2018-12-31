@@ -2,7 +2,7 @@ import { defaults } from "lodash-es";
 import { serverApi, ServerApiResponse } from "services/RemoteService";
 import { AxiosRequestConfig } from "axios";
 import { AppResponse, FieldsState }from "models";
-import {extractResponseErrors} from "shared";
+import {extractResponseErrors} from "helpers";
 const errorAttr = 'data-error';
 
 export function updateFieldState(info:FieldsState, container:any) {

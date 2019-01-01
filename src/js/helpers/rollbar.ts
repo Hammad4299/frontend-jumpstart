@@ -22,10 +22,10 @@ const _rollbarConfig:rollbar.Configuration = {
             }
         }
     },
-    transform: function(payload) {
+    transform: function(payload:any) {
         var trace = payload.body.trace;
         // Change to domain name from where static js for which sourcemaps are configured is servered. It doesn't have to be subdomain but rather root domain. e.g. teraception.com or cdn.com as per following regex
-		var mainDomain = SiteConfig.publicDomain;
+		var mainDomain = SiteConfig.rollbarPublicDomain;
         mainDomain = mainDomain.replace('.','\\.');
 
         var locRegex = new RegExp(`^(https?):\\/\\/[a-zA-Z0-9._-]*${mainDomain}(.*)`);

@@ -4,8 +4,6 @@ import { BaseService } from 'services';
 import { UploadInfo, UploadFilesRequest } from './types';
 import { WithValidityState, AppResponse } from 'types';
 import { randomString } from 'helpers';
-import { QueryResultParams } from '../BaseService';
-
 
 interface UploadConfig {
     onUploadProgress:(progressEvent:any, req:UploadFilesRequest)=>any
@@ -93,13 +91,6 @@ export class UploadService extends BaseService {
             setUploadInfo(map[identifier],resp[identifier]);
         });
     }
-
-    // sample<T extends QueryResultParams<UploadFilesRequest>>(data:T) {
-    //     return this.doServerXHRForCollectionOrPage<T,UploadFilesRequest>({
-    //         url: this.routes.server.upload.bulk(),
-    //         method: 'post'
-    //     });
-    // }
 
     private uploadBatch(data: UploadFilesRequest, onUploadProgress:(progressEvent:any)=>{}) {
         const d = new FormData();

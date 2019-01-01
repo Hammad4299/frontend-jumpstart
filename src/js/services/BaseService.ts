@@ -3,13 +3,8 @@ import axios,{ AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import Axios from 'axios';
 import { AppResponse, WithValidityState, isPaginatedResult, extractResponseErrors, WithPaginationParams, MultiItemResultTypeFromRequestParam } from 'types';
 import { routesForContext } from 'routing';
-import { defaultTo } from 'lodash-es';
 
 export type QueryResultParams<T> = WithPaginationParams<T>|T;
-const a:QueryResultParams<{s:string}> = {
-    s: '',
-    limit: 1
-};
 export class BaseService {
     private manager:AxiosInstance
     protected routes = routesForContext();

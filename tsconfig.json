@@ -6,7 +6,7 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-	"resolveJsonModule":true,
+	  "resolveJsonModule":true,
     // Don't emit; allow Babel to transform files.
     "noEmit": true,
     "isolatedModules": true,

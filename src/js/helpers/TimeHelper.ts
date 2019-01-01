@@ -51,5 +51,5 @@ class TimeHelper{
     }
 }
 
-let timeHelper = new TimeHelper();
+export let timeHelper = new TimeHelper();
 export default timeHelper;

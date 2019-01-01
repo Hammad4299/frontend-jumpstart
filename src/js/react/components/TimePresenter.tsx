@@ -1,4 +1,4 @@
-import timeHelper from "src/js/helpers/TimeHelper";
+import { timeHelper } from "helpers";
 import React from "react";
 
 export interface TimePresenterProps {

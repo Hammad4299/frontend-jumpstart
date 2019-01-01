@@ -2,8 +2,7 @@ import React from 'react';
 import { DateRangePickerProps, DateRange as Daterange, DateRangePicker, DateRangePickerClassKey } from './DateRangePicker';
 import moment from 'moment';
 import { StandardProps } from '@material-ui/core';
-import timeHelper from 'src/js/helpers/TimeHelper';
-
+import { timeHelper } from "helpers";
 interface DateRange {
     startDate:number
     endDate:number

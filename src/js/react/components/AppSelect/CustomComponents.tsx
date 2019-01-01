@@ -41,7 +41,7 @@ export function Control<OptionType>(props:SelectComponentProps<ControlProps<Opti
             <TextField
                 fullWidth={props.selectProps.controlProps.fullWidth}
                 InputProps={{
-                    TextFieldInputComponent,
+                    inputComponent: TextFieldInputComponent,
                     classes: {
                         root: classNames(props.selectProps.classes.controlRoot)
                     },

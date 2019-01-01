@@ -1,5 +1,5 @@
 import React from "react";
-import { defaults } from 'lodash-es';
+import { defaults, defaultsDeep } from 'lodash-es';
 import { Theme, WithTheme, StandardProps } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import createStyles from "@material-ui/core/styles/createStyles";
@@ -126,34 +126,25 @@ export type CustomSelectProps<TProps extends Props<OptionType>, OptionType> = Pr
 const decorator = withStyles(styles, {withTheme: true});
 
 function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSelectProps<TProps, OptionType>) {
-    const {
-        fixedSizeListProps,
-        classes, 
-        theme,
-        options,
-        menuShouldBlockScroll = false,
-        showDropdownIndicator = true,
-        hideSelectedOptions = false,
-        components = ccomponents,
-        filterOption = undefined,
-        isMulti = false,
-        onChange,
-        onBlur = ()=>{},
-        isSearchable = true,
-        placeholder = '',
-        isClearable = false,
-        allowReload = false,
-        style,
-        className,
-        innerRef,
-        onReload = ()=>{},
-        value = null,
-        Component,
-        fullWidth = false,
-        ...rest 
-    } = props;
-    
-    defaults(components,{
+    let defaultedProps:typeof props = {...props as any};
+    defaults(defaultedProps, {
+        menuShouldBlockScroll: false,
+        showDropdownIndicator: true,
+        hideSelectedOptions: false,
+        components: ccomponents,
+        filterOption: undefined,
+        isMulti: false,
+        onBlur: ()=>{},
+        isSearchable: true,
+        placeholder: '',
+        isClearable: false,
+        allowReload: false,
+        onReload: ()=>{},
+        value: null,
+        fullWidth: false,
+    });
+
+    defaults(defaultedProps.components,{
         Control: ccomponents.Control,
         MenuList: ccomponents.MenuList,
         Menu: ccomponents.Menu,
@@ -165,6 +156,8 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
         ValueContainer: ccomponents.ValueContainer
     });
 
+    const { showDropdownIndicator, theme, classes, fullWidth, allowReload, onReload, fixedSizeListProps } = defaultedProps;
+
     const extraInjectedProps:CustomSelectComponentSelectProps = {
         classes,
         controlProps: {
@@ -174,14 +167,14 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
         },
         fixedSizeListProps: fixedSizeListProps
     };
+    
     let TComponent:React.ComponentType<Props<OptionType>> = Component;  //bypassing typscript
     return (
         <TComponent
-            onBlur={onBlur}
+            {...defaultedProps}
             className={classNames(classes.root,{
                 [classes.noFullWidth]: !fullWidth
             })}
-            classes={classes}
             {...extraInjectedProps}
             styles={{
                 indicatorsContainer: (base)=>({
@@ -202,18 +195,7 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
                     display: !showDropdownIndicator ? 'none' : undefined
                 }),
             }}
-            hideSelectedOptions={hideSelectedOptions}
-            components={components}
-            filterOption={filterOption}
-            menuShouldBlockScroll={menuShouldBlockScroll}
-            options={options}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            isSearchable={isSearchable}
-            isClearable={isClearable}
-            isMulti={isMulti}
-            {...rest} />
+            />
     );
 }
 

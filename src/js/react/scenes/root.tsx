@@ -1,7 +1,7 @@
 import '../../publicpath';
 import React from "react";
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
-import { hot } from "react-hot-loader";
+import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom";
@@ -32,4 +32,4 @@ const Root = () => (
 );
 
 ReactDOM.render(<Root/>, document.getElementById('main-content'));
-export default hot(module)(Root);
+export default hot(Root);

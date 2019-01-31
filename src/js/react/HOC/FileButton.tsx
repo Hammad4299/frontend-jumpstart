@@ -43,3 +43,5 @@ export function fileButton<T extends ButtonBaseProps>(Component:React.ComponentT
         }
     }
 }
+
+export default fileButton;

@@ -1,13 +1,12 @@
 import { Clear as DeleteIcon, Refresh as ReloadIcon, OpenInNew as OpenNewIcon } from "@material-ui/icons";
 import { MenuListComponentProps, MenuProps, NoticeProps } from "react-select/lib/components/Menu";
-import { Option } from "react-select/lib/filters";
 import { MultiValueProps } from "react-select/lib/components/MultiValue";
 import { ValueContainerProps } from "react-select/lib/components/containers";
 import { SingleValueProps } from "react-select/lib/components/SingleValue";
 import { PlaceholderProps } from "react-select/lib/components/Placeholder";
 import { OptionProps } from "react-select/lib/components/Option";
 import { ControlProps } from "react-select/lib/components/Control";
-import { Typography, Paper, Chip, MenuItem, TextField, IconButton, Icon, withStyles } from "@material-ui/core";
+import { Typography, Paper, Chip, MenuItem, IconButton, FormControl, Input } from "@material-ui/core";
 import { FixedSizeList, FixedSizeListProps } from "react-window";
 import { SelectComponentProps } from "./types";
 import React from "react";
@@ -22,41 +21,34 @@ type TextFieldInputComponentProps<OptionType> = {
     controlProps: SelectComponentProps<ControlProps<OptionType>>['selectProps']['controlProps'],
 };
 
-function TextFieldInputComponent<OptionType>({ inputRef, classes, controlProps, ...props }:TextFieldInputComponentProps<OptionType>) {
+function TextFieldInputComponent<OptionType>({ inputRef, classes, controlProps, innerProps,...props }:TextFieldInputComponentProps<OptionType>) {
     return <div className={classes.controlContainer}>
                 <div style={{
                     flexGrow: 1
-                }} ref={inputRef} {...props} />
+                }} ref={inputRef} {...innerProps} {...props} />
                 {controlProps.allowReload && (
                     <IconButton className={classes.reloadIcon} onClick={controlProps.onReload}>
                         <ReloadIcon />
                     </IconButton>
                 )}
-           </div>
+        </div>
 }
 
 export function Control<OptionType>(props:SelectComponentProps<ControlProps<OptionType>>) {
+    let iProps = {
+        className: props.selectProps.classes.input,
+        inputRef: props.innerRef,
+        children: props.children,
+        classes: props.selectProps.classes,
+        controlProps: props.selectProps.controlProps,
+        innerProps: props.innerProps
+    };
     return (
-        <div>
-            <TextField
-                fullWidth={props.selectProps.controlProps.fullWidth}
-                InputProps={{
-                    inputComponent: TextFieldInputComponent,
-                    classes: {
-                        root: classNames(props.selectProps.classes.controlRoot)
-                    },
-                    inputProps: {
-                        className: props.selectProps.classes.input,
-                        inputRef: props.innerRef,
-                        children: props.children,
-                        classes: props.selectProps.classes,
-                        controlProps: props.selectProps.controlProps,
-                        innerProps: props.innerProps
-                    } as TextFieldInputComponentProps<OptionType>
-                }}
-            />
-            
-        </div>
+        <FormControl 
+            className={props.selectProps.classes.formControl} 
+            fullWidth={props.selectProps.controlProps.fullWidth}>
+                <Input className={props.selectProps.classes.formControlInput} disableUnderline inputComponent={TextFieldInputComponent} inputProps={iProps} />
+        </FormControl>
     );
 }
 

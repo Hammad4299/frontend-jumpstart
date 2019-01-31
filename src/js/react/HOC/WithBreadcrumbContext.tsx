@@ -11,7 +11,7 @@ export interface WithBreadcrumbContextInjectedProps {
     breadcrumbContext?: BreadcrumbContextContract
 }
 
-function withBreadcrumbContext<WrappedProps extends WithBreadcrumbContextInjectedProps>(WrappedComponent:React.ComponentType<WrappedProps>) {
+export function withBreadcrumbContext<WrappedProps extends WithBreadcrumbContextInjectedProps>(WrappedComponent:React.ComponentType<WrappedProps>) {
     interface MappedProps {
         breadcrumbContext: BreadcrumbContextContract
     }

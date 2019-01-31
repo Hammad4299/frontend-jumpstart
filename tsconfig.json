@@ -27,6 +27,7 @@
       "routing": ["src/js/routing/index.ts"],
       "typehelper": ["src/js/typescript/index.ts"],
       "externals/*": ["src/js/externals/*"],
+	   "react-hoc": ["resources/js/react/HOC/index.ts"],
       "helpers": ["src/js/helpers/index.ts"]
     },
     "typeRoots": [

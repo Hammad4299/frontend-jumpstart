@@ -1,22 +1,15 @@
-import { StandardProps} from "@material-ui/core";
-import CustomSelect, { CustomSelectProps, CustomSelectClassKey } from "./CustomSelect";
-import { SimpleOption } from "./types";
-import { Props } from "react-select/lib/Select";
+import React from 'react';
+import CustomSelect from "./CustomSelect";
+import { SimpleOption, AsyncCreatableSelectProps, ComposedSelect } from "./types";
 import AsyncCreatable from "react-select/lib/AsyncCreatable";
-import { AsyncProps } from "react-select/lib/Async";
-import { CreatableProps } from "react-select/lib/Creatable";
 
-export type AppAsyncCreatableSelectClassKey = CustomSelectClassKey;
-
-export interface AppAsyncCreatableSelectProps<OptionType = SimpleOption> extends StandardProps<CustomSelectProps<AsyncProps<OptionType> & CreatableProps<OptionType> & Props<OptionType>,OptionType>, AppAsyncCreatableSelectClassKey,'Component'> {
-}
+export type AppAsyncCreatableSelectProps<OptionType = SimpleOption> = ComposedSelect<AsyncCreatableSelectProps<OptionType>,OptionType>;
 
 function Component(props:AppAsyncCreatableSelectProps) {
     return (
-        <CustomSelect Component={AsyncCreatable} {...props} />
+        <CustomSelect {...props} Component={AsyncCreatable} />
     )
 }
-
 
 export const AppAsyncCreatableSelect = Component;
 export default AppAsyncCreatableSelect;

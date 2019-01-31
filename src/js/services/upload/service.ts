@@ -1,7 +1,7 @@
 
 import { chunk } from 'lodash-es';
 import { BaseService } from 'services';
-import { UploadInfo, UploadFilesRequest } from './types';
+import { UploadInfo, UploadFilesRequest, UploadKind } from './types';
 import { WithValidityState, AppResponse } from 'types';
 import { randomString } from 'helpers';
 
@@ -14,6 +14,11 @@ type UploadResponse = {
     [index:string]:UploadInfo
 }
 
+
+export interface UploadRequestMap<T> {
+    [identifier:string]:T|string[]
+    orderedIdentifiers?:string[]
+}
 
 type UploadResponseFinal = WithValidityState<AppResponse<UploadResponse>>;
 export class UploadService extends BaseService {
@@ -59,18 +64,21 @@ export class UploadService extends BaseService {
         file?:Blob,
         name?:string,
         extra?:{[index:string]:any}
-    }) {
+    }, kind:UploadKind = null) {
         let uploadRequest:UploadFilesRequest = {
             file_infos: [],
-            kind: null,
+            kind,
             files: {}
         };
-        let map:{[idenfifier:string]:T} = {};
+        let map:UploadRequestMap<T> = {
+            orderedIdentifiers: []
+        };
         data.forEach(item=>{
             const file = getFile(item);
             if(file) {
                 const identifier = randomString(6);
                 map[identifier] = item;
+                map.orderedIdentifiers.push(identifier);
                 uploadRequest.file_infos.push({
                     identifier,
                     name: file.name,
@@ -86,10 +94,12 @@ export class UploadService extends BaseService {
         };
     }
 
-    fillMappedWithUploadResponse<T>(resp:UploadResponse, map:{[index:string]:T}, setUploadInfo:(item:T, info:UploadInfo)=>void) {
-        Object.keys(resp).forEach(identifier=>{
-            setUploadInfo(map[identifier],resp[identifier]);
-        });
+    fillMappedWithUploadResponse<T>(resp:UploadResponse, map:UploadRequestMap<T>, setUploadInfo:(item:T, info:UploadInfo)=>T) {
+        return map.orderedIdentifiers.filter((identifier)=>{
+            return resp[identifier];
+        }).map((identifier)=>{
+            return setUploadInfo(map[identifier] as T,resp[identifier]);
+        })
     }
 
     private uploadBatch(data: UploadFilesRequest, onUploadProgress:(progressEvent:any)=>{}) {

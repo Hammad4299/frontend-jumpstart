@@ -1,5 +1,5 @@
 import React from "react";
-import { defaults, defaultsDeep } from 'lodash-es';
+import { defaults } from 'lodash-es';
 import { Theme, WithTheme, StandardProps } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import createStyles from "@material-ui/core/styles/createStyles";
@@ -7,32 +7,28 @@ import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import classNames from "classnames";
 import { Props } from "react-select/lib/Select";
 import { FixedSizeListProps } from "react-window";
-import { StyleClassKey } from 'typehelper';
 import { CustomSelectComponentSelectProps } from "./types";
 import { Option, Control, MenuList, Menu, MultiValue, NoOptionsMessage, Placeholder, SingleValue, ValueContainer } from "./CustomComponents";
+import { StyleClassKey } from "typehelper";
 
 const styles = (theme: Theme) => createStyles({
     root: {
-        '&$noFullWidth': {
-            display: 'inline'
-        }
+        '&$fullWidth': {
+            width: '100%'
+        },
+		backgroundColor: theme.palette.background.paper,
     },
-    noFullWidth: {
+    fullWidth: {
     },
-    controlRoot: {
+    formControl: {
         height: 'auto',
         minHeight: '40px',
-        backgroundColor: theme.palette.background.paper,
         borderRadius: '5px',
-        '&$primaryBorder': {
-            border: `1px solid ${theme.palette.primary.main}`
-        },
         '&:hover': {
             borderBottom: `1px solid ${theme.palette.primary.main}!important`,
         }
     },
-    primaryBorder: {
-
+    formControlInput: {
     },
     input: {
         display: 'flex',
@@ -59,6 +55,8 @@ const styles = (theme: Theme) => createStyles({
     placeholder: {
         position: 'absolute',
         left: 2,
+		paddingLeft: theme.spacing.unit,
+        paddingRight: theme.spacing.unit,
         fontSize: 16,
     },
     paper: {
@@ -86,6 +84,7 @@ const styles = (theme: Theme) => createStyles({
         ),
     },
     deleteIconStyle: {
+        // color: theme.custom.text.secondary,
         margin: '0px',
         order: 0,
         fontSize: theme.typography.pxToRem(12),
@@ -100,8 +99,7 @@ const styles = (theme: Theme) => createStyles({
 
 export type CustomSelectClassKey = StyleClassKey<typeof styles>;
 
-
-const ccomponents:Props['components']= {
+const ccomponents = {
     Control,
     MenuList,
     Menu,
@@ -111,21 +109,24 @@ const ccomponents:Props['components']= {
     Placeholder,
     SingleValue,
     ValueContainer,
-};
+}
 
-interface PrivateProps<TProps extends Props<OptionType>, OptionType> extends StandardProps<{}, CustomSelectClassKey> {
+interface PrivateProps extends StandardProps<{}, CustomSelectClassKey> {
     showDropdownIndicator?:boolean
     fullWidth?:boolean
     fixedSizeListProps?:FixedSizeListProps
     allowReload?:boolean
     onReload?:()=>void
-    Component:React.ComponentType<TProps>
 }
 
-export type CustomSelectProps<TProps extends Props<OptionType>, OptionType> = PrivateProps<TProps,OptionType> & Partial<WithTheme> & TProps;
+export type CustomSelectProps<TProps extends Props<OptionType>, OptionType> = PrivateProps & Partial<WithTheme> & TProps & {
+    Component:React.ComponentType<TProps>
+};
+
 const decorator = withStyles(styles, {withTheme: true});
 
-function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSelectProps<TProps, OptionType>) {
+function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps extends Props<OptionType>, OptionType>
+    (props: TProps) {
     let defaultedProps:typeof props = {...props as any};
     defaults(defaultedProps, {
         menuShouldBlockScroll: false,
@@ -134,7 +135,6 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
         components: ccomponents,
         filterOption: undefined,
         isMulti: false,
-        onBlur: ()=>{},
         isSearchable: true,
         placeholder: '',
         isClearable: false,
@@ -142,7 +142,7 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
         onReload: ()=>{},
         value: null,
         fullWidth: false,
-    });
+    } as TProps);
 
     defaults(defaultedProps.components,{
         Control: ccomponents.Control,
@@ -156,7 +156,8 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
         ValueContainer: ccomponents.ValueContainer
     });
 
-    const { showDropdownIndicator, theme, classes, fullWidth, allowReload, onReload, fixedSizeListProps } = defaultedProps;
+
+    const { styles, showDropdownIndicator, theme, classes, fullWidth, allowReload, onReload, fixedSizeListProps } = defaultedProps;
 
     const extraInjectedProps:CustomSelectComponentSelectProps = {
         classes,
@@ -168,18 +169,18 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
         fixedSizeListProps: fixedSizeListProps
     };
     
-    let TComponent:React.ComponentType<Props<OptionType>> = Component;  //bypassing typscript
+    const TComponent:React.ComponentType<SProps> = defaultedProps.Component;
+    
     return (
         <TComponent
             {...defaultedProps}
-            className={classNames(classes.root,{
-                [classes.noFullWidth]: !fullWidth
+            className={classNames(defaultedProps.className, classes.root,{
+                [classes.fullWidth]: fullWidth
             })}
             {...extraInjectedProps}
             styles={{
                 indicatorsContainer: (base)=>({
-                    ...base,
-                    backgroundColor: theme.palette.background.paper
+                    ...base
                 }),
                 input: (base)=>({
                     ...base,
@@ -194,6 +195,7 @@ function Component<TProps extends Props<OptionType>, OptionType>(props: CustomSe
                     ...base,
                     display: !showDropdownIndicator ? 'none' : undefined
                 }),
+                ...styles
             }}
             />
     );

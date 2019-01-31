@@ -19,7 +19,7 @@ export type WithPaginationParams<T> = {
     [K in keyof T]: T[K]
 } & {
     page: number|string
-    limit?: number|string
+    per_page?: number|string
 }
 
 export type ExactTypeForMultiItemResult<T> = T extends PaginatedResult<infer TElem> ? PaginatedResult<TElem> : T extends (infer X)[] ? X[] : T;
@@ -28,9 +28,8 @@ export type MultiItemResultTypeFromRequestParam<T, TModel> = T extends WithPagin
 
 export type MultiItemResult<T> = T[] | PaginatedResult<T>;
 
-
 export function isPaginatedResult<T>(data:any):data is PaginatedResult<T> {
-    return (<PaginatedResult<T>>data).per_page !== undefined;
+    return data && (<PaginatedResult<T>>data).per_page !== undefined;
 }
 
 

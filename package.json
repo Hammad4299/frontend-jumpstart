@@ -4,6 +4,12 @@
   "description": "This license can be overridden by any license located in License.md, NOTICE or Readme.md files present in Project Root",
   "main": "index.js",
   "private": true,
+  "sideEffects": [
+    "*.scss",
+    "*.css",
+    "*.less",
+    "./resources/js/publicpath.ts"
+  ],
   "scripts": {
     "docker:webpack:install": "docker -v %cd%:/var/www node:10.13.0 yarn --cwd /var/www install",
     "docker:webpack:run": "docker run -v %cd%:/var/www node:10.13.0 yarn --cwd /var/www ",

@@ -1,4 +1,4 @@
-import { isString } from "util";
+import { defaultTo } from "lodash-es";
 
 export interface ErrorInfo {
     hasError:boolean,
@@ -8,13 +8,15 @@ export interface ErrorInfo {
 
 export type ValidityState = {[field:string]:ErrorInfo};
 
-export function initValidityStateImpure(state:ValidityState,field:string|string[]) {
-    if(isString(field)){
-        initValidityStateImpure(state,[field]);
+export function getInitializedValidityState(state:Readonly<ValidityState>,field:Readonly<string|string[]>) {
+    state = defaultTo(state, {});
+    let initialized = {...state};
+    if(typeof field === 'string'){
+        initialized = getInitializedValidityState(initialized,[field]);
     } else {
         field.forEach((f)=>{
-            if(!state[f]) {
-                state[f] = {
+            if(!initialized[f]) {
+                initialized[f] = {
                     error: null,
                     errors: [],
                     hasError: false
@@ -22,15 +24,15 @@ export function initValidityStateImpure(state:ValidityState,field:string|string[
             }
         })
     }
-    return state;
+    return initialized;
 }
 
-export function getErrorInfo(state:ValidityState, field:string) {
-    initValidityStateImpure(state,field);
-    return state[field];
+export function getErrorInfo(state:Readonly<ValidityState>, field:Readonly<string>) {
+    return getInitializedValidityState(state,field)[field];
 }
 
-export function validityStateValid(state:ValidityState):boolean {
+export function isStateValid(state:Readonly<ValidityState>):boolean {
+    state = defaultTo(state, {});
     for(const key in state) {
         if(state.hasOwnProperty(key) && state[key].hasError) {
             return false;
@@ -39,7 +41,7 @@ export function validityStateValid(state:ValidityState):boolean {
     return true;
 }
 
-export function getFirstErrorFor(validityState:ValidityState, fields:string[]) {
+export function getFirstErrorFor(validityState:Readonly<ValidityState>, fields:Readonly<string[]>) {
     let info:ErrorInfo = null;
     fields.forEach((field)=>{
         if(!info || !info.hasError) {
@@ -50,16 +52,18 @@ export function getFirstErrorFor(validityState:ValidityState, fields:string[]) {
     return info;
 }
 
-export function addError(validityState:ValidityState, field:string, error:string) {
-    initValidityStateImpure(validityState, field);
-    validityState[field].error = error;
-    validityState[field].hasError = true;
-    validityState[field].errors.push(error);
+export function addError(validityState:Readonly<ValidityState>, field:Readonly<string>, error:Readonly<string>) {
+    const s = getInitializedValidityState(validityState, field);
+    s[field].error = error;
+    s[field].hasError = true;
+    s[field].errors.push(error);
+    return s;
 }
 
-export function setErrors(validityState:ValidityState, field:string, errors:string[]) {
-    initValidityStateImpure(validityState, field);
-    validityState[field].hasError = errors.length>0;
-    validityState[field].error = errors.length>0 ? errors[0]  : null;
-    validityState[field].errors = errors;
+export function setErrors(validityState:Readonly<ValidityState>, field:Readonly<string>, errors:Readonly<string[]>) {
+    const s = getInitializedValidityState(validityState, field);
+    s[field].hasError = errors.length>0;
+    s[field].error = errors.length>0 ? errors[0]  : null;
+    s[field].errors = errors;
+    return s;
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import { createStyles, Theme, withStyles, WithStyles, StandardProps } from "@material-ui/core";
-import countryList from 'country-list';
+import { getData } from 'country-list';
 import { defaultTo } from 'lodash-es';
 import { StyleClassKey, StylesType } from 'typehelper';
 import { AppSelectClassKey, AppSelectProps, AppSelect, SimpleOption } from 'components';
 
-const countries = countryList();
+const countries = getData();
 
 const styles = (theme:Theme) => createStyles({
 });
@@ -21,9 +21,9 @@ const decorator = withStyles(styles as StylesType<CountrySelectorClassKey>);
 
 function Component(props:CountrySelectorProps) {
     let { onCountrySelected = ()=>{}, country, ...rest } = props;
-    const opts = countries.getNames().map(name=>({
-        label:name,
-        value:name
+    const opts = countries.map(country=>({
+        label:country.name,
+        value:country.name
     }))
     country = defaultTo(country, '');
     return (

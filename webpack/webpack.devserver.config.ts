@@ -5,7 +5,7 @@ import path from 'path';
 import webpack from 'webpack';
 import projectConfig, { devserverConfigModifier } from "./webpack-project";
 import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
-
+process.env.TS_NODE_PROJECT = path.resolve(__dirname,'./tsconfig.json');
 const baseConfig = commonConfig(devserverConfigModifier);
 
 const config = webpackMerge(baseConfig, {

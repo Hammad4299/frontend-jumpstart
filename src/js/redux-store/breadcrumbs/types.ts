@@ -1,6 +1,6 @@
-import { BreadcrumbContext, BreadcrumbInfo } from 'breadcrumbs';
+import { BreadcrumbContextContract, BreadcrumbInfo } from 'breadcrumbs';
 
 export interface BreadcrumbState {
-    context:BreadcrumbContext
+    context:BreadcrumbContextContract
     breadcrumbs: BreadcrumbInfo[]
 }

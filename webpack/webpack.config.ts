@@ -5,7 +5,6 @@
 import webpack from 'webpack';
 import ImageminWebpackPlugin from "imagemin-webpack";
 import path from 'path';
-import * as _ from 'lodash';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -48,7 +47,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
     const cacheLoader = modifier.cacheResults ? [{ 
         loader: 'cache-loader', 
         options: {
-            cacheDirectory: path.resolve('node_modules/.cache/cache-loader')
+            cacheDirectory: path.resolve(projectSettings.root,'node_modules/.cache/cache-loader')
         } 
     }] : [];
     const optimizations = modifier.mode !== 'production' ? {
@@ -238,7 +237,7 @@ export default function buildBaseConfig(modifier:IBaseConfigOptions={}){
             modifier.shouldClean ? cleanupPlugin : new NullPlugin(),
             // modifier.cacheResults ? new HardSourceWebpackPlugin({    //seems to slowdown/no speed effect rather than speed up especially incremental builds
             //     // Either an absolute path or relative to webpack's options.context.
-            //     cacheDirectory: path.resolve('node_modules/.cache/hard-source/[confighash]'),
+            //     cacheDirectory: path.resolve(projectSettings.root,'node_modules/.cache/hard-source/[confighash]'),
             //     // Either a string of object hash function given a webpack config.
             //     configHash: function(webpackConfig) {
             //       // node-object-hash on npm can be used to build this.

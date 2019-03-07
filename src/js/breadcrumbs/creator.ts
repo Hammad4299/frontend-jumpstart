@@ -5,7 +5,7 @@ export const breadcrumbCreator = {
     example: (routing:Routes):BreadcrumbInfo=>{
         return {
             type: BreadcrumbType.SAMPLE_TYPE,
-            route: routing.react.root(),
+            route: routing.react.samplePage(),
             name: 'Some name'
         }
     }

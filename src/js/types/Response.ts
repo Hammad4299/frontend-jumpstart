@@ -1,5 +1,5 @@
 import { ValidityState } from "types";
-import { initValidityStateImpure, setErrors } from "./ValidityState";
+import { getInitializedValidityState, setErrors } from "./ValidityState";
 
 export interface AppResponse<T> {
     status:boolean
@@ -14,12 +14,12 @@ export type WithValidityState<T> = {
 };
 
 export function extractResponseErrors<T>(response:AppResponse<T>, defaultFields:string[] = []):ValidityState {
-    let toRet:ValidityState = initValidityStateImpure({},defaultFields);
+    let toRet:ValidityState = getInitializedValidityState({},defaultFields);
     if(response!==null){
         for(const field in response.errors) {
             if(response.errors.hasOwnProperty(field)){
                 const errArr = response.errors[field];
-                setErrors(toRet, field, errArr);
+                toRet = setErrors(toRet, field, errArr);
             }
         }
     }

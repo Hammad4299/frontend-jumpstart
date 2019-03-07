@@ -3,6 +3,7 @@ import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config';
 import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 import { watchConfigModifier } from './webpack-project';
+process.env.TS_NODE_PROJECT = path.resolve(__dirname,'./tsconfig.json');
 
 const config = webpackMerge(commonConfig(watchConfigModifier), {
     mode: 'development',

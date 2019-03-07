@@ -16,7 +16,9 @@ export function sortableTableCell<T extends TableCellProps>(Component:React.Comp
     interface State {
     }
 
-    type HOCProps = Props & T;
+    type HOCProps = OwnProps;
+    type OwnProps = Props & T;   //Props that are allowed to passed from Resulting component returned from HOC.
+
     return class extends React.PureComponent<HOCProps,State> {
         constructor(props:HOCProps) {
             super(props);
@@ -25,12 +27,12 @@ export function sortableTableCell<T extends TableCellProps>(Component:React.Comp
         }
     
         render(){
-            const { isNumeric = false, tooltipProps, sortLabelProps, sort, onSortChanged = ()=>{}, ...tmp} = this.props as Props;
-            const {children, ...cellProps}:{children:ReactNode, cellProps:Exclude<keyof T, 'children'>} = tmp as any;
-            
+            const { isNumeric = false, tooltipProps, sortLabelProps, sort, onSortChanged = ()=>{}, ...rest} = this.props;
+            const {children, ...cellProps} = rest;
+            const tsBypass:T = cellProps as any;
             
             return (
-                <Component {...cellProps} sortDirection={sort.dir !== 'none' ? sort.dir : false}>
+                <Component {...tsBypass} sortDirection={sort.dir !== 'none' ? sort.dir : false}>
                     <Tooltip title="Sort"
                         placement={isNumeric ? 'bottom-end' : 'bottom-start'}
                         enterDelay={300}>

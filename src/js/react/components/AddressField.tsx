@@ -31,13 +31,18 @@ export interface AddressAutoComplete {
 
 const decorator = withStyles(styles);
 
-
 interface State {
     predictions:google.maps.places.AutocompletePrediction[]
     input:string
 }
 
 class Component extends React.PureComponent<AddressFieldProps,State> {
+    static defaultProps = {
+        onChange:()=>{},
+        value: ''
+    }
+    static displayName = 'AddressField';
+    
     protected service:GooglePlaceAutocompleteServiceWrapper
     protected ref:RefObject<HTMLDivElement>
     constructor(props:AddressFieldProps){
@@ -54,8 +59,9 @@ class Component extends React.PureComponent<AddressFieldProps,State> {
             types: ['address']
         }, this.ref.current);
     }
+    
     render() {
-        let { inputProps, onChange=()=>{},value = '', classes, ...rest } = this.props;
+        let { inputProps, onChange, value, classes, ...rest } = this.props;
         value = defaultTo(value,'');
         
         let options:SimpleOption[] = [];

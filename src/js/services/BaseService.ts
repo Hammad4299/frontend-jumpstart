@@ -3,6 +3,7 @@ import axios,{ AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import Axios from 'axios';
 import { AppResponse, WithValidityState, isPaginatedResult, extractResponseErrors, WithPaginationParams, MultiItemResultTypeFromRequestParam } from 'types';
 import { routesForContext } from 'routing';
+import RemoteRoutes from 'externals/RemoteRoutes';
 
 export type QueryResultParams<T> = WithPaginationParams<T>|T;
 export class BaseService {
@@ -11,10 +12,12 @@ export class BaseService {
     constructor() {
         this.manager = axios.create({
             headers: {
-                'X-CSRF-TOKEN': csrftoken,
+                //Instead of X-CSRF-TOKEN, rely on X-XSRF-TOKEN, laravel supposedly sent it with every response. 
+                //It contains CSRF token in encrypted form. With every response its lifetime/value should reflect most recent one in case previous session expires and new one exists as a results of rememberMe
+                //'X-CSRF-TOKEN': csrftoken,   
                 'Accept': 'application/json'
             },
-            baseURL: this.routes.server.baseUrl()
+            baseURL: this.routes.server.root()
         });
     }
 
@@ -57,7 +60,7 @@ export class BaseService {
                 ret.errors = data.response.data.errors;
                 return ret;
             } else {
-                 throw data;
+                throw data;
             }
         });
     }

@@ -5,23 +5,23 @@ export interface FaviconSetting {
     logo:string
 }
 
-export type AssetsType = 'js'|'style'|'font'|'image'|'favicon'|'image-imagemin';
+export type AssetsType = 'js'|'style'|'font'|'image'|'favicon'|'image-imagemin'|'html';
 
 export interface IBaseConfigOptions {
     readonly mode?:'watch'|'dev'|'production'
     readonly splitChucks?:boolean
     readonly extractCss?:boolean
     readonly responsiveImages?:boolean
-    readonly shouldClean?: boolean;
-    readonly enableCacheBusting?:boolean;
-    readonly cacheResults?:boolean;
-    readonly htmlPlugin?:boolean;
-    readonly shouldGenerateSourceMaps?: boolean;
-    readonly imagemin?: boolean;
-    readonly favicon?: FaviconSetting;
-    readonly hmrNeeded?: boolean;
-    readonly minimizeCss?: boolean;
-    buildOutputName?(type:AssetsType): string;
+    readonly shouldClean?: boolean
+    readonly enableCacheBusting?:boolean
+    readonly cacheResults?:boolean
+    readonly htmlPlugin?:boolean
+    readonly shouldGenerateSourceMaps?: boolean
+    readonly imagemin?: boolean
+    readonly favicon?: FaviconSetting
+    readonly hmrNeeded?: boolean
+    readonly minimizeCss?: boolean
+    buildOutputName?(type:AssetsType): string
 }
 
 export function constructConfigOptions(options:IBaseConfigOptions){
@@ -29,17 +29,17 @@ export function constructConfigOptions(options:IBaseConfigOptions){
 }
 
 export interface ICopySetting {
-    to:string,
+    to:string
     from:string
 }
 
 export interface IProjectSettings {
-    root:string,
-    entry: string | string[] | Entry | EntryFunc,
+    root:string
+    entry: string | string[] | Entry | EntryFunc
     externals?:ExternalsElement | ExternalsElement[]
-    toClean:string[],
-    toCopy:ICopySetting[],
-    src:string,
-    contentOutput:string,
+    toClean:string[]
+    toCopy:ICopySetting[]
+    src:string
+    contentOutput:string
     splitChunks:SplitChunksOptions
 }

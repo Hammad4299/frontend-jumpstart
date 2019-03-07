@@ -41,9 +41,7 @@ export interface AppTableProps extends StandardProps<TableProps, AppTableClassKe
 
 const decorator = withStyles(styles as StylesType<AppTableClassKey>);
 
-type StyledProps = AppTableProps & WithStyles<typeof styles>;
-
-function Component({rightToolContainer, paginationInfo, paginationProps = {}, perPageProps, classes,...rest}:StyledProps)  {
+function Component({rightToolContainer, paginationInfo, paginationProps, perPageProps, classes, ...rest}:AppTableProps)  {
     const {rightContainer,perPageContainer, tableTopToolbar, paper, table, ...restClasses} = classes;
     
     const detail = paginationInfo ? extractPaginationDetail(paginationInfo) : null;
@@ -71,5 +69,11 @@ function Component({rightToolContainer, paginationInfo, paginationProps = {}, pe
         </Paper>
     );
 };
+
+Component.displayName = 'AppTable';
+Component.defaultProps = {
+    paginationProps: {}
+} as AppTableProps
+
 export const AppTable = decorator(Component);
 export default AppTable;

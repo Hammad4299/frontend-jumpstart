@@ -29,6 +29,6 @@ function Component(props:AppIconButtonProps) {
     )
 }
 
-
+Component.displayName = 'AppIconButton'
 export const AppIconButton = decorator(Component);
 export default AppIconButton;

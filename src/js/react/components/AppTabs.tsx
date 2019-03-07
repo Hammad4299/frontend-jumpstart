@@ -12,14 +12,14 @@ const styles = (theme:Theme) => createStyles({
 
 export type AppTabsClassKey = StyleClassKey<typeof styles>|TabsClassKey
 
-interface AppTabsProps extends StandardProps<TabsProps,AppTabsClassKey>{
+export interface AppTabsProps extends StandardProps<TabsProps,AppTabsClassKey>{
     appBarProps?:AppBarProps
 }
 
 const decorator = withStyles(styles as StylesType<AppTabsClassKey>);
 
 function Component(props:AppTabsProps) {
-    const {classes, appBarProps = {elevation: 0}, children, ...rest} = props;
+    const {classes, appBarProps, children, ...rest} = props;
     return (
         <AppBar position="static" className={classes.appbar} {...appBarProps}>
             <Tabs
@@ -32,6 +32,14 @@ function Component(props:AppTabsProps) {
         </AppBar>
     )
 }
+
+Component.defaultProps = {
+    appBarProps: {
+        elevation: 0
+    }
+} as AppTabsProps
+
+Component.displayName = 'AppTabs'
 
 export const AppTabs = decorator(Component);
 export default AppTabs;

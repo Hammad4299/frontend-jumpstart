@@ -1,6 +1,6 @@
 interface SiteConfig {
-    rollbarToken:string,
-    environmment:string,
+    rollbarClientToken:string,
+    environment:string,
     baseUrl:string
     appname: string,
     rollbarPublicDomain: string,

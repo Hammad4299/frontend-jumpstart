@@ -19,14 +19,18 @@ export function withBreadcrumbContext<WrappedProps extends WithBreadcrumbContext
     interface MappedDispatch {
     }
 
+    interface Props extends Mapped {
+    }
+
     type Mapped = MappedProps & MappedDispatch;
     type ComponentProps = Subtract<WrappedProps, WithBreadcrumbContextInjectedProps>;
-    type OwnProps = ComponentProps;
+    type OwnProps = Subtract<Props, Mapped> & ComponentProps;   //Props that are allowed to passed from Resulting component returned from HOC.
     type HOCProps = Mapped;
 
     const sfc = ({breadcrumbContext, ...rest}:HOCProps) => {
+        const tsBypass:WrappedProps = rest as any;
         return (
-            <WrappedComponent breadcrumbContext={breadcrumbContext} {...rest} />
+            <WrappedComponent breadcrumbContext={breadcrumbContext} {...tsBypass} />
         );
     };
 

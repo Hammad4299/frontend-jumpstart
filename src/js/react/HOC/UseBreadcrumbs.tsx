@@ -48,11 +48,15 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(Wrappe
     interface MappedDispatch {
         setBreadcrumbs:(crumbs:BreadcrumbInfo[])=>void
     }
+
+    interface Props extends Mapped{
+
+    }
     
     type Mapped = MappedDispatch & MappedProps;
     type ComponentProps = Subtract<WrappedProps, UseBreadcrumbsInjectedProps>;
     type HOCProps = Mapped;
-    type OwnProps = ComponentProps;
+    type OwnProps = Subtract<Props, Mapped> & ComponentProps;   //Props that are allowed to passed from Resulting component returned from HOC.
 
     const mapStateToProps = (store:AppStore, ownProps:OwnProps):MappedProps=>{
         return {
@@ -146,6 +150,7 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(Wrappe
 
             render() {
                 const {breadcrumbs, breadcrumbContext, setBreadcrumbs, ...rest} = this.props;
+                const tsBypass:WrappedProps = rest as any;
                 
                 return (
                     <React.Fragment>
@@ -154,7 +159,7 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(Wrappe
                                 breadcrumbs: breadcrumbs,
                                 breadcrumbForExample: ()=>this.setContextFunc('example',[setBreadcrumbs],'general'),
                             }}
-                            {...rest} />
+                            {...tsBypass} />
                     </React.Fragment>
                 );
             }

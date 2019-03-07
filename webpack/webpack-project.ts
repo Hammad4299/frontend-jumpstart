@@ -8,8 +8,8 @@ import ImageminOptipng from "imagemin-optipng";
 import ImageminSvgo from "imagemin-svgo";
 import ImageminWebp from 'imagemin-webp';
 //Settings specific to this project. Other things if need to be adjusted should be modified directly in config files
-const src = path.resolve('./src');
-const output = path.resolve('./dist');
+const src = path.resolve(__dirname,'../src');
+const output = path.resolve(__dirname,'../dist');
 
 const projectConfig:IProjectSettings = {
     entry: {
@@ -31,7 +31,7 @@ const projectConfig:IProjectSettings = {
         {from: path.join(src,'webp-images'), to: path.join(output,'webp-images')},
         {from: path.join(src,'fonts'), to: path.join(output,'fonts')},
     ],
-    root:path.resolve('./'),
+    root: path.resolve('../'),
     splitChunks: <SplitChunksOptions>{
         chunks: "all",
         automaticNameDelimiter: '-',
@@ -79,6 +79,9 @@ const configDefaults:IBaseConfigOptions = {
                 break;
             case 'style':
                 toRet = `css/generated/[name]${emptyStr('.[chunkhash]', enableCacheBusting)}.css`;
+                break;
+            case 'html':
+                toRet = `html/generated/[name]${emptyStr('.[chunkhash]', enableCacheBusting)}.html`;
                 break;
             case 'js':
                 toRet = `js/generated/[name]${emptyStr('.[chunkhash]', enableCacheBusting)}.js`;

@@ -9,7 +9,7 @@ import { StyleClassKey, StylesType } from "typehelper";
 const styles = (theme:Theme) => createStyles({
 });
 
-type AppButtonClassKey = StyleClassKey<typeof styles>|ButtonClassKey
+export type AppButtonClassKey = StyleClassKey<typeof styles>|ButtonClassKey
 
 const finalStyles:StylesType<AppButtonClassKey> = styles as any;
 
@@ -23,6 +23,13 @@ function Component(props:AppButtonProps) {
         <Button {...props} />
     )
 }
+
+Component.displayName = 'AppButton';
+
+Component.defaultProps = {
+    color: 'primary',
+    variant: 'contained'
+} as AppButtonProps
 
 export const AppButton = decorator(Component);
 export default AppButton;

@@ -5,13 +5,13 @@ import SiteConfig from 'externals/SiteConfig';
 import rollbar from 'rollbar';
 
 const _rollbarConfig:rollbar.Configuration = {
-    accessToken: SiteConfig.rollbarToken,
+    accessToken: SiteConfig.rollbarClientToken,
     captureUncaught: true,
     captureUnhandledRejections: true,
     captureIp: 'anonymize',
     //SourceMaps
     payload: {
-        environment: SiteConfig.environmment,
+        environment: SiteConfig.environment,
         client: {
             javascript: {
                 source_map_enabled: true, //this is now true by default
@@ -44,7 +44,7 @@ const _rollbarConfig:rollbar.Configuration = {
     }
 };
 
-if(SiteConfig.environmment==='production') {
+if(SiteConfig.environment==='production') {
     rollbar.init(_rollbarConfig);
     
 }

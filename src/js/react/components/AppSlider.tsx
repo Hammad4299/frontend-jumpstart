@@ -35,7 +35,7 @@ const sliderStyle:StylesType<AppSliderClassKey> = styles as any;
 const decorator = withStyles(sliderStyle);
 
 function Component(props: AppSliderProps) {
-    const { classes, min = 0, max = 100, ...rest } = props;
+    const { classes, min, max, ...rest } = props;
     const { slider,...restClasses } = classes;
     return (
         <Slider
@@ -47,6 +47,10 @@ function Component(props: AppSliderProps) {
         />
     )
 }
-
+Component.defaultProps = {
+    min: 0,
+    max: 100
+} as AppSliderProps
+Component.displayName = 'AppSlider';
 export const AppSlider = decorator(Component);
 export default AppSlider;

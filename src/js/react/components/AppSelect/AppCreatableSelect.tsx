@@ -1,9 +1,10 @@
 import React from 'react';
-import CustomSelect from "./CustomSelect";
+import CustomSelect, { CustomSelectClassKey } from "./CustomSelect";
 import { SimpleOption, CreatableSelectProps, ComposedSelect } from "./types";
 import Creatable from "react-select/lib/Creatable";
 
 export type AppCreatableSelectProps<OptionType = SimpleOption> = ComposedSelect<CreatableSelectProps<OptionType>,OptionType>;
+export type AppSelectClassKey = CustomSelectClassKey;
 
 function Component(props:AppCreatableSelectProps) {
     return (

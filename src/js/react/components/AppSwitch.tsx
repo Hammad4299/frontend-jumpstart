@@ -55,9 +55,12 @@ export interface AppSwitchProps extends StandardProps<SwitchProps, AppSwitchClas
 
 function Component(props:AppSwitchProps) {
     return (
-        <Switch disableRipple {...props} />
+        <Switch {...props} />
     )
 }
-
+Component.defaultProps = {
+    disableRipple: true
+} as AppSwitchProps
+Component.displayName = 'AppSwitch';
 export const AppSwitch = decorator(Component);
 export default AppSwitch;

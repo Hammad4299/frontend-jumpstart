@@ -1,0 +1,49 @@
+//Need for es6 and then es6 to es5 because of
+//https://www.reddit.com/r/typescript/comments/4fuo7v/is_it_possible_to_typescriptes6babeles5/
+//#Awesome
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+	  "resolveJsonModule":true,
+    // Don't emit; allow Babel to transform files.
+    "noEmit": true,
+    "isolatedModules": true,
+    "noImplicitAny": false,
+    "module": "esnext",        //to es6 modules. So, webpack can handle it after passing through babel
+    "target": "esnext",
+    //default was (module === "AMD" or "System" or "ES6" ? "Classic" : "Node").
+    //Since for ModuleConcatenationPlugin, we changed module from "commonjs" to "es6", this reverted to "Node".
+    //For previous behaviour, it needs to be node again.
+    "baseUrl": "../src",
+    "paths": {
+      "models": ["js/models/index.ts"],
+      "types": ["js/types/index.ts"],
+      "components": ["js/react/components/index.ts"],
+      "services": ["js/services/index.ts"],
+      "redux-store": ["js/redux-store/index.ts"],
+      "breadcrumbs": ["js/breadcrumbs/index.ts"],
+      "routing": ["js/routing/index.ts"],
+      "typehelper": ["js/typescript/index.ts"],
+      "externals/*": ["js/externals/*"],
+      "react-hoc": ["js/react/HOC/index.ts"],
+      "helpers": ["js/helpers/index.ts"]
+    },
+    "typeRoots": [
+      "../node_modules/types-redux-orm",
+      "../node_modules/@types"
+    ],
+    "moduleResolution": "node",
+    "jsx": "preserve",      //let babel do it
+    "allowJs": true         //Necessary. To run js files as typescript,
+  },
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.tsx"
+  ],
+  "awesomeTypescriptLoaderOptions": { //Not in use anymore since ts-loader is being used
+    "useCache": true,
+    "useBabel": true
+  }
+}

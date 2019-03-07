@@ -19,19 +19,19 @@ export function withRoutingContext<WrappedProps extends WithRoutingContextInject
     interface MappedDispatch {
     }
 
-    interface Props extends MappedDispatch, MappedProps {
+    interface Props extends Mapped {
     }
 
+    type Mapped = MappedProps & MappedDispatch;
     type ComponentProps = Subtract<WrappedProps, WithRoutingContextInjectedProps>;
-    type OwnProps = Subtract<Props,MappedDispatch & MappedProps> & ComponentProps;
+    type OwnProps = Subtract<Props,Mapped> & ComponentProps; //Props that are allowed to passed from Resulting component returned from HOC.
     type HOCProps = Props;
     
-    const WithRoutingContext = (props:HOCProps) => {
-        const {routingContext, ...rest} = props;
-
+    const WithRoutingContext = ({routingContext, ...rest}:HOCProps) => {
+        const tsBypass:WrappedProps = rest as any;
         return (
             <React.Fragment>
-                <WrappedComponent routingContext={routingContext} {...rest} />
+                <WrappedComponent routingContext={routingContext} {...tsBypass} />
             </React.Fragment>
         );
     }

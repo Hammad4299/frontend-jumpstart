@@ -1,22 +1,23 @@
-import React, {} from 'react';
+import React from 'react';
 import SwipeableViews, { SwipeableViewsProps } from 'react-swipeable-views';
-import { createStyles, withStyles, WithStyles } from "@material-ui/core";
+import { createStyles, withStyles, StandardProps } from "@material-ui/core";
+import { StyleClassKey } from 'typehelper';
 
 const styles = () => createStyles({
     root: {
     },
 });
 
-interface Props extends SwipeableViewsProps {
- 
+export type AppTabsContentClassKey = StyleClassKey<typeof styles>
+
+export interface AppTabsContentProps extends StandardProps<SwipeableViewsProps, AppTabsContentClassKey> {
+
 }
 
 
 const decorator = withStyles(styles);
 
-type StyledProps = WithStyles<typeof styles> & Props;
-
-function AppTabsContent (props:StyledProps) {
+function Component(props:AppTabsContentProps) {
     const {classes, children, ref, ...rest} = props;
 
     return (
@@ -26,4 +27,6 @@ function AppTabsContent (props:StyledProps) {
     )
 }
 
-export default decorator(AppTabsContent);
+Component.displayName = 'AppTabsContent';
+const AppTabsContent = decorator(Component);
+export default AppTabsContent;

@@ -29,6 +29,6 @@ function Component(props:AppMenuProps) {
     )
 }
 
-
+Component.displayName = 'AppMenu';
 export const AppMenu= decorator(Component);
 export default AppMenu;

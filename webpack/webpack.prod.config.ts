@@ -5,10 +5,10 @@ import commonConfig from './webpack.config';
 import TerserPlugin  from 'terser-webpack-plugin'
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import CompressionPlugin from 'compression-webpack-plugin';
-
 import projectConfig, {prodConfigModifier, imagminOptions, imagminWebpOptions} from "./webpack-project";
 import {constructConfigOptions} from "./webpack-utils";
 import MomentLocalesPlugin from 'moment-locales-webpack-plugin';
+process.env.TS_NODE_PROJECT = path.resolve(__dirname,'./tsconfig.json');
 
 const modifier = constructConfigOptions(prodConfigModifier);
 const config = webpackMerge(commonConfig(modifier), {

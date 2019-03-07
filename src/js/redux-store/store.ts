@@ -1,6 +1,6 @@
 import { combineReducers, AnyAction, applyMiddleware, createStore } from "redux";
 import { routingStateReducer, breadcrumbStateReducer, RoutingState, BreadcrumbState } from "redux-store";
-import { BreadcrumbContext } from "breadcrumbs";
+import { BreadcrumbContextContract, BreadcrumbContext } from "breadcrumbs";
 import { BaseRoutingContext } from "routing";
 import thunkMiddleware from 'redux-thunk';
 

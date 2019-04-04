@@ -1,10 +1,15 @@
 delete process.env.TS_NODE_PROJECT
+import dotenv from 'dotenv-defaults';
+dotenv.config({
+    defaults: '.env.defaults'
+})
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config';
 import webpack from 'webpack';
 //import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 import path from 'path';
 import webProjectConfig from './webpack-project';
+import Dotenv from 'dotenv-webpack';
 import { baseOptions } from './webpack-common';
 process.env.TS_NODE_PROJECT = path.resolve(__dirname,'./tsconfig.json');
 
@@ -30,6 +35,11 @@ const config = webpackMerge(
         // devtool: 'source-map',      //slowest and accurate. (seem to work with css)
         // devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
         devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
+        plugins: [
+            new Dotenv({
+                defaults: true
+            }) as any
+        ]
     } as webpack.Configuration
 );
 

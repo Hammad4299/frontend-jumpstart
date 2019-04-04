@@ -15,7 +15,6 @@ import cssnano from 'cssnano';
 import { ProjectSettings, Options } from './webpack-common';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import env from './webpack.env';
 import NullPlugin from 'webpack-null-plugin';
 import postcssPresetEnv from 'postcss-preset-env';
 import ImageminWebpack from 'imagemin-webpack';
@@ -57,7 +56,7 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
             path: path.resolve(projectSettings.contentOutput),
             filename: options.buildOutputName('js'),
             pathinfo: false,
-            publicPath: env.public
+            publicPath: process.env.STATIC_CONTENT_PUBLIC_URL
         },
         optimization: optimizations,
         externals: projectSettings.externals,

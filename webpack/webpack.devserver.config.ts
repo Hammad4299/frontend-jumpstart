@@ -1,7 +1,12 @@
 delete process.env.TS_NODE_PROJECT
+import dotenv from 'dotenv-defaults';
+dotenv.config({
+    defaults: '.env.defaults'
+})
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config';
 import path from 'path';
+import Dotenv from 'dotenv-webpack';
 import webpack from 'webpack';
 import webProjectConfig from "./webpack-project";
 import { baseOptions } from "./webpack-common";
@@ -29,13 +34,19 @@ const config = webpackMerge(
         // devtool: 'eval',      //slowest and accurate. (seem to work with css)
         //devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
         devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
+        target: 'web',
         devServer: {
             proxy: {
                 '/': 'http://localhost:8082'
             },
             hotOnly: true,
             contentBase: path.resolve(webProjectConfig.contentOutput)
-        }
+        },
+        plugins: [
+            new Dotenv({
+                defaults: true
+            }) as any
+        ]
     } as webpack.Configuration
 );
 

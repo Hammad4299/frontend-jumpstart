@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import 'js/publicpath';
 import './helpers/rollbar';
 import 'bootstrap';

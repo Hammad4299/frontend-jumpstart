@@ -40,7 +40,7 @@ export function withBreadcrumbContext<WrappedProps extends WithBreadcrumbContext
         };
     }
 
-    const enhancer = connect(mapStateToProps);
+    const enhancer = connect(mapStateToProps,()=>({}));
     return enhancer(sfc);
 };
 

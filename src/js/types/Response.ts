@@ -7,15 +7,15 @@ export interface AppResponse<T> {
     data:T
 }
 
-export type WithValidityState<T> = {
+export type WithValidityState<T, X extends string = never> = {
     [P in keyof T]: T[P]
 } & {
-    validityState:ValidityState
+    validityState:ValidityState<X>
 };
 
-export function extractResponseErrors<T>(response:AppResponse<T>, defaultFields:string[] = []):ValidityState {
-    let toRet:ValidityState = getInitializedValidityState({},defaultFields);
-    if(response!==null){
+export function extractResponseErrors<T, X extends string = never>(response:AppResponse<T>, defaultFields:string[] = []):ValidityState<X> {
+    let toRet:ValidityState<X> = getInitializedValidityState({},defaultFields);
+    if(response!==null) {
         for(const field in response.errors) {
             if(response.errors.hasOwnProperty(field)){
                 const errArr = response.errors[field];

@@ -1,17 +1,16 @@
 import { defaults } from "lodash-es";
-import { serverApi, ServerApiResponse } from "services/RemoteService";
 import { AxiosRequestConfig } from "axios";
-import { AppResponse, FieldsState }from "models";
-import {extractResponseErrors} from "helpers";
+import { ValidityState, getErrorInfo, AppResponse, extractResponseErrors } from "types";
+import { BaseService } from "services";
 const errorAttr = 'data-error';
 
-export function updateFieldState(info:FieldsState, container:any) {
-    const errors = info.getErrors();
+export function updateFieldState(info:ValidityState, container:any) {
+    const errors = info;
     for (let field in errors) {
         let fieldError = container.find(`[${errorAttr}='${field}']`);
-        if (info.getError(field).hasError) {
+        if (getErrorInfo(errors, field).hasError) {
             fieldError.removeClass("field-validation-valid").addClass("field-validation-error");
-            fieldError.html(info.getError(field).error);
+            fieldError.text(getErrorInfo(errors, field).error);
         }
     }
 }
@@ -32,7 +31,8 @@ export function submitFormUsingAjax<T>(jForm:JQuery<HTMLFormElement>, overrides:
         data: data
     };
     options = defaults(overrides,options);
-    return serverApi.request<T>(options);
+    const service = new BaseService();
+    return service.manager.request<T>(options);
 }
 
 export function getServerResponse<T = any>(apiResponse:any):AppResponse<T>|null {
@@ -65,7 +65,7 @@ export function processResponse<T = any>(apiResponse:AppResponse<T>):AppResponse
 }
 
 export function submitForm<T = any>(form:any):Promise<AppResponse<T>> {
-    return submitFormUsingAjax<ServerApiResponse<T>>(form)
+    return submitFormUsingAjax<AppResponse<T>>(form)
         .then(resp => {
             return processResponse(getServerResponse<T>(resp.data));
         }).then(resp => {

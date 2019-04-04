@@ -1,3 +1,6 @@
+import { AppResponse } from "types";
+import { Omit } from "utility-types";
+
 export interface PaginationInfo {
     per_page:number,
     current_page:number,
@@ -11,35 +14,39 @@ export interface PaginationInfoDetail extends PaginationInfo {
 }
 
 
-export interface PaginatedResult<T> extends PaginationInfo {
-    data: T[]
+export interface PaginatedResponse<T> extends AppResponse<T>, PaginationResponseInfo {
 }
 
-export type WithPaginationParams<T> = {
-    [K in keyof T]: T[K]
-} & {
+export interface PaginationResponseInfo {
+    pagination_meta:PaginationInfo
+}
+
+export type PaginationParams = {
     page: number|string
     per_page?: number|string
 }
 
-export type ExactTypeForMultiItemResult<T> = T extends PaginatedResult<infer TElem> ? PaginatedResult<TElem> : T extends (infer X)[] ? X[] : T;
 
-export type MultiItemResultTypeFromRequestParam<T, TModel> = T extends WithPaginationParams<T> ? PaginatedResult<TModel> : TModel[];
+export type WithPaginationParams<T> = {
+    [K in keyof T]: T[K]
+} & PaginationParams
 
-export type MultiItemResult<T> = T[] | PaginatedResult<T>;
+export type PaginationRequestToPaginatedResponse<TRequestParams, T extends AppResponse<Y>, Y> = TRequestParams extends PaginationParams ? T & PaginationResponseInfo : T;
 
-export function isPaginatedResult<T>(data:any):data is PaginatedResult<T> {
-    return data && (<PaginatedResult<T>>data).per_page !== undefined;
+export function isPaginatedResult<T>(data:any):data is PaginatedResponse<T> {
+    return data && (<PaginatedResponse<T>>data).pagination_meta !== undefined;
 }
 
 
-export function paginate<T>(data:T[], paginationDef:PaginationInfo):PaginatedResult<T> {
+export function paginate<T>(data:T[], paginationDef:PaginationInfo):Omit<PaginatedResponse<T[]>,'status'|'errors'> {
     const start = (paginationDef.current_page-1)*paginationDef.per_page;
     return {
         data: data.slice(start, start + paginationDef.per_page),
-        current_page: paginationDef.current_page,
-        per_page: paginationDef.per_page,
-        total:data.length
+        pagination_meta: {
+            current_page: paginationDef.current_page,
+            per_page: paginationDef.per_page,
+            total:data.length
+        }
     };
 }
 
@@ -64,25 +71,4 @@ export function getPagesRange(currentPage:number, endPage:number) {
     }
 
     return pages.filter(page=>page>=1&&page<=endPage);
-}
-
-/**
- * Normalize service collection response or service paginated response to standard
- * @param responseData 
- */
-export function normalizePaginatableData<T>(responseData: T[] | PaginatedResult<T>): {
-    data: T[],
-    paginationInfo: PaginationInfo
-} {
-    if (isPaginatedResult(responseData)) {
-        return {
-            data: responseData.data,
-            paginationInfo: responseData
-        }
-    } else {
-        return {
-            data: responseData,
-            paginationInfo: null
-        }
-    }
 }

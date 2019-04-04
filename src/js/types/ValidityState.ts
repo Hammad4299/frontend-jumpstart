@@ -6,11 +6,11 @@ export interface ErrorInfo {
     error:string|null
 }
 
-export type ValidityState = {[field:string]:ErrorInfo};
+export type ValidityState<T extends string = never> = {[field:string]:ErrorInfo} & {[X in T]:ErrorInfo};
 
-export function getInitializedValidityState(state:Readonly<ValidityState>,field:Readonly<string|string[]>) {
-    state = defaultTo(state, {});
-    let initialized = {...state};
+export function getInitializedValidityState<X extends string = never>(state:Readonly<ValidityState<X>>,field:Readonly<string|string[]>) {
+    state = defaultTo(state, {} as ValidityState<X>);
+    let initialized:ValidityState<X> = {...state};
     if(typeof field === 'string'){
         initialized = getInitializedValidityState(initialized,[field]);
     } else {
@@ -27,12 +27,12 @@ export function getInitializedValidityState(state:Readonly<ValidityState>,field:
     return initialized;
 }
 
-export function getErrorInfo(state:Readonly<ValidityState>, field:Readonly<string>) {
+export function getErrorInfo<X extends string = never>(state:Readonly<ValidityState<X>>, field:Readonly<string>) {
     return getInitializedValidityState(state,field)[field];
 }
 
-export function isStateValid(state:Readonly<ValidityState>):boolean {
-    state = defaultTo(state, {});
+export function isStateValid<X extends string = never>(state:Readonly<ValidityState<X>>):boolean {
+    state = defaultTo<ValidityState<X>>(state, {} as ValidityState<X>);
     for(const key in state) {
         if(state.hasOwnProperty(key) && state[key].hasError) {
             return false;
@@ -41,7 +41,7 @@ export function isStateValid(state:Readonly<ValidityState>):boolean {
     return true;
 }
 
-export function getFirstErrorFor(validityState:Readonly<ValidityState>, fields:Readonly<string[]>) {
+export function getFirstErrorFor<X extends string = never>(validityState:Readonly<ValidityState<X>>, fields:Readonly<string[]>) {
     let info:ErrorInfo = null;
     fields.forEach((field)=>{
         if(!info || !info.hasError) {
@@ -52,7 +52,7 @@ export function getFirstErrorFor(validityState:Readonly<ValidityState>, fields:R
     return info;
 }
 
-export function addError(validityState:Readonly<ValidityState>, field:Readonly<string>, error:Readonly<string>) {
+export function addError<X extends string = never>(validityState:Readonly<ValidityState<X>>, field:Readonly<string>, error:Readonly<string>) {
     const s = getInitializedValidityState(validityState, field);
     s[field].error = error;
     s[field].hasError = true;
@@ -60,7 +60,7 @@ export function addError(validityState:Readonly<ValidityState>, field:Readonly<s
     return s;
 }
 
-export function setErrors(validityState:Readonly<ValidityState>, field:Readonly<string>, errors:Readonly<string[]>) {
+export function setErrors<X extends string = never>(validityState:Readonly<ValidityState<X>>, field:Readonly<string>, errors:Readonly<string[]>) {
     const s = getInitializedValidityState(validityState, field);
     s[field].hasError = errors.length>0;
     s[field].error = errors.length>0 ? errors[0]  : null;

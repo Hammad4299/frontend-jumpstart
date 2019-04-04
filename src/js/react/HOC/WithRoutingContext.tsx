@@ -42,7 +42,7 @@ export function withRoutingContext<WrappedProps extends WithRoutingContextInject
         };
     }
 
-    const enhancer = connect(mapStateToProps);
+    const enhancer = connect(mapStateToProps,()=>({}));
     return enhancer(WithRoutingContext);
 };
 

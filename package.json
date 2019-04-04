@@ -8,7 +8,8 @@
     "*.scss",
     "*.css",
     "*.less",
-    "./src/js/publicpath.ts"
+    "./src/js/publicpath.ts",
+    "./src/js/helpers/rollbar.ts"
   ],
   "scripts": {
     "docker:webpack:install": "docker -v %cd%:/var/www node:10.13.0 yarn --cwd /var/www install",

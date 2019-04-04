@@ -112,5 +112,69 @@ export const baseOptions = {
                 ]
             }
         }
+    } as Options,
+    node: {
+        favicon: null,
+        htmlPlugin: false,
+        shouldGenerateSourceMaps: true,
+        buildOutputName: function(type:AssetsType):string {
+            let toRet = '';
+            const enableCacheBusting:boolean = this.enableCacheBusting;
+            switch(type) {
+                case 'font':
+                    toRet = `[path][name]${emptyStr('.[hash]',enableCacheBusting)}.[ext]`;
+                    break;
+                case 'image-imagemin':
+                    toRet = `/[path][name]${emptyStr('.hash-[hash]',enableCacheBusting)}.[ext]`;   // "/" is very important otherwise it will skip first letter (on windows).
+                    break;
+                case 'image':
+                    toRet = `[path]loaded/[name]${emptyStr('.hash-[hash]', enableCacheBusting)}.[ext]`;
+                    break;
+                case 'favicon':
+                    toRet = `favicon${emptyStr('-[hash]', enableCacheBusting)}/`;
+                    break;
+                case 'style':
+                    toRet = `css/generated/[name]${emptyStr('.[chunkhash]', enableCacheBusting)}.css`;
+                    break;
+                case 'html':
+                    toRet = `html/generated/[name]${emptyStr('.[chunkhash]', enableCacheBusting)}.html`;
+                    break;
+                case 'js':
+                    toRet = `js/generated/[name]${emptyStr('.[chunkhash]', enableCacheBusting)}.js`;
+                    break;
+                default:
+                    toRet = `[name].[ext]`;
+            }
+            return toRet;
+        },
+        imageminOptions: {
+            imageminOptions: {
+                // Lossless optimization with custom option
+                plugins: [
+                    ImageminGifsicle({
+                        interlaced: true
+                    }),
+                    ImageminJpegtran({
+                        progressive: true
+                    }),
+                    ImageminOptipng({
+                        optimizationLevel: 1
+                    }),
+                    ImageminSvgo({
+                        removeViewBox: true
+                    })
+                ]
+            }
+        },
+        imageminWebpOptions: {
+            imageminOptions: {
+                // Lossless optimization with custom option
+                plugins: [
+                    ImageminWebp({
+                        loseless: true
+                    })
+                ]
+            }
+        }
     } as Options
 }

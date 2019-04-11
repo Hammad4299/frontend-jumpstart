@@ -12,8 +12,7 @@
     "./src/js/helpers/rollbar.ts"
   ],
   "scripts": {
-    "docker:webpack:install": "docker -v %cd%:/var/www node:10.13.0 yarn --cwd /var/www install",
-    "docker:webpack:run": "docker run -v %cd%:/var/www node:10.13.0 yarn --cwd /var/www ",
+    "docker:webpack": "docker run -v %cd%:/var/www -w /var/www node:10.13.0 yarn",
     "devserver": "concurrently -k --raw \"yarn webpackenv webpack-dev-server --config webpack/webpack.devserver.config.ts\" \"yarn check-types-watch\"",
     "check-types": "tsc -p webpack/tsconfig.json",
     "check-types-watch": "cross-env TSC_NONPOLLING_WATCHER=\"1\" tsc --watch -p webpack/tsconfig.json",
@@ -37,6 +36,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
+	"@fortawesome/fontawesome-free": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",

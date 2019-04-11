@@ -61,7 +61,7 @@ export const baseOptions = {
                     toRet = `[path][name]${emptyStr('.[hash]',enableCacheBusting)}.[ext]`;
                     break;
                 case 'image-imagemin':
-                    toRet = `/[path][name]${emptyStr('.hash-[hash]',enableCacheBusting)}.[ext]`;   // "/" is very important otherwise it will skip first letter (on windows).
+                    toRet = `[path][name]${emptyStr('.hash-[hash]',enableCacheBusting)}.[ext]`;   // "/" is very important otherwise it will skip first letter (on windows).
                     break;
                 case 'image':
                     toRet = `[path]loaded/[name]${emptyStr('.hash-[hash]', enableCacheBusting)}.[ext]`;

@@ -61,12 +61,7 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
         optimization: optimizations,
         externals: projectSettings.externals,
         resolve: {
-            alias: {
-                'images': path.join(projectSettings.src,'images'),
-                'styles': path.join(projectSettings.src,'styles'),
-                'fonts': path.join(projectSettings.src,'fonts'),
-                'webp-images': path.join(projectSettings.src,'webp-images'),
-            },
+            alias: projectSettings.alias,
             symlinks: false, // if you don't use symlinks (e.g. npm link or yarn link).
             extensions: [
                 '.js', '.jsx', '.ts', '.tsx'
@@ -117,7 +112,7 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                         {
                             loader: "css-loader", // creates style nodes from JS strings
                             options: {
-                                importLoaders: 2,   //how many loaders before css-loader should be applied to @imported resources.
+                                importLoaders: 3,   //how many loaders before css-loader should be applied to @imported resources.
                                 sourceMap: options.shouldGenerateSourceMaps
                             }
                         }, {
@@ -142,7 +137,14 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                                     return plugins;
                                 }
                             }
-                        }, {
+                        }, 
+						 { 
+                            loader: 'resolve-url-loader', 
+                            options: {
+                                removeCR: true
+                            } 
+                        },
+						{
                             loader: "sass-loader", // creates style nodes from JS strings
                             options: {
                                 sourceMap: options.shouldGenerateSourceMaps

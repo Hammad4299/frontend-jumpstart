@@ -11,7 +11,6 @@ export const projectConfig:ProjectSettings = {
     },
     externals: {
         'externals/CSRFToken': 'csrftoken', //now import xyz from 'myExternal' should work
-		'externals/RemoteRoutes': 'routes',
 		'externals/SiteConfig': 'siteConfig',
     },
     src: src,

@@ -27,7 +27,7 @@ export const projectConfig:ProjectSettings = {
         {from: path.join(src,'webp-images'), to: path.join(output,'webp-images')},
         {from: path.join(src,'fonts'), to: path.join(output,'fonts')},
     ],
-    root: path.resolve('../'),
+    root: path.resolve(src,'../'),
     optimizations: {
         runtimeChunk: false,
         splitChunks: false,

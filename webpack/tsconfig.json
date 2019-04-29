@@ -9,6 +9,7 @@
     "resolveJsonModule":true,
     // Don't emit; allow Babel to transform files.
     "noEmit": true,
+	"sourceRoot": "/",
     "isolatedModules": true,
     "noImplicitAny": false,
     "module": "esnext",        //to es6 modules. So, webpack can handle it after passing through babel

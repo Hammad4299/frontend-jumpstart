@@ -60,7 +60,7 @@ export function addError<X extends string = never>(validityState:Readonly<Validi
     return s;
 }
 
-export function setErrors<X extends string = never>(validityState:Readonly<ValidityState<X>>, field:Readonly<string>, errors:Readonly<string[]>) {
+export function setErrors<X extends string = never>(validityState:Readonly<ValidityState<X>>, field:Readonly<string>, errors:string[]) {
     const s = getInitializedValidityState(validityState, field);
     s[field].hasError = errors.length>0;
     s[field].error = errors.length>0 ? errors[0]  : null;

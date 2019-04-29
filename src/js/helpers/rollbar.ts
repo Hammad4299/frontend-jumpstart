@@ -35,9 +35,11 @@ const _rollbarConfig:rollbar.Configuration = {
                 var filename = trace.frames[i].filename;
                 if (filename) {
                     var m = filename.match(locRegex);
-                    // Be sure that the minified_url when uploading includes 'dynamichost'
-					//replace whole domain portion with dynamichost. Keep rest same
-                    trace.frames[i].filename = m[1] + '://dynamichost' + m[2];
+                    if(m!==null && m.length>=3) {
+                        // Be sure that the minified_url when uploading includes 'dynamichost'
+                        //replace whole domain portion with dynamichost. Keep rest same
+                        trace.frames[i].filename = m[1] + '://dynamichost' + m[2];
+                    }
                 }
             }
         }

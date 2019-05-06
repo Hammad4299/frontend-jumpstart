@@ -1,15 +1,13 @@
+import { StyleClassKey } from 'typehelper';
 import React from 'react';
 import 'react-phone-number-input/style.css'
-import {default as ReactPhoneInput} from 'react-phone-number-input/custom'
-import { createStyles, Theme, withStyles, WithStyles, MenuItem, Typography, TextField, Paper, Input, StandardProps } from "@material-ui/core";
-import SmartInput from 'react-phone-number-input/smart-input'
+import {default as ReactPhoneInput} from 'react-phone-number-input/core'
+import { createStyles, Theme, withStyles, Typography, Paper, Input, StandardProps } from "@material-ui/core";
+import { AppSelect, SimpleOption } from 'components';
 const labels = require('react-phone-number-input/locale/default.json')
 const metadata = require('libphonenumber-js/metadata.min.json')
 import InternationalIcon from 'react-phone-number-input/international-icon'
 import { parseIncompletePhoneNumber, formatIncompletePhoneNumber } from 'libphonenumber-js/custom'
-import { AppSelect } from 'components';
-import { SimpleOption } from './AppSelect';
-import { StyleClassKey } from 'typehelper';
 
 const styles = (theme:Theme) => createStyles({
     
@@ -17,14 +15,14 @@ const styles = (theme:Theme) => createStyles({
 
 export type PhoneInputClassKey = StyleClassKey<typeof styles>
 
-export interface PhoneInputProps extends StandardProps<{},PhoneInputClassKey>{
+export interface PhoneInputProps extends StandardProps<{}, PhoneInputClassKey>{
     value:string
     onChange:(value:string)=>void
 }
 
 const decorator = withStyles(styles);
 
-class CountrySelect extends React.PureComponent<any,any> {
+class CountrySelect extends React.Component<any,any> {
     render() {
         const props = this.props;
         const selected = props.options.filter((opt)=>opt.value===props.value);
@@ -71,6 +69,7 @@ class CountrySelect extends React.PureComponent<any,any> {
                         <React.Fragment>
                             <Icon value={rest.value} />
                             &nbsp;&nbsp;&nbsp;&nbsp;
+                            
                             <Typography>{label}</Typography>
                         </React.Fragment>
                     )
@@ -80,7 +79,7 @@ class CountrySelect extends React.PureComponent<any,any> {
     }
 }
 
-class CustomInput extends React.PureComponent<any,any> {
+class CustomInput extends React.Component<any,any> {
     protected input:any;
     constructor(props:any){
         super(props);
@@ -181,6 +180,7 @@ class CustomInput extends React.PureComponent<any,any> {
     }
 }
 
+
 function Component(props:PhoneInputProps) {
     const {classes,  ...rest} = props;
     
@@ -196,6 +196,8 @@ function Component(props:PhoneInputProps) {
             inputComponent={CustomInput} />
     )
 }
+
+Component.displayName = 'PhoneInput';
 
 export const PhoneInput = decorator(Component);
 export default PhoneInput;

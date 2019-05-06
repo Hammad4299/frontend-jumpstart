@@ -4,6 +4,7 @@
 /public/images
 /public/fonts
 /public/webpack-manifest.json
+/public/webp-images
 /.awcache/
 /.cache-loader/
 /dist/

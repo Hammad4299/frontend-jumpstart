@@ -45,7 +45,8 @@ const config = webpackMerge(
         },
         plugins: [
             new Dotenv({
-                defaults: true
+                defaults: true,
+				systemvars: true
             }) as any,
             new webpack.HotModuleReplacementPlugin()
         ]

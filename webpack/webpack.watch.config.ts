@@ -38,7 +38,8 @@ const config = webpackMerge(
         devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
         plugins: [
             new Dotenv({
-                defaults: true
+                defaults: true,
+				systemvars: true
             }) as any
         ]
     } as webpack.Configuration

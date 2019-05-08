@@ -20,16 +20,9 @@ import postcssPresetEnv from 'postcss-preset-env';
 import ImageminWebpack from 'imagemin-webpack';
 
 export default function buildBaseConfig(projectSettings:ProjectSettings, options: Options){
-    // the clean options to use
-    let cleanOptions = {
-        root:     projectSettings.root,
-        exclude:  [],
-        verbose:  false,
-        dry:      false,
-        watch: false		//It could cause issues, e.g. webpack only copies modified images via copy plugin not all images, so we should not clear images on watch
-    };
-    
-    const cleanupPlugin = new CleanWebpackPlugin(projectSettings.toClean, cleanOptions);
+    const cleanupPlugin = new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: projectSettings.toClean
+    });
     const copyPlugin = new CopyWebpackPlugin(projectSettings.toCopy);
     //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
     const manifestSeed:{[index:string]:string} = {};

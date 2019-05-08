@@ -46,7 +46,8 @@ const config = webpackMerge(
         plugins: [
             new MomentLocalesPlugin(),
             new Dotenv({
-                defaults: true
+                defaults: true,
+				systemvars: true
             }),
             new CompressionPlugin({
                 threshold: 0,

@@ -21,8 +21,8 @@ export const projectConfig:ProjectSettings = {
         'webp-images': path.join(src,'webp-images'),
     },
     contentOutput: output,
-    toClean: [  //relative to "root"
-        'dist'
+    toClean: [
+        '**/*'
     ],
     toCopy: [
         {from: path.join(src,'images'), to: path.join(output,'images')},
@@ -45,7 +45,7 @@ export const projectConfig:ProjectSettings = {
                 common: {   //default config used by "default" cache group, just renamed it to "common:
                     name: 'common',
                     minChunks: 2,
-                    priority: -10,
+                    priority: -20,
                     reuseExistingChunk: true
                 }
             }

@@ -20,7 +20,7 @@ export const projectConfig:ProjectSettings = {
     },
     contentOutput: output,
     toClean: [  //relative to "root"
-        'dist-node'
+        '**/*'
     ],
     toCopy: [
         {from: path.join(src,'images'), to: path.join(output,'images')},

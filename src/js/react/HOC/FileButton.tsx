@@ -2,7 +2,6 @@ import React from "react";
 import { uniqueId } from 'lodash-es';
 import Input, { InputProps } from "@material-ui/core/Input";
 import { ButtonBaseProps } from "@material-ui/core/ButtonBase";
-import { Button } from "@material-ui/core";
 
 export function fileButton<T extends ButtonBaseProps>(Component:React.ComponentType<T>) {
     interface Props {

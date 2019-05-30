@@ -55,7 +55,7 @@ export function Control<OptionType>(props:SelectComponentProps<ControlProps<Opti
 export function Option<OptionType>(props:SelectComponentProps<OptionProps<OptionType>>) {
     return (
         <MenuItem
-            buttonRef={props.innerRef}
+            ref={props.innerRef}
             selected={props.isSelected}
             component="div"
             style={{

@@ -1,17 +1,19 @@
 import * as React from "react";
 import {Theme, StandardProps} from "@material-ui/core";
 import Switch, {SwitchProps, SwitchClassKey} from "@material-ui/core/Switch";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles }from "@material-ui/styles";
 import { StyleClassKey, StylesType } from "typehelper";
 
 const styles = (theme:Theme) => createStyles({
     switchBase: {
         '&$checked': {
             color: theme.palette.common.white,
-            '& + $bar': {
+            '& + $track': {
                 backgroundColor: theme.palette.primary.main,
             },
+            '& $thumb': {
+                boxShadow: theme.shadows[1],
+            }
         },
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest,
@@ -20,12 +22,12 @@ const styles = (theme:Theme) => createStyles({
     },
     checked: {
         transform: 'translateX(15px)',
-        '& + $bar': {
+        '& + $track': {
             opacity: 1,
             border: 'none',
         },
     },
-    bar: {
+    track: {
         borderRadius: 13,
         width: 42,
         height: 26,
@@ -37,12 +39,9 @@ const styles = (theme:Theme) => createStyles({
         opacity: 1,
         transition: theme.transitions.create(['background-color', 'border']),
     },
-    icon: {
+    thumb: {
         width: 24,
         height: 24,
-    },
-    iconChecked: {
-        boxShadow: theme.shadows[1],
     },
 });
 

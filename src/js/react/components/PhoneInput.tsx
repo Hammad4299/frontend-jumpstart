@@ -2,7 +2,8 @@ import { StyleClassKey } from 'typehelper';
 import React from 'react';
 import 'react-phone-number-input/style.css'
 import {default as ReactPhoneInput} from 'react-phone-number-input/core'
-import { createStyles, Theme, withStyles, Typography, Paper, Input, StandardProps } from "@material-ui/core";
+import { Theme, Typography, Paper, Input, StandardProps } from "@material-ui/core";
+import { withStyles, createStyles } from '@material-ui/styles';
 import { AppSelect, SimpleOption } from 'components';
 const labels = require('react-phone-number-input/locale/default.json')
 const metadata = require('libphonenumber-js/metadata.min.json')
@@ -170,7 +171,7 @@ class CustomInput extends React.Component<any,any> {
                 }}
                 autoComplete="tel"
                 {...rest}
-                inputRef={this.storeInput}
+                ref={this.storeInput}
                 value={this.format(value)}
                 disableUnderline
                 onChange={this.onChange}

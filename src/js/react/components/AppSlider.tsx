@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import {createStyles, Theme, withStyles, WithStyles, Typography, StandardProps} from "@material-ui/core";
+import {createStyles, Theme, Typography, StandardProps} from "@material-ui/core";
+import { withStyles, WithStyles } from '@material-ui/styles';
 import Slider, {SliderProps, SliderClassKey} from '@material-ui/lab/Slider';
 import { StyleClassKey, StylesType } from 'typehelper';
 

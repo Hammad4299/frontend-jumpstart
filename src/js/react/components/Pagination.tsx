@@ -1,7 +1,6 @@
 import React from "react";
-import {List,ListItem, Theme, WithStyles, Typography, StandardProps} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import {List,ListItem, Theme, Typography, StandardProps} from "@material-ui/core";
+import { withStyles, createStyles }from "@material-ui/styles";
 import {ListItemProps} from "@material-ui/core/ListItem";
 import { StyleClassKey } from "typehelper";
 import { PaginationInfo, extractPaginationDetail, getPagesRange } from "types";
@@ -13,7 +12,7 @@ const styles = (theme:Theme) => createStyles({
         flexDirection:'row'
     },
     item: {
-        padding: theme.spacing.unit*1.5,
+        padding: theme.spacing(1.5),
         height: '32px',
         color: theme.palette.text.primary,
         backgroundColor: theme.palette.background.paper,
@@ -46,7 +45,7 @@ function Component({classes, propsForPage = () => ({}), ...rest}:PaginationProps
             <ListItem key={`${page}|${text}`} classes={{
                 root: classes.item,
                 selected: classes.selected
-            }} {...lprops} button {...propsForPage(page)}>
+            }} {...lprops} button={true as any} {...propsForPage(page)}>
                 <Typography>{text}</Typography>
             </ListItem>
         )

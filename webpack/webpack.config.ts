@@ -6,7 +6,7 @@ import webpack from 'webpack';
 import ImageminWebpackPlugin from "imagemin-webpack";
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import responsiveSharp from 'responsive-loader/sharp';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
@@ -105,7 +105,7 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                         {
                             loader: "css-loader", // creates style nodes from JS strings
                             options: {
-                                importLoaders: 3,   //how many loaders before css-loader should be applied to @imported resources.
+                                importLoaders: 2,   //how many loaders before css-loader should be applied to @imported resources.
                                 sourceMap: options.shouldGenerateSourceMaps
                             }
                         }, {
@@ -131,12 +131,12 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                                 }
                             }
                         }, 
-						 { 
-                            loader: 'resolve-url-loader', 
-                            options: {
-                                removeCR: true
-                            } 
-                        },
+						 // { 
+                            // loader: 'resolve-url-loader', 
+                            // options: {
+                                // removeCR: true
+                            // } 
+                        // },
 						{
                             loader: "sass-loader", // creates style nodes from JS strings
                             options: {

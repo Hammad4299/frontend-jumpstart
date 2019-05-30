@@ -1,7 +1,6 @@
 import React from "react";
 import {Theme, StandardProps, Typography, WithTheme} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles }from "@material-ui/styles";
 import classNames from "classnames";
 import { StylesType, StyleClassKey } from "typehelper";
 
@@ -15,8 +14,8 @@ const styles = (theme:Theme) => createStyles({
         flexGrow: 1,
         display: 'flex',
         alignItems: 'center',
-        paddingLeft: theme.spacing.unit*2,
-        paddingRight: theme.spacing.unit*2,
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
         position: 'relative',
     },
     filledBar: {
@@ -30,13 +29,13 @@ const styles = (theme:Theme) => createStyles({
         alignItems: 'center',
         '& $barText':{
             zIndex: 1,
-            marginLeft: theme.spacing.unit*2,
+            marginLeft: theme.spacing(2),
         }
     },
     barText: {
     },
     textVal: {
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing(1),
         width: 70,
         textAlign: 'right'
     }

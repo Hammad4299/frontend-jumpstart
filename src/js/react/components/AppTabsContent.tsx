@@ -1,6 +1,7 @@
 import React from 'react';
 import SwipeableViews, { SwipeableViewsProps } from 'react-swipeable-views';
-import { createStyles, withStyles, StandardProps } from "@material-ui/core";
+import { StandardProps } from "@material-ui/core";
+import { withStyles, createStyles } from '@material-ui/styles';
 import { StyleClassKey } from 'typehelper';
 
 const styles = () => createStyles({

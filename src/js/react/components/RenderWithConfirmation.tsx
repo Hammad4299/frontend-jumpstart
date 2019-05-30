@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
-import { DialogActions, Dialog, DialogContent,DialogTitle,DialogContentText, createStyles, Theme, WithStyles, Button, StandardProps } from '@material-ui/core';
-import { withStyles } from '@material-ui/core';
+import { DialogActions, Dialog, DialogContent,DialogTitle,DialogContentText, Theme, Button, StandardProps } from '@material-ui/core';
+import { withStyles, createStyles } from '@material-ui/styles';
 import { AppButton } from 'components';
 import { StyleClassKey } from 'typehelper';
 
 const styles = (theme:Theme)=>createStyles({
     actionButton: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
     }
 });
 

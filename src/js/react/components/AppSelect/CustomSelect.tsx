@@ -1,8 +1,7 @@
 import React from "react";
 import { defaults } from 'lodash-es';
 import { Theme, WithTheme, StandardProps } from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles }from "@material-ui/styles";
 import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import classNames from "classnames";
 import { Props } from "react-select/lib/Select";
@@ -45,18 +44,18 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'center'
     },
     noOptionsMessage: {
-        padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+        padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     },
     singleValue: {
         fontSize: 16,
-        paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     },
     placeholder: {
         position: 'absolute',
         left: 2,
-		paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
+		paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
         fontSize: 16,
     },
     paper: {
@@ -64,15 +63,15 @@ const styles = (theme: Theme) => createStyles({
         background: theme.palette.background.paper,
         position: 'absolute',
         zIndex: 1,
-        marginTop: theme.spacing.unit,
+        marginTop: theme.spacing(1),
         left: 0,
         right: 0,
     },
     chip: {
         borderRadius: '0px',
         height: 'auto',
-        padding: theme.spacing.unit/3,
-        margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+        padding: theme.spacing(1)/3,
+        margin: `${theme.spacing(1) / 2}px ${theme.spacing(1) / 4}px`,
     },
     chipLabel: {
         order: 1
@@ -93,7 +92,7 @@ const styles = (theme: Theme) => createStyles({
     },
     reloadIcon: {
         alignSelf: 'flex-start',
-        padding: theme.spacing.unit/2
+        padding: theme.spacing(1)/2
     }
 });
 
@@ -184,8 +183,8 @@ function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps 
                 }),
                 input: (base)=>({
                     ...base,
-                    paddingLeft: theme.spacing.unit,
-                    paddingRight: theme.spacing.unit,
+                    paddingLeft: theme.spacing(1),
+                    paddingRight: theme.spacing(1),
                 }),
                 indicatorSeparator: (base)=>({
                     ...base,

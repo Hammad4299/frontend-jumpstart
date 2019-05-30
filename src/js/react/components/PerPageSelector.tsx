@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
-import {Theme, WithStyles, Typography, StandardProps} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import {Theme, Typography, StandardProps} from "@material-ui/core";
+import { withStyles, createStyles }from "@material-ui/styles";
 import { AppSelect, SimpleOption } from "components";
 import { StyleClassKey } from "typehelper";
 

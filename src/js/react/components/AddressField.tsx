@@ -1,5 +1,6 @@
 import React, { RefObject } from 'react';
-import { createStyles, Theme, withStyles, WithStyles, Input, Menu, MenuItem, StandardProps } from "@material-ui/core";
+import { Theme, StandardProps } from "@material-ui/core";
+import { createStyles, withStyles } from '@material-ui/styles';
 import { InputProps } from '@material-ui/core/Input';
 import { defaultTo } from 'lodash-es';
 import { GooglePlaceAutocompleteServiceWrapper, extractGooglePlaceComponents } from 'helpers';

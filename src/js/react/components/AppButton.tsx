@@ -2,8 +2,7 @@ import React from "react";
 import {Theme, StandardProps} from "@material-ui/core";
 import {ButtonProps} from "@material-ui/core/Button";
 import Button, { ButtonClassKey } from "@material-ui/core/Button/Button";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { createStyles, withStyles } from "@material-ui/styles";
 import { StyleClassKey, StylesType } from "typehelper";
 
 const styles = (theme:Theme) => createStyles({

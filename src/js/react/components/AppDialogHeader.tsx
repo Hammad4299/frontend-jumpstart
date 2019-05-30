@@ -1,8 +1,7 @@
 import * as React from "react";
 import {Theme, Toolbar, IconButton, StandardProps} from "@material-ui/core";
 import {Close as CloseIcon} from '@material-ui/icons'
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles }from "@material-ui/styles";
 import { ToolbarProps } from "@material-ui/core/Toolbar";
 import { StyleClassKey } from "typehelper";
 import classNames from "classnames";
@@ -10,7 +9,7 @@ import classNames from "classnames";
 const styles = (theme:Theme) => createStyles({
     root: {
         display: 'flex',
-        padding: theme.spacing.unit,
+        padding: theme.spacing(1),
         borderBottom: `solid 1px ${theme.palette.grey["200"]}`
     },
     closeIcon: {

@@ -2,15 +2,14 @@ import React from "react";
 import {Theme, StandardProps} from "@material-ui/core";
 import {DialogProps} from "@material-ui/core/Dialog";
 import Dialog, { DialogClassKey } from "@material-ui/core/Dialog/Dialog";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { createStyles, withStyles } from "@material-ui/styles";
 import { StyleClassKey, StylesType } from "typehelper";
 
 const styles = (theme:Theme) => createStyles({
     paper: {
         maxWidth: '95vw',
         overflowY: 'visible',
-        marginTop: (theme.spacing.unit*3)+parseInt(theme.header.height.toString())
+        marginTop: (theme.spacing(3)+parseInt(theme.header.height.toString()))
     },
     scrollBody: {
         display: 'flex',

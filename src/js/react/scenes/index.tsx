@@ -1,14 +1,14 @@
 import '../../publicpath';
-import '@babel/polyfill';
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import React from "react";
-import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+import { CssBaseline } from '@material-ui/core'
 import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom";
-import { create } from "jss";
-import JssProvider from 'react-jss/lib/JssProvider';
-import { createGenerateClassName, jssPreset } from "@material-ui/core";
+import { createGenerateClassName, StylesProvider } from "@material-ui/styles";
 import theme from '../style/Theme';
 import { store } from 'redux-store';
 import Root from './root';
@@ -18,18 +18,18 @@ import Root from './root';
 //     whyDidYouUpdate(React)
 // }
 const generateClassName = createGenerateClassName();
-const jss = create(jssPreset());
+// const jss = create(jssPreset());
 const App = () => (
-    <JssProvider jss={jss} generateClassName={generateClassName}>
+    <StylesProvider generateClassName={generateClassName}>
         <Provider store={store}>
-            <MuiThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <BrowserRouter>
                     <Root />
                 </BrowserRouter>
-            </MuiThemeProvider>
+            </ThemeProvider>
         </Provider>
-    </JssProvider>
+    </StylesProvider>
 );
 
 ReactDOM.render(<App />, document.getElementById('main-content'));

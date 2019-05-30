@@ -1,7 +1,8 @@
 import React from 'react';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import { withStyles, Theme, createStyles, Popper, Fade, Paper, Button, Icon, ClickAwayListener, Typography, StandardProps } from '@material-ui/core';
+import { Theme, Popper, Fade, Paper, Button, Icon, ClickAwayListener, Typography, StandardProps } from '@material-ui/core';
+import { withStyles, createStyles } from '@material-ui/styles';
 import { DateRangePicker as DateRangepicker } from 'react-date-range';
 import moment from 'moment';
 import { DateRange as CalendarIcon } from '@material-ui/icons'
@@ -10,22 +11,22 @@ import { AppButton } from 'components';
 
 const styles = (theme:Theme)=>createStyles({
     icon: {
-        marginRight: theme.spacing.unit
+        marginRight: theme.spacing(1)
     },
     bottomContainer: {
         alignItems: 'center',
         display: 'flex',
         justifyContent: 'flex-end',
         borderTop: `solid 1px ${theme.palette.grey[200]}`,
-        padding: theme.spacing.unit
+        padding: theme.spacing(1)
     },
     datePreview: {
-        margin: theme.spacing.unit/2
+        margin: theme.spacing(1)/2
     },
     actionButton: {
-        padding: `${theme.spacing.unit/2}px ${theme.spacing.unit}px`,
+        padding: `${theme.spacing(1)/2}px ${theme.spacing(1)}px`,
         minHeight: 'initial',
-        margin: theme.spacing.unit/2
+        margin: theme.spacing(1)/2
     }
 })
 
@@ -103,7 +104,7 @@ class Component extends React.PureComponent<DateRangePickerProps, State> {
         return (
             <ClickAwayListener onClickAway={()=>this.setState({open: false})}>
                 <div>
-                    <Button buttonRef={node=>this.anchorEl = node} variant={'outlined'} onClick={(e)=>this.setState({
+                    <Button ref={node=>this.anchorEl = node} variant={'outlined'} onClick={(e)=>this.setState({
                         open: true
                     })}>
                         <Icon className={classes.icon}>
@@ -115,7 +116,7 @@ class Component extends React.PureComponent<DateRangePickerProps, State> {
                     disablePortal open={this.state.open}  anchorEl={anchorEl} transition>
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350}>
-                                <Paper>
+                                <Paper elevation={2}>
                                     <div>
                                         <DateRangepicker
                                                 months={2}

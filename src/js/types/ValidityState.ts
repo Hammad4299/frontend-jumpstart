@@ -6,17 +6,17 @@ export interface ErrorInfo {
     error:string|null
 }
 
-export type ValidityState<T extends string = never> = {[field:string]:ErrorInfo} & {[X in T]:ErrorInfo};
+export type ValidityState<T extends string = never> = {[X in T]:ErrorInfo} & {[i:string]:ErrorInfo};
 
 export function getInitializedValidityState<X extends string = never>(state:Readonly<ValidityState<X>>,field:Readonly<string|string[]>) {
     state = defaultTo(state, {} as ValidityState<X>);
     let initialized:ValidityState<X> = {...state};
     if(typeof field === 'string'){
-        initialized = getInitializedValidityState(initialized,[field]);
+        initialized = getInitializedValidityState<X>(initialized,[field]);
     } else {
         field.forEach((f)=>{
             if(!initialized[f]) {
-                initialized[f] = {
+                (initialized as any)[f] = {
                     error: null,
                     errors: [],
                     hasError: false

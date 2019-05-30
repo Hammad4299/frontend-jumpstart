@@ -1,7 +1,8 @@
 import React from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css'; // see installation section above for versions of NPM older than 3.0.0
-import { Theme, createStyles, WithStyles, withStyles, StandardProps } from '@material-ui/core';
+import { Theme, StandardProps } from '@material-ui/core';
+import { withStyles, createStyles } from '@material-ui/styles';
 import { CropperOptions, CropBoxData, Data, CroppedCanvasOptions } from 'cropperjs';
 import { isEqual } from 'lodash-es';
 import { StyleClassKey } from 'typehelper';

@@ -1,7 +1,6 @@
-import {Theme, WithStyles, Typography, StandardProps} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
+import {Theme, Typography, StandardProps} from "@material-ui/core";
 import React, {ReactNode} from "react";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Table, { TableClassKey } from "@material-ui/core/Table";
 import {TableProps} from "@material-ui/core/Table";
@@ -23,7 +22,7 @@ const styles = (theme:Theme) => createStyles({
     tableTopToolbar: {
         display: 'flex',
         alignItems: 'center',
-        margin: theme.spacing.unit
+        margin: theme.spacing(1)
     },
     perPageContainer: {
         flexGrow: 1

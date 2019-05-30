@@ -1,8 +1,7 @@
 import React from "react";
 import {Theme, StandardProps} from "@material-ui/core";
 import {ButtonProps} from "@material-ui/core/Button";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles }from "@material-ui/styles";
 import { StyleClassKey, StylesType } from "typehelper";
 import { AppButtonClassKey, AppButton, AppButtonProps } from "components";
 

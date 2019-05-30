@@ -1,12 +1,13 @@
 import * as React from "react";
-import { createStyles, withStyles, Theme, StandardProps, DialogContent } from "@material-ui/core";
+import { Theme, StandardProps, DialogContent } from "@material-ui/core";
 import { StyleClassKey } from "typehelper";
+import { createStyles, withStyles } from '@material-ui/core';
 import classNames from "classnames";
 import { DialogContentProps } from "@material-ui/core/DialogContent";
 
 const styles = (theme:Theme) => createStyles({
     root: {
-        padding: theme.spacing.unit*2,
+        padding: theme.spacing(2),
     
     },
     body: {

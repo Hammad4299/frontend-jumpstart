@@ -1,5 +1,6 @@
 import React from 'react';
-import { AppBar, Tabs, createStyles, Theme, withStyles, StandardProps } from "@material-ui/core";
+import { AppBar, Tabs, Theme, StandardProps } from "@material-ui/core";
+import { withStyles, createStyles } from '@material-ui/styles';
 import { TabsProps, TabsClassKey } from '@material-ui/core/Tabs';
 import { AppBarProps } from '@material-ui/core/AppBar';
 import { StyleClassKey, StylesType } from 'typehelper';

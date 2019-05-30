@@ -1,7 +1,6 @@
 import React from "react";
 import {Menu, Theme, StandardProps} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles }from "@material-ui/styles";
 import { StyleClassKey, StylesType } from "typehelper";
 import { MenuProps, MenuClassKey } from "@material-ui/core/Menu";
 

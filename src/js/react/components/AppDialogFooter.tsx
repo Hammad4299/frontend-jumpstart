@@ -1,20 +1,19 @@
 import * as React from "react";
 import {Theme, StandardProps} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-import createStyles from "@material-ui/core/styles/createStyles";
+import { withStyles, createStyles }from "@material-ui/styles";
 import { StyleClassKey } from "typehelper";
 import classNames from "classnames";
 
 const styles = (theme:Theme) => createStyles({
     root: {
-        padding: theme.spacing.unit,
+        padding: theme.spacing(1),
         borderTop: `solid 1px ${theme.palette.grey["200"]}`
     }
 });
 
 const decorator = withStyles(styles);
 
-export interface AppDialogFooterProps extends StandardProps<{}, StyleClassKey<typeof styles>> {
+export interface AppDialogFooterProps extends StandardProps<{}, StyleClassKey<typeof styles>, never, false> {
     children:React.ReactNode
 }
 

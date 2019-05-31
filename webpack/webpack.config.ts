@@ -49,7 +49,7 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
             path: path.resolve(projectSettings.contentOutput),
             filename: options.buildOutputName('js'),
             pathinfo: false,
-            publicPath: process.env.STATIC_CONTENT_PUBLIC_URL
+            publicPath: process.env.STATIC_CONTENT_URL
         },
         optimization: optimizations,
         externals: projectSettings.externals,

@@ -38,8 +38,10 @@ const config = webpackMerge(
         target: 'web',
         devServer: {
             proxy: {
-                '/': 'http://localhost:8082'
+                '/': process.env.DEV_SERVER_PROXY
             },
+            port: process.env.DEV_SERVER_PORT || undefined,
+            host: process.env.DEV_SERVER_HOST || "0.0.0.0",
             hotOnly: true,
             contentBase: path.resolve(webProjectConfig.contentOutput)
         },
@@ -74,8 +76,10 @@ const nodeConfig = webpackMerge(
         target: 'node',
         devServer: {
             proxy: {
-                '/': 'http://localhost:8082'
+                '/': process.env.DEV_SERVER_PROXY
             },
+            port: process.env.DEV_SERVER_PORT || undefined,
+            host: process.env.DEV_SERVER_HOST || "0.0.0.0",
             hotOnly: true,
             contentBase: path.resolve(webProjectConfig.contentOutput)
         },

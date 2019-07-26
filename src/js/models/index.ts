@@ -3,7 +3,7 @@
 
 export interface UploadedFile {
     upload_rel?:string
-    full_url?:string
-    file?:Blob
-    name?:string
+    full_url?:string    //available if preview or already uploaded
+    file?:Blob          //only available when making upload request to server
+    name?:string        //available when making upload request to server or if server kept track of it. Contains original name
 }

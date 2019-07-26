@@ -5,6 +5,7 @@
 import webpack from 'webpack';
 import ImageminWebpackPlugin from "imagemin-webpack";
 import path from 'path';
+import CircularDependencyPlugin from 'circular-dependency-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -246,6 +247,17 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                     windows: true
                 }
             }) : new NullPlugin(),
+			new CircularDependencyPlugin({
+                // exclude detection of files based on a RegExp
+                exclude: /node_modules/,
+                // add errors to webpack instead of warnings
+                failOnError: true,
+                // allow import cycles that include an asyncronous import,
+                // e.g. via import(/* webpackMode: "weak" */ './file.js')
+                allowAsyncCycles: false,
+                // set the current working directory for displaying module paths
+                cwd: path.resolve(projectSettings.src),
+            }),
             new ManifestPlugin({
                 fileName: 'webpack-manifest.json',
                 writeToFileEmit: true,

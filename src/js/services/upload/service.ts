@@ -22,7 +22,7 @@ export interface UploadRequestMap<T> {
 
 type UploadResponseFinal = WithValidityState<AppResponse<UploadResponse>>;
 export class UploadService extends BaseService {
-    upload(data: UploadFilesRequest, batchSize = 20, concurrent = 1, { batchPromise=()=>{}, onUploadProgress=()=>{} }:UploadConfig = { batchPromise: ()=>{}, onUploadProgress: ()=>{} }) {
+    upload(data: UploadFilesRequest, batchSize = 10, concurrent = 1, { batchPromise=()=>{}, onUploadProgress=()=>{} }:UploadConfig = { batchPromise: ()=>{}, onUploadProgress: ()=>{} }) {
         const d = new FormData();
         const chunks = chunk(data.file_infos, batchSize);
         const reqs = chunks.map((c):UploadFilesRequest=>{
@@ -116,5 +116,26 @@ export class UploadService extends BaseService {
             data: d,
             onUploadProgress: onUploadProgress
         });
+    }
+
+    public uploadFileSimple(file: File): Promise<AppResponse<UploadInfo>> {
+        const uploadRequest = this.buildUploadRequest<File>([file], (item) => ({
+            file: item,
+            name: item.name
+        }), UploadKind.Simple);
+        return this.upload(uploadRequest.request).then((p) => {
+            const finalResponse: AppResponse<UploadInfo> = {
+                status: p.status,
+                data: null,
+                errors: p.errors
+            };
+            if (p.status) {
+                this.fillMappedWithUploadResponse(p.data, uploadRequest.map, (item, info) => {
+                    finalResponse.data = info;
+                    return item;
+                })
+            }
+            return finalResponse;
+        })
     }
 }

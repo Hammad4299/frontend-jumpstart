@@ -25,7 +25,7 @@ const config = webpackMerge(
         extractCss: false,
         minimizeCss: false,
         responsiveImages: false,
-        shouldClean: false
+        shouldClean: true	//Better to keep it on. Would prevent issues where some gzipped file gets served instead of actual one
     }), {
         mode: 'development',
         optimization: {

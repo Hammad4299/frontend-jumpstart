@@ -1,5 +1,7 @@
+import { UploadedFile } from "models";
+
 export enum UploadKind {
-    
+    Simple = 'simple'
 }
 
 export interface UploadFilesRequest {
@@ -12,6 +14,4 @@ export interface UploadFilesRequest {
     files:{[index:string]:Blob}
 }
 
-export type UploadInfo = {
-    upload_rel:string
-}
+export type UploadInfo = UploadedFile

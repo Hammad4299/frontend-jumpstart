@@ -1,22 +1,24 @@
-import { defaultTo } from "lodash-es";
+import { defaultTo, orderBy } from "lodash-es";
 
 export type SortDirection = 'asc'|'desc'|'none';
 
 export interface ColumnSort {
     col:string
     dir?:SortDirection
-    position:number
 }
 
 export type Sorting = ColumnSort[];
 
+export function sortData<T>(data: T[], orders:ColumnSort[]):T[] {
+    let filteredOrders = orders.filter(order => order.dir !== 'none')
+    return orderBy(data, filteredOrders.map(({col}) => col), filteredOrders.map(({ dir }) => dir as 'asc'));
+}
 
-export function getColumnSort(sorting:Sorting, {col, position}:ColumnSort) {
+export function getColumnSort(sorting:Sorting, { col }:ColumnSort) {
     let spec = sorting.find(x=>x.col===col);
     if(!spec) {
         spec = {
             col,
-            position,
             dir: 'none'
         };
     }
@@ -25,14 +27,24 @@ export function getColumnSort(sorting:Sorting, {col, position}:ColumnSort) {
 
 export function addColumnSort(sort:ColumnSort, sorting:Sorting = []):Sorting {
     sorting = defaultTo(sorting,[]);
-    let spec = sorting.filter(s=>s.col!==sort.col);
-    spec.push(sort);
-    spec = spec.sort((pre,current)=>{
-        return pre.position === current.position ? 0 : 
-            pre.position<current.position ? -1 : 1;
-    });
     
-    return spec;
+    if(sort.dir === 'none') {
+        sorting = sorting.filter(s=>s.col!==sort.col);
+    } else {
+        let exists = sorting.find(a=>a.col === sort.col);
+        if(exists) {
+            sorting = sorting.map(a=>{
+                if(a.col === sort.col) {
+                    return sort;
+                }
+                return a;
+            })
+        } else {
+            sorting.push(sort);
+        }
+    }
+    
+    return sorting;
 }
 
 export function getToggledSortDirection(currentDirection:SortDirection):SortDirection {

@@ -4,11 +4,11 @@ import { Theme, WithTheme, StandardProps } from "@material-ui/core";
 import { withStyles, createStyles }from "@material-ui/styles";
 import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import classNames from "classnames";
-import { Props } from "react-select/lib/Select";
 import { FixedSizeListProps } from "react-window";
 import { CustomSelectComponentSelectProps } from "./types";
 import { Option, Control, MenuList, Menu, MultiValue, NoOptionsMessage, Placeholder, SingleValue, ValueContainer } from "./CustomComponents";
 import { StyleClassKey } from "typehelper";
+import { Props } from "react-select/src/Select";
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -124,8 +124,7 @@ export type CustomSelectProps<TProps extends Props<OptionType>, OptionType> = Pr
 
 const decorator = withStyles(styles, {withTheme: true});
 
-function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps extends Props<OptionType>, OptionType>
-    (props: TProps) {
+function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps extends Props<OptionType>, OptionType> (props: TProps) {
     let defaultedProps:typeof props = {...props as any};
     defaults(defaultedProps, {
         menuShouldBlockScroll: false,

@@ -99,9 +99,6 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                         ...cacheLoader,
                         options.hmrNeeded || !options.extractCss ? {
                             loader: 'style-loader',
-                            options: {
-                                sourceMap: options.shouldGenerateSourceMaps
-                            }
                         } : MiniCssExtractPlugin.loader,
                         {
                             loader: "css-loader", // creates style nodes from JS strings

@@ -1,8 +1,8 @@
 import { FixedSizeListProps } from "react-window";
 import { CustomSelectClassKey, CustomSelectProps } from "./CustomSelect";
-import { Props } from "react-select/lib/Select";
-import { AsyncProps } from "react-select/lib/Async";
-import { CreatableProps } from "react-select/lib/Creatable";
+import { Props } from "react-select/src";
+import { AsyncProps } from "react-select/async";
+import { CreatableProps } from "react-select/creatable";
 import { Subtract } from "utility-types";
 
 export interface CustomSelectComponentSelectProps {

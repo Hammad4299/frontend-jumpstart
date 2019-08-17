@@ -1,9 +1,4 @@
 import webpack, { Entry, EntryFunc, ExternalsElement } from 'webpack';
-import ImageminGifsicle from "imagemin-gifsicle";
-import ImageminJpegtran from "imagemin-jpegtran";
-import ImageminOptipng from "imagemin-optipng";
-import ImageminSvgo from "imagemin-svgo";
-import ImageminWebp from 'imagemin-webp';
 
 const emptyStr = (str:string, notEmpty:boolean)=>notEmpty ?  str : '';
 
@@ -87,18 +82,18 @@ export const baseOptions = {
             imageminOptions: {
                 // Lossless optimization with custom option
                 plugins: [
-                    ImageminGifsicle({
+                    ['gifsicle',{
                         interlaced: true
-                    }),
-                    ImageminJpegtran({
+                    }],
+                    ['jpegtran',{
                         progressive: true
-                    }),
-                    ImageminOptipng({
+                    }],
+                    ['optipng',{
                         optimizationLevel: 1
-                    }),
-                    ImageminSvgo({
+                    }],
+                    ['svgo',{
                         removeViewBox: true
-                    })
+                    }]
                 ]
             }
         },
@@ -106,9 +101,9 @@ export const baseOptions = {
             imageminOptions: {
                 // Lossless optimization with custom option
                 plugins: [
-                    ImageminWebp({
+                    ['webp',{
                         loseless: true
-                    })
+                    }]
                 ]
             }
         }
@@ -151,18 +146,18 @@ export const baseOptions = {
             imageminOptions: {
                 // Lossless optimization with custom option
                 plugins: [
-                    ImageminGifsicle({
+                    ['gifsicle',{
                         interlaced: true
-                    }),
-                    ImageminJpegtran({
+                    }],
+                    ['jpegtran',{
                         progressive: true
-                    }),
-                    ImageminOptipng({
+                    }],
+                    ['optipng',{
                         optimizationLevel: 1
-                    }),
-                    ImageminSvgo({
+                    }],
+                    ['svgo',{
                         removeViewBox: true
-                    })
+                    }]
                 ]
             }
         },
@@ -170,9 +165,9 @@ export const baseOptions = {
             imageminOptions: {
                 // Lossless optimization with custom option
                 plugins: [
-                    ImageminWebp({
+                    ['webp',{
                         loseless: true
-                    })
+                    }]
                 ]
             }
         }

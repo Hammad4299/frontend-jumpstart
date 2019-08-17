@@ -1,16 +1,16 @@
 import { Clear as DeleteIcon, Refresh as ReloadIcon, OpenInNew as OpenNewIcon } from "@material-ui/icons";
-import { MenuListComponentProps, MenuProps, NoticeProps } from "react-select/lib/components/Menu";
-import { MultiValueProps } from "react-select/lib/components/MultiValue";
-import { ValueContainerProps } from "react-select/lib/components/containers";
-import { SingleValueProps } from "react-select/lib/components/SingleValue";
-import { PlaceholderProps } from "react-select/lib/components/Placeholder";
-import { OptionProps } from "react-select/lib/components/Option";
-import { ControlProps } from "react-select/lib/components/Control";
+import { MenuListComponentProps, MenuProps, NoticeProps } from "react-select/src/components/Menu";
+import { MultiValueProps } from "react-select/src/components/MultiValue";
+import { ValueContainerProps } from "react-select/src/components/containers";
+import { PlaceholderProps } from "react-select/src/components/Placeholder";
+import { OptionProps } from "react-select/src/components/Option";
+import { ControlProps } from "react-select/src/components/Control";
 import { Typography, Paper, Chip, MenuItem, IconButton, FormControl, Input } from "@material-ui/core";
 import { FixedSizeList, FixedSizeListProps } from "react-window";
 import { SelectComponentProps } from "./types";
 import React from "react";
 import classNames from "classnames";
+import { SingleValueProps } from "react-select/src/components/SingleValue";
 
 type TextFieldInputComponentProps<OptionType> = {
     className: string,

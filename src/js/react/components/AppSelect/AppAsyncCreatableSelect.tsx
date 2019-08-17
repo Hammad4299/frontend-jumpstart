@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomSelect from "./CustomSelect";
 import { SimpleOption, AsyncCreatableSelectProps, ComposedSelect } from "./types";
-import AsyncCreatable from "react-select/lib/AsyncCreatable";
+import AsyncCreatable from "react-select/async-creatable";
 
 export type AppAsyncCreatableSelectProps<OptionType = SimpleOption> = ComposedSelect<AsyncCreatableSelectProps<OptionType>,OptionType>;
 

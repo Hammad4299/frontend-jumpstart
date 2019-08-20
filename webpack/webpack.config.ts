@@ -4,6 +4,7 @@
 //TODO dynamic code splitting
 import webpack from 'webpack';
 import ImageminWebpackPlugin from "imagemin-webpack";
+import Dotenv from 'dotenv-webpack';
 import path from 'path';
 import CircularDependencyPlugin from 'circular-dependency-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -209,6 +210,10 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                 filename: options.buildOutputName('style'),
                 //chunkFilename: options.buildOutputName("css/[id].hash-[chunkhash].css",'.hash-[chunkhash]')
             }),
+            new Dotenv({
+                defaults: true,
+				systemvars: true
+            }) as any,
             options.shouldClean ? cleanupPlugin : new NullPlugin(),
             copyPlugin,
             // new ForkTsCheckerWebpackPlugin({ 

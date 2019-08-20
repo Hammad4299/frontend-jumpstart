@@ -12,7 +12,6 @@ import CompressionPlugin from 'compression-webpack-plugin';
 import webProjectConfig from "./webpack-project";
 import nodeProjectConfig from "./webpack-project-node";
 import { baseOptions } from "./webpack-common";
-import Dotenv from 'dotenv-webpack';
 import MomentLocalesPlugin from 'moment-locales-webpack-plugin';
 import webpack from 'webpack';
 process.env.TS_NODE_PROJECT = path.resolve(__dirname,'./tsconfig.json');
@@ -45,10 +44,6 @@ const config = webpackMerge(
         },
         plugins: [
             new MomentLocalesPlugin(),
-            new Dotenv({
-                defaults: true,
-				systemvars: true
-            }),
             new CompressionPlugin({
                 threshold: 0,
                 test: /\.(js|css|ttf|otf|eot)/

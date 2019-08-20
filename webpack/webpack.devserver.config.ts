@@ -6,7 +6,6 @@ dotenv.config({
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config';
 import path from 'path';
-import Dotenv from 'dotenv-webpack';
 import webpack from 'webpack';
 import webProjectConfig from "./webpack-project";
 import nodeProjectConfig from "./webpack-project-node";
@@ -46,10 +45,6 @@ const config = webpackMerge(
             contentBase: path.resolve(webProjectConfig.contentOutput)
         },
         plugins: [
-            new Dotenv({
-                defaults: true,
-				systemvars: true
-            }) as any,
             new webpack.HotModuleReplacementPlugin()
         ]
     } as webpack.Configuration

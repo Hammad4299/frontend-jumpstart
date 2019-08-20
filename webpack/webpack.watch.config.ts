@@ -10,7 +10,6 @@ import webpack from 'webpack';
 import path from 'path';
 import webProjectConfig from './webpack-project';
 import nodeProjectConfig from './webpack-project-node';
-import Dotenv from 'dotenv-webpack';
 import { baseOptions } from './webpack-common';
 process.env.TS_NODE_PROJECT = path.resolve(__dirname,'./tsconfig.json');
 
@@ -37,10 +36,6 @@ const config = webpackMerge(
         // devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
         devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
         plugins: [
-            new Dotenv({
-                defaults: true,
-				systemvars: true
-            }) as any
         ]
     } as webpack.Configuration
 );

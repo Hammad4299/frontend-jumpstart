@@ -153,14 +153,12 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(Wrappe
                 const tsBypass:WrappedProps = rest as any;
                 
                 return (
-                    <React.Fragment>
-                        <WrappedComponent
-                            breadcrumbInjection={{
-                                breadcrumbs: breadcrumbs,
-                                breadcrumbForExample: ()=>this.setContextFunc('example',[setBreadcrumbs],'general'),
-                            }}
-                            {...tsBypass} />
-                    </React.Fragment>
+                    <WrappedComponent
+                        breadcrumbInjection={{
+                            breadcrumbs: breadcrumbs,
+                            breadcrumbForExample: ()=>this.setContextFunc('example',[setBreadcrumbs],'general'),
+                        }}
+                        {...tsBypass} />
                 );
             }
         }

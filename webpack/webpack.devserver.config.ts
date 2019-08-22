@@ -32,13 +32,13 @@ const config = webpackMerge(
         },
         mode: 'development',
         // devtool: 'eval',      //slowest and accurate. (seem to work with css)
-        //devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
-        devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
+        devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
+        // devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
         target: 'web',
         devServer: {
-            proxy: {
-                '/': process.env.DEV_SERVER_PROXY
-            },
+            // proxy: {
+            //     '/': process.env.DEV_SERVER_PROXY
+            // },
             port: process.env.DEV_SERVER_PORT || undefined,
             host: process.env.DEV_SERVER_HOST || "0.0.0.0",
             hotOnly: true,

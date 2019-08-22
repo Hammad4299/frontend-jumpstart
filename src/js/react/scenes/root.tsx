@@ -6,6 +6,8 @@ import { Snackbar } from "@material-ui/core";
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
+import { AppButton } from "components";
+import { Sample } from "./sample";
 library.add(faFilter)
 
 const routes = routesForContext();
@@ -13,7 +15,7 @@ const Root = () => (
     // <ContextManager>
         <React.Fragment>
             <Switch>
-                
+                <Route component={Sample} />
             </Switch>
             {/* <Snackbar
                 open={this.props.snackbarData.open}

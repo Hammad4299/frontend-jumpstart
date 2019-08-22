@@ -46,7 +46,7 @@ export interface ProjectSettings {
 export const baseOptions = {
     web: {
         favicon: null,
-        htmlPlugin: false,
+        htmlPlugin: true,
         shouldGenerateSourceMaps: true,
         buildOutputName: function(type:AssetsType):string {
             let toRet = '';

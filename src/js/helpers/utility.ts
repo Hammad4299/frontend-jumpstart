@@ -1,4 +1,3 @@
-import './rollbar'
 import { toNumber as _ToNumber } from 'lodash-es';
 import SiteConfig from 'externals/SiteConfig';
 

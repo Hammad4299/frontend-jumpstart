@@ -95,7 +95,7 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                 },
                 {
                     test: /\.(css|scss|sass)$/,
-                    include: path.resolve(projectSettings.src),
+                    // include: path.resolve(projectSettings.src),
                     use: [
                         ...cacheLoader,
                         options.hmrNeeded || !options.extractCss ? {
@@ -203,7 +203,9 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
             ]
         },
         plugins: [
-            options.htmlPlugin ? new HtmlWebpackPlugin() : new NullPlugin(),
+            options.htmlPlugin ? new HtmlWebpackPlugin({
+                template: './src/index.html'
+            }) : new NullPlugin(),
             options.hmrNeeded || !options.extractCss ? new NullPlugin() : new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional
@@ -249,17 +251,17 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                     windows: true
                 }
             }) : new NullPlugin(),
-			new CircularDependencyPlugin({
-                // exclude detection of files based on a RegExp
-                exclude: /node_modules/,
-                // add errors to webpack instead of warnings
-                failOnError: true,
-                // allow import cycles that include an asyncronous import,
-                // e.g. via import(/* webpackMode: "weak" */ './file.js')
-                allowAsyncCycles: false,
-                // set the current working directory for displaying module paths
-                cwd: path.resolve(projectSettings.src),
-            }),
+			// new CircularDependencyPlugin({
+            //     // exclude detection of files based on a RegExp
+            //     exclude: /node_modules/,
+            //     // add errors to webpack instead of warnings
+            //     failOnError: true,
+            //     // allow import cycles that include an asyncronous import,
+            //     // e.g. via import(/* webpackMode: "weak" */ './file.js')
+            //     allowAsyncCycles: false,
+            //     // set the current working directory for displaying module paths
+            //     cwd: path.resolve(projectSettings.src),
+            // }),
             new ManifestPlugin({
                 fileName: 'webpack-manifest.json',
                 writeToFileEmit: true,

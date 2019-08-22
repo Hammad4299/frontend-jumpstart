@@ -1,17 +1,17 @@
-import {AnyAction} from "redux";
-import { RoutingState } from "./types";
+import { RoutingState, RoutingActions } from "./types";
 import { BaseRoutingContext } from "routing";
-import { RoutingActions } from "./actions";
 
-export function routingStateReducer(previous:RoutingState, action: AnyAction):RoutingState {
+export function routingStateReducer(previous:RoutingState, action: RoutingActions):RoutingState {
     previous = previous || {
         routingContext: new BaseRoutingContext()
     };
-    if(action.type === RoutingActions.SET_ROUTING_CONTEXT) {
-        previous = {
-            ...previous,
-            routingContext: action.context
-        };
+    switch(action.type) {
+        case 'routing_set_context':
+            previous = {
+                ...previous,
+                routingContext: action.context
+            };
+            break;
     }
 
     return previous;

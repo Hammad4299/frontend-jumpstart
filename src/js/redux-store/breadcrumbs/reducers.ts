@@ -1,24 +1,25 @@
 
-import { AnyAction } from 'redux';
-import { BreadcrumbState } from './types';
-import { BreadcrumbActions } from './actions';
+import { BreadcrumbState, BreadcrumbActions } from './types';
 
-export function breadcrumbStateReducer(previous:BreadcrumbState, action: AnyAction):BreadcrumbState {
+export function breadcrumbStateReducer(previous:BreadcrumbState, action: BreadcrumbActions):BreadcrumbState {
     previous = previous || {
         context: null,
         breadcrumbs:  []
     };
 
-    if(action.type === BreadcrumbActions.SET_BREADCRUMBS) {
-        previous = {
-            ...previous,
-            breadcrumbs: action.breadcrumbs
-        };
-    } else if(action.type === BreadcrumbActions.SET_CONTEXT) {
-        previous = {
-            ...previous,
-            context: action.context
-        };
+    switch(action.type) {
+        case "breadcrumb_set_context":
+            previous = {
+                ...previous,
+                context: action.context
+            };
+            break;
+        case 'breadcrumbs_set':
+            previous = {
+                ...previous,
+                breadcrumbs: action.breadcrumbs
+            };
+            break;
     }
 
     return previous;

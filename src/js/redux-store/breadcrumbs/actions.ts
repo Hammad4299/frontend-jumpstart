@@ -1,25 +1,16 @@
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import { BreadcrumbInfo, BreadcrumbContextContract } from 'breadcrumbs';
-import { AppStore } from 'redux-store';
+import { SetBreadcrumbContextAction, SetBreadcrumbsAction } from './types'
 
-export enum BreadcrumbActions {
-    SET_CONTEXT = 'breadcrumb_set_context',
-    SET_BREADCRUMBS = 'breadcrumb_set'
-}
-
-export function setBreadcrumbs(breadcrumbInfos:BreadcrumbInfo[]) {
-    return (dispatch:ThunkDispatch<AppStore, void, AnyAction>) => {
-        dispatch({
-            type: BreadcrumbActions.SET_BREADCRUMBS,
-            breadcrumbs: breadcrumbInfos
-        });
+export function setBreadcrumbs(breadcrumbInfos:BreadcrumbInfo[]):SetBreadcrumbsAction {
+    return {
+        type: 'breadcrumbs_set',
+        breadcrumbs: breadcrumbInfos
     }
 }
 
-export function setBreadcrumbContext(context:BreadcrumbContextContract) {
+export function setBreadcrumbContext(context:BreadcrumbContextContract):SetBreadcrumbContextAction {
     return {
-        type: BreadcrumbActions.SET_CONTEXT,
+        type: 'breadcrumb_set_context',
         context: context
     };
 }

@@ -1,4 +1,4 @@
-import {default as moment, Moment} from 'moment';
+import moment, { Moment } from 'moment';
 
 class TimeHelper{
     private userTimezone:string|null|undefined;

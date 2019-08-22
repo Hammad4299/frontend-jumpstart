@@ -1,12 +1,10 @@
 import { RoutingContext } from "routing";
+import { SetRoutingContentAction } from "./types";
 
-export enum RoutingActions {
-    SET_ROUTING_CONTEXT = 'routing_set_context'
-}
 
-export function setRoutingContext(params: RoutingContext) {
+export function setRoutingContext(params: RoutingContext):SetRoutingContentAction {
     return {
-        type: RoutingActions.SET_ROUTING_CONTEXT,
+        type: 'routing_set_context',
         context: params
     };
 }

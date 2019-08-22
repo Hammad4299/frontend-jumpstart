@@ -2,13 +2,13 @@
  * Created by talha on 5/15/2018.
  */
 import React from 'react';
-import {Route, Redirect, RouteProps} from 'react-router-dom';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 
 interface PrivateRouteProps extends RouteProps {
     
 }
 
-const PrivateRoute = ({  render, component:Component, ...rest }:PrivateRouteProps) => {
+const PrivateRoute = ({ render, component:Component, ...rest }:PrivateRouteProps) => {
     const authorized = true;
     return (
         <Route

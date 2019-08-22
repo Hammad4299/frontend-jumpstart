@@ -1,8 +1,8 @@
 import { RoutingContext } from "routing";
-import { SetRoutingContentAction } from "./types";
+import { SetRoutingContextAction } from "./types";
 
 
-export function setRoutingContext(params: RoutingContext):SetRoutingContentAction {
+export function setRoutingContext(params: RoutingContext):SetRoutingContextAction {
     return {
         type: 'routing_set_context',
         context: params

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { uniqueId } from 'lodash-es';
 import Input, { InputProps } from "@material-ui/core/Input";
 import { ButtonBaseProps } from "@material-ui/core/ButtonBase";
@@ -8,39 +8,27 @@ export function fileButton<T extends ButtonBaseProps>(Component:React.ComponentT
         onFilesChange?:(files:FileList)=>void,
         inputProps?:InputProps
     }
-    interface State {
-        id:string
-    }
+
     type FileButtonProps = Props & T;
 
-    return class extends React.PureComponent<FileButtonProps,State> {
-        constructor(props:FileButtonProps) {
-            super(props);
-            this.fileChanged = this.fileChanged.bind(this);
-            this.state = {
-                id: uniqueId('file_inp_hoc')
-            };
-        }
-    
-        protected fileChanged(event:React.ChangeEvent<HTMLInputElement>) {
-            const files = event.currentTarget.files;
-            const {onFilesChange = ()=>{}} = this.props as Props;
-            onFilesChange(files);
-        }
-    
-        render(){
-            const { onFilesChange = ()=>{}, inputProps, ...tmp} = this.props as Props;
-            const rest:T = tmp as any;
-            const id = this.state.id;
-    
-            return (
-                <React.Fragment>
-                    <Input {...inputProps} onChange={this.fileChanged} style={{display: 'none'}} type={'file'} id={id} />
-                    <Component {...{htmlFor:id}} component={'label'} {...rest} />
-                </React.Fragment>
-            )
-        }
+    function ModifiedComponent(props:FileButtonProps) {
+        const { onFilesChange, inputProps, ...tmp} = props;
+        let id = useMemo(()=>uniqueId('file_inp_hoc'),[]);
+        let rest = tmp as T
+
+        return (
+            <React.Fragment>
+                <Input {...inputProps} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFilesChange(e.currentTarget.files)} style={{display: 'none'}} type={'file'} id={id} />
+                <Component {...{htmlFor:id}} {...rest} component={'label'} />
+            </React.Fragment>
+        )
     }
+
+    ModifiedComponent.defaultProps = {
+        onFilesChange: ()=>{}
+    };
+    ModifiedComponent.displayName = 'FileButton';
+    return ModifiedComponent;
 }
 
 export default fileButton;

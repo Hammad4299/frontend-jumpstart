@@ -1,6 +1,6 @@
-import React, { RefObject } from 'react';
+import React, { RefObject, useState, useRef, useEffect } from 'react';
 import { Theme, StandardProps } from "@material-ui/core";
-import { createStyles, withStyles } from '@material-ui/styles';
+import { createStyles, withStyles, makeStyles } from '@material-ui/styles';
 import { InputProps } from '@material-ui/core/Input';
 import { defaultTo } from 'lodash-es';
 import { GooglePlaceAutocompleteServiceWrapper, extractGooglePlaceComponents } from 'helpers';
@@ -15,10 +15,11 @@ const styles = (theme:Theme) => createStyles({
 
 export type AddressFieldClassKey = StyleClassKey<typeof styles>;
 
-interface AddressFieldProps extends StandardProps<{},AddressFieldClassKey>{
+let useStyles = makeStyles(styles);
+
+export interface AddressFieldProps extends StandardProps<{},AddressFieldClassKey>{
     value:string
     inputProps?:InputProps
-    style?:React.CSSProperties
     onChange:(address:AddressAutoComplete)=>void
 }
 
@@ -30,97 +31,85 @@ export interface AddressAutoComplete {
     country: string
 }
 
-const decorator = withStyles(styles);
+function Component(props:AddressFieldProps) {
+    let { inputProps, onChange, value, classes, ...rest } = props;
+    let [ predictions, setPredictions ] = useState<google.maps.places.AutocompletePrediction[]>([]);
+    let [ input, setInput ] = useState('');
 
-interface State {
-    predictions:google.maps.places.AutocompletePrediction[]
-    input:string
-}
+    let refHolder = useRef(React.createRef<HTMLDivElement>());
+    let serviceRef = useRef<GooglePlaceAutocompleteServiceWrapper>(null);
 
-class Component extends React.PureComponent<AddressFieldProps,State> {
-    static defaultProps = {
-        onChange:()=>{},
-        value: ''
-    }
-    static displayName = 'AddressField';
-    
-    protected service:GooglePlaceAutocompleteServiceWrapper
-    protected ref:RefObject<HTMLDivElement>
-    constructor(props:AddressFieldProps){
-        super(props);
-        this.ref = React.createRef();
-        this.state = {
-            predictions: [],
-            input: ''
-        };
-    }
-    componentDidMount() {
-        this.service = new GooglePlaceAutocompleteServiceWrapper({
+    let useGooglePlaceService = useEffect(()=>{
+        serviceRef.current = new GooglePlaceAutocompleteServiceWrapper({
             input: '',
             types: ['address']
-        }, this.ref.current);
+        }, refHolder.current.current)
+    },[]);
+
+    classes = useStyles(props);
+
+    let service = serviceRef.current;
+    let ref = refHolder.current;
+    value = defaultTo(value,'');
+        
+    let options:SimpleOption[] = [];
+    if(predictions) {
+        options = predictions.map(suggestion=>({
+            value:suggestion.place_id,
+            label:suggestion.description
+        }));
+        options.push({
+            value: 'google',
+            label: input
+        })
     }
     
-    render() {
-        let { inputProps, onChange, value, classes, ...rest } = this.props;
-        value = defaultTo(value,'');
-        
-        let options:SimpleOption[] = [];
-        if(this.state.predictions) {
-            options = this.state.predictions.map(suggestion=>({
-                value:suggestion.place_id,
-                label:suggestion.description
-            }));
-            options.push({
-                value: 'google',
-                label: this.state.input
-            })
-        }
-        
-        const attribution = <span ref={this.ref}></span>;
+    const attribution = <span ref={ref}></span>;
 
-        return (
-            <React.Fragment>
-                {attribution}
-                <AppSelect value={{
-                        value,
-                        label: value
-                    }}
-                    showDropdownIndicator={false}
-                    options={options}
-                    fullWidth
-                    isOptionDisabled={(option)=>option.value==='google'}
-                    formatOptionLabel={(option)=>{
-                        if(option.value!=='google') {
-                            return option.label;
-                        } else if(option.value==='google') {
-                            return <img src={require('images/powered_by_google.png')} />;
-                        }
-                    }}
-                onChange={(value:any)=>{
-                    if(value.value) {
-                        this.service.getGooglePlaceDetail({
-                            placeId: value.value
-                        }).then(resp=>{
-                            onChange(extractGooglePlaceComponents(resp.detail));
-                        })
+    return (
+        <React.Fragment>
+            {attribution}
+            <AppSelect value={{
+                    value,
+                    label: value
+                }}
+                showDropdownIndicator={false}
+                options={options}
+                fullWidth
+                isOptionDisabled={(option)=>option.value==='google'}
+                formatOptionLabel={(option)=>{
+                    if(option.value!=='google') {
+                        return option.label;
+                    } else if(option.value==='google') {
+                        return <img src={require('images/powered_by_google.png')} />;
                     }
                 }}
-                onInputChange={(a,b)=>{
-                    if(a.length>0){
-                        this.setState({
-                            input: a
-                        });
-                        this.service.getGooglePlacePredictions(a).then((resp)=>{
-                            this.setState({
-                                predictions: resp.predictions
-                            });
-                        })
-                    }
-                }}/>
-            </React.Fragment>
-        );
-    }
+            onChange={(value:any)=>{
+                if(value.value) {
+                    service.getGooglePlaceDetail({
+                        placeId: value.value
+                    }).then(resp=>{
+                        onChange(extractGooglePlaceComponents(resp.detail));
+                    })
+                }
+            }}
+            onInputChange={(a,b)=>{
+                if(a.length>0){
+                    setInput(a);
+                    service.getGooglePlacePredictions(a).then((resp)=>{
+                        setPredictions(predictions);
+                    })
+                }
+            }}/>
+        </React.Fragment>
+    );
 }
-export const AddressField = decorator(Component)
+
+Component.defaultProps = {
+    onChange:()=>{},
+    value: ''
+}
+
+Component.displayName = 'AddressField';
+export let AddressField = Component;
 export default AddressField;

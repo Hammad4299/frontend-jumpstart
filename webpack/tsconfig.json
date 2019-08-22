@@ -24,6 +24,7 @@
       "components": ["js/react/components/index.ts"],
       "services": ["js/services/index.ts"],
       "redux-store": ["js/redux-store/index.ts"],
+      "custom-hooks": ["js/react/hooks/index.ts"],
       "breadcrumbs": ["js/breadcrumbs/index.ts"],
       "routing": ["js/routing/index.ts"],
       "typehelper": ["js/typescript/index.ts"],

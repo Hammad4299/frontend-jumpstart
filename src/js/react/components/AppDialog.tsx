@@ -1,9 +1,8 @@
 import React from "react";
-import {Theme, StandardProps} from "@material-ui/core";
-import {DialogProps} from "@material-ui/core/Dialog";
-import Dialog, { DialogClassKey } from "@material-ui/core/Dialog/Dialog";
-import { createStyles, withStyles } from "@material-ui/styles";
-import { StyleClassKey, StylesType } from "typehelper";
+import { Dialog, Theme, StandardProps } from "@material-ui/core";
+import { DialogProps } from "@material-ui/core/Dialog";
+import { createStyles, makeStyles } from "@material-ui/styles";
+import { StyleClassKey } from "typehelper";
 
 const styles = (theme:Theme) => createStyles({
     paper: {
@@ -18,26 +17,23 @@ const styles = (theme:Theme) => createStyles({
     }
 });
 
-type AppDialogClassKey = StyleClassKey<typeof styles>|DialogClassKey
+type AppDialogClassKey = StyleClassKey<typeof styles>
 
-const finalStyles:StylesType<AppDialogClassKey> = styles as any;
-
-const decorator = withStyles(finalStyles);
+let useStyles = makeStyles(styles);
 
 export interface AppDialogProps extends StandardProps<DialogProps, AppDialogClassKey> {
 }
 
 function Component(props:AppDialogProps) {
+    let classes = useStyles(props);
     return (
-        <Dialog {...props} />
+        <Dialog {...props} classes={classes} />
     )
 }
 
 Component.defaultProps = {
     scroll: 'body'
 } as AppDialogProps
-
 Component.displayName = 'AppDialog';
-
-export const AppDialog = decorator(Component);
+export let AppDialog = Component;
 export default AppDialog;

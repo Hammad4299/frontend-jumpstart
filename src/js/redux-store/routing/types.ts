@@ -4,9 +4,9 @@ export interface RoutingState {
     routingContext:RoutingContext
 }
 
-export interface SetRoutingContentAction {
+export interface SetRoutingContextAction {
     type: 'routing_set_context',
     context: RoutingContext
 }
 
-export type RoutingActions = SetRoutingContentAction;
+export type RoutingActions = SetRoutingContextAction;

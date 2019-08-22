@@ -1,7 +1,7 @@
 import React from "react";
 import { defaults } from 'lodash-es';
-import { Theme, WithTheme, StandardProps } from "@material-ui/core";
-import { withStyles, createStyles }from "@material-ui/styles";
+import { Theme, StandardProps } from "@material-ui/core";
+import { createStyles, makeStyles, useTheme }from "@material-ui/styles";
 import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import classNames from "classnames";
 import { FixedSizeListProps } from "react-window";
@@ -98,6 +98,8 @@ const styles = (theme: Theme) => createStyles({
 
 export type CustomSelectClassKey = StyleClassKey<typeof styles>;
 
+let useStyles = makeStyles(styles);
+
 const ccomponents = {
     Control,
     MenuList,
@@ -118,31 +120,16 @@ interface PrivateProps extends StandardProps<{}, CustomSelectClassKey> {
     onReload?:()=>void
 }
 
-export type CustomSelectProps<TProps extends Props<OptionType>, OptionType> = PrivateProps & Partial<WithTheme> & TProps & {
+export type CustomSelectProps<TProps extends Props<OptionType>, OptionType> = PrivateProps & TProps & {
     Component:React.ComponentType<TProps>
 };
 
-const decorator = withStyles(styles, {withTheme: true});
-
 function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps extends Props<OptionType>, OptionType> (props: TProps) {
-    let defaultedProps:typeof props = {...props as any};
-    defaults(defaultedProps, {
-        menuShouldBlockScroll: false,
-        showDropdownIndicator: true,
-        hideSelectedOptions: false,
-        components: ccomponents,
-        filterOption: undefined,
-        isMulti: false,
-        isSearchable: true,
-        placeholder: '',
-        isClearable: false,
-        allowReload: false,
-        onReload: ()=>{},
-        value: null,
-        fullWidth: false,
-    } as TProps);
+    let { styles, showDropdownIndicator, components, classes, fullWidth, allowReload, onReload, fixedSizeListProps } = props;
+    classes = useStyles(props);
+    let theme = useTheme<Theme>();
 
-    defaults(defaultedProps.components,{
+    defaults(components, {
         Control: ccomponents.Control,
         MenuList: ccomponents.MenuList,
         Menu: ccomponents.Menu,
@@ -155,8 +142,6 @@ function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps 
     });
 
 
-    const { styles, showDropdownIndicator, theme, classes, fullWidth, allowReload, onReload, fixedSizeListProps } = defaultedProps;
-
     const extraInjectedProps:CustomSelectComponentSelectProps = {
         classes,
         controlProps: {
@@ -167,12 +152,12 @@ function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps 
         fixedSizeListProps: fixedSizeListProps
     };
     
-    const TComponent:React.ComponentType<SProps> = defaultedProps.Component;
+    const TComponent:React.ComponentType<SProps> = props.Component;
     
     return (
         <TComponent
-            {...defaultedProps}
-            className={classNames(defaultedProps.className, classes.root,{
+            {...props}
+            className={classNames(props.className, classes.root,{
                 [classes.fullWidth]: fullWidth
             })}
             {...extraInjectedProps}
@@ -198,6 +183,22 @@ function Component<TProps extends CustomSelectProps<SProps, OptionType>, SProps 
             />
     );
 }
+Component.displayName = 'CustomSelect';
+Component.defaultProps = {
+    menuShouldBlockScroll: false,
+    showDropdownIndicator: true,
+    hideSelectedOptions: false,
+    components: ccomponents,
+    filterOption: undefined,
+    isMulti: false,
+    isSearchable: true,
+    placeholder: '',
+    isClearable: false,
+    allowReload: false,
+    onReload: ()=>{},
+    value: null,
+    fullWidth: false,
+}
 
-export const CustomSelect = decorator(Component);
+export let CustomSelect = Component;
 export default CustomSelect;

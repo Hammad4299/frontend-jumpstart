@@ -1,42 +1,37 @@
 import React from "react";
-import {Theme, StandardProps} from "@material-ui/core";
-import {ButtonProps} from "@material-ui/core/Button";
-import { withStyles, createStyles }from "@material-ui/styles";
-import { StyleClassKey, StylesType } from "typehelper";
-import { AppButtonClassKey, AppButton, AppButtonProps } from "components";
+import { Theme, StandardProps } from "@material-ui/core";
+import { ButtonProps } from "@material-ui/core/Button";
+import { createStyles, makeStyles }from "@material-ui/styles";
+import { StyleClassKey } from "typehelper";
+import { AppButton, AppButtonProps } from "components";
 
 const styles = (theme:Theme) => createStyles({
 });
 
-type AppDialogButtonClassKey = StyleClassKey<typeof styles>|AppButtonClassKey
-
-const finalStyles:StylesType<AppDialogButtonClassKey> = styles as any;
-
-const decorator = withStyles(finalStyles);
+type AppDialogButtonClassKey = StyleClassKey<typeof styles>
+let useStyles = makeStyles(styles);
 
 export interface AppDialogButtonProps extends StandardProps<AppButtonProps, AppDialogButtonClassKey> {
     styleVariant?:'dismiss'|'proceed'
 }
 
-const Component = ({ styleVariant ,...rest}:AppDialogButtonProps) => {
+const Component = (props:AppDialogButtonProps) => {
+    let { styleVariant, classes, ...rest} = props;
     let color:ButtonProps['color'] = 'secondary';
     let variant:ButtonProps['variant'] = 'contained';
+    classes = useStyles(props);
     if(styleVariant === 'dismiss') {
         color = 'primary';
         variant = 'text';
     }
     return (
-        <AppButton color={color} variant={variant} {...rest} />
+        <AppButton color={color} variant={variant} {...rest} classes={classes} />
     )
 }
-
+Component.displayName = 'AppDialogButton';
 Component.defaultProps = {
     styleVariant: 'proceed'
 } as AppDialogButtonProps
-Component.displayName = 'AppDialogButton'
 
-export const AppDialogButton = decorator(
-    Component
-)
-
+export let AppDialogButton = Component;
 export default AppDialogButton;

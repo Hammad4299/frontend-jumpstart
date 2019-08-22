@@ -1,25 +1,24 @@
 import React from "react";
-import {Theme, StandardProps} from "@material-ui/core";
-import {ButtonProps} from "@material-ui/core/Button";
-import Button, { ButtonClassKey } from "@material-ui/core/Button/Button";
-import { createStyles, withStyles } from "@material-ui/styles";
-import { StyleClassKey, StylesType } from "typehelper";
+import { Theme, StandardProps, Button } from "@material-ui/core";
+import { createStyles, makeStyles } from '@material-ui/styles'
+import { ButtonProps } from "@material-ui/core/Button";
+import { StyleClassKey } from "typehelper";
 
 const styles = (theme:Theme) => createStyles({
-});
+})
 
-export type AppButtonClassKey = StyleClassKey<typeof styles>|ButtonClassKey
+export type AppButtonClassKey = StyleClassKey<typeof styles>
 
-const finalStyles:StylesType<AppButtonClassKey> = styles as any;
-
-const decorator = withStyles(finalStyles);
+const useStyles = makeStyles(styles);
 
 export interface AppButtonProps extends StandardProps<ButtonProps, AppButtonClassKey> {
 }
 
 function Component(props:AppButtonProps) {
+    let classes = useStyles(props);
+    
     return (
-        <Button {...props} />
+        <Button {...props}  />
     )
 }
 
@@ -29,6 +28,5 @@ Component.defaultProps = {
     color: 'primary',
     variant: 'contained'
 } as AppButtonProps
-
-export const AppButton = decorator(Component);
+export let AppButton = Component;
 export default AppButton;

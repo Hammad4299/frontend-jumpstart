@@ -48,6 +48,8 @@
     "../src/**/jquery-dependent/**/*.tsx",
     "../src/**/needs-to-refractor/**/*.ts",
     "../src/**/needs-to-refractor/**/*.tsx",
+    "../src/**/react-without-hooks/**/*.ts",
+    "../src/**/react-without-hooks/**/*.tsx",
   ]
   // "awesomeTypescriptLoaderOptions": { //Not in use anymore since ts-loader is being used
   //   "useCache": true,

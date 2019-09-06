@@ -1,32 +1,29 @@
-import React from "react";
-import { Theme, StandardProps, Button } from "@material-ui/core";
-import { createStyles, makeStyles } from '@material-ui/styles'
-import { ButtonProps } from "@material-ui/core/Button";
-import { StyleClassKey } from "../typescript";
+import React from "react"
+import { Theme, StandardProps, Button } from "@material-ui/core"
+import { createStyles, makeStyles } from "@material-ui/styles"
+import { ButtonProps } from "@material-ui/core/Button"
+import { StyleClassKey } from "../typescript"
 
-const styles = (theme:Theme) => createStyles({
-})
+const styles = (theme: Theme) => createStyles({})
 
 export type AppButtonClassKey = StyleClassKey<typeof styles>
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles(styles)
 
-export interface AppButtonProps extends StandardProps<ButtonProps, AppButtonClassKey> {
+export interface AppButtonProps
+    extends StandardProps<ButtonProps, AppButtonClassKey> {}
+
+function Component(props: AppButtonProps) {
+    const classes = useStyles(props)
+
+    return <Button {...props} />
 }
 
-function Component(props:AppButtonProps) {
-    let classes = useStyles(props);
-    
-    return (
-        <Button {...props}  />
-    )
-}
-
-Component.displayName = 'AppButton';
+Component.displayName = "AppButton"
 
 Component.defaultProps = {
-    color: 'primary',
-    variant: 'contained'
+    color: "primary",
+    variant: "contained",
 } as AppButtonProps
-export let AppButton = Component;
-export default AppButton;
+export const AppButton = Component
+export default AppButton

@@ -1,16 +1,20 @@
-import { BreadcrumbInfo, BreadcrumbContextContract } from 'breadcrumbs';
-import { SetBreadcrumbContextAction, SetBreadcrumbsAction } from './types'
+import { BreadcrumbInfo, BreadcrumbContextContract } from "breadcrumbs"
+import { SetBreadcrumbContextAction, SetBreadcrumbsAction } from "./types"
 
-export function setBreadcrumbs(breadcrumbInfos:BreadcrumbInfo[]):SetBreadcrumbsAction {
+export function setBreadcrumbs(
+    breadcrumbInfos: BreadcrumbInfo[]
+): SetBreadcrumbsAction {
     return {
-        type: 'breadcrumbs_set',
-        breadcrumbs: breadcrumbInfos
+        type: "breadcrumbs_set",
+        breadcrumbs: breadcrumbInfos,
     }
 }
 
-export function setBreadcrumbContext(context:BreadcrumbContextContract):SetBreadcrumbContextAction {
+export function setBreadcrumbContext(
+    context: BreadcrumbContextContract
+): SetBreadcrumbContextAction {
     return {
-        type: 'breadcrumb_set_context',
-        context: context
-    };
+        type: "breadcrumb_set_context",
+        context: context,
+    }
 }

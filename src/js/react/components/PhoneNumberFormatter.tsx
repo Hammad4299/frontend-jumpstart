@@ -1,16 +1,12 @@
-import React from 'react';
-import { formatPhoneNumber } from '../../helpers';
+import React from "react"
+import { formatPhoneNumber } from "../../helpers"
 
 interface Props {
-    children:string
+    children: string
 }
 
-export function PhoneNumberFormatter(props:Props) {
-    return (
-        <React.Fragment>
-            {formatPhoneNumber(props.children)}
-        </React.Fragment>
-    )
+export function PhoneNumberFormatter(props: Props) {
+    return <React.Fragment>{formatPhoneNumber(props.children)}</React.Fragment>
 }
 
-export default PhoneNumberFormatter;
+export default PhoneNumberFormatter

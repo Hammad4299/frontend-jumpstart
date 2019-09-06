@@ -1,85 +1,89 @@
-import React from 'react';
-import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css'; // see installation section above for versions of NPM older than 3.0.0
-import { Theme, StandardProps } from '@material-ui/core';
-import { withStyles, createStyles } from '@material-ui/styles';
-import { CropperOptions, CropBoxData, Data, CroppedCanvasOptions } from 'cropperjs';
-import { isEqual } from 'lodash-es';
-import { StyleClassKey } from 'typehelper';
+import React from "react"
+import Cropper from "react-cropper"
+import "cropperjs/dist/cropper.css" // see installation section above for versions of NPM older than 3.0.0
+import { Theme, StandardProps } from "@material-ui/core"
+import { withStyles, createStyles } from "@material-ui/styles"
+import {
+    CropperOptions,
+    CropBoxData,
+    Data,
+    CroppedCanvasOptions,
+} from "cropperjs"
+import { isEqual } from "lodash-es"
+import { StyleClassKey } from "typehelper"
 
-const styles = (theme:Theme)=>createStyles({
-    
-})
+const styles = (theme: Theme) => createStyles({})
 
 export type ImageCropperClassKey = StyleClassKey<typeof styles>
 
-export interface ImageCropperProps extends StandardProps<CropperOptions,ImageCropperClassKey> {
+export interface ImageCropperProps
+    extends StandardProps<CropperOptions, ImageCropperClassKey> {
     cropBoxData?: CropBoxData
     style?: React.CSSProperties
     zoomTo?: number
     src: string
-    centerCropBox?:boolean
-    onZoomChanged?:(zoom:number)=>void
-    cropOutput?:CroppedCanvasOptions
-    outputType:'blob'|'dataUrl'|'both'
-    outputMime?:string
-    onCropped?:(data:CropResult)=>void
+    centerCropBox?: boolean
+    onZoomChanged?: (zoom: number) => void
+    cropOutput?: CroppedCanvasOptions
+    outputType: "blob" | "dataUrl" | "both"
+    outputMime?: string
+    onCropped?: (data: CropResult) => void
 }
 
 export type CropResult = Data & {
-    blob?:Blob,
-    dataUrl?:string
-};
+    blob?: Blob
+    dataUrl?: string
+}
 
-const decorator = withStyles(styles);
+const decorator = withStyles(styles)
 
 class Component extends React.PureComponent<ImageCropperProps> {
-    protected preData:Data
-    protected dismounted:boolean
+    protected preData: Data
+    protected dismounted: boolean
     _crop() {
-        const { onCropped = ()=>{} } = this.props
-        const d = this.cropperRef().getData();
-        if(!isEqual(this.preData,d)) {
-            this.preData = d;
-            let res:CropResult = {
-                ...d
-            };
-    
-            const { outputMime, outputType, cropOutput } = this.props;
-            const canvas = this.cropperRef().getCroppedCanvas(cropOutput);
-            let promise:Promise<CropResult> = Promise.resolve(res);
-            if(outputType === 'blob' || outputType === 'both') {
-                promise = promise.then(r=>{
-                    const p =new Promise<CropResult>((resolve)=>{
-                        canvas.toBlob((blob)=>{
-                            r.blob = blob;
-                            resolve(r);
-                        }, outputMime);
-                    });
-                    
-                    return p;
-                });
+        const { onCropped = () => {} } = this.props
+        const d = this.cropperRef().getData()
+        if (!isEqual(this.preData, d)) {
+            this.preData = d
+            const res: CropResult = {
+                ...d,
             }
-            if(outputType === 'dataUrl' || outputType === 'both') {
-                promise = promise.then(r=>{
-                    r.dataUrl = canvas.toDataURL(outputMime);
-                    return r;
-                });
+
+            const { outputMime, outputType, cropOutput } = this.props
+            const canvas = this.cropperRef().getCroppedCanvas(cropOutput)
+            let promise: Promise<CropResult> = Promise.resolve(res)
+            if (outputType === "blob" || outputType === "both") {
+                promise = promise.then(r => {
+                    const p = new Promise<CropResult>(resolve => {
+                        canvas.toBlob(blob => {
+                            r.blob = blob
+                            resolve(r)
+                        }, outputMime)
+                    })
+
+                    return p
+                })
             }
-    
-            promise.then(r=>{
+            if (outputType === "dataUrl" || outputType === "both") {
+                promise = promise.then(r => {
+                    r.dataUrl = canvas.toDataURL(outputMime)
+                    return r
+                })
+            }
+
+            promise.then(r => {
                 onCropped(r)
-            });
+            })
         }
     }
 
-    protected cropperRef():any {
-        return this.refs.cropper;
+    protected cropperRef(): any {
+        return this.refs.cropper
     }
 
     render() {
-        const { 
-            classes, 
+        const {
+            classes,
             minContainerHeight = 1,
             minContainerWidth = 1,
             minCanvasHeight = 1,
@@ -91,20 +95,22 @@ class Component extends React.PureComponent<ImageCropperProps> {
             viewMode = 1,
             rotatable = false,
             scalable = false,
-            dragMode = 'move',
+            dragMode = "move",
             zoomTo = 1,
             cropBoxMovable = false,
-            cropBoxResizable  =false,
+            cropBoxResizable = false,
             toggleDragModeOnDblclick = false,
             guides = false,
             src,
-            onZoomChanged = (z)=>{console.log(z)},
+            onZoomChanged = z => {
+                console.log(z)
+            },
             ...rest
-        } = this.props;
+        } = this.props
 
         return (
             <Cropper
-                ref={'cropper'}
+                ref={"cropper"}
                 center
                 src={src}
                 zoomTo={zoomTo}
@@ -119,22 +125,22 @@ class Component extends React.PureComponent<ImageCropperProps> {
                 cropBoxResizable={cropBoxResizable}
                 toggleDragModeOnDblclick={toggleDragModeOnDblclick}
                 guides={guides}
-                zoom={(e)=>onZoomChanged(e.detail.ratio)}
-                ready={()=>{
-                    let data = this.props.cropBoxData;
-                    if(centerCropBox) {
-                        let spec = this.cropperRef().getContainerData();
-                        data.left = (spec.width-data.width)/2;
-                        data.top = (spec.height-data.height)/2;
+                zoom={e => onZoomChanged(e.detail.ratio)}
+                ready={() => {
+                    const data = this.props.cropBoxData
+                    if (centerCropBox) {
+                        const spec = this.cropperRef().getContainerData()
+                        data.left = (spec.width - data.width) / 2
+                        data.top = (spec.height - data.height) / 2
                     }
-                    this.cropperRef().setCropBoxData(data);
+                    this.cropperRef().setCropBoxData(data)
                 }}
                 crop={this._crop.bind(this)}
                 {...rest}
-                />
-        );
+            />
+        )
     }
 }
 
-export const ImageCropper = decorator(Component);
-export default ImageCropper;
+export const ImageCropper = decorator(Component)
+export default ImageCropper

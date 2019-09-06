@@ -1,4 +1,4 @@
-export * from './BaseService'
+export * from "./BaseService"
 
-export * from './upload/service'
-export * from './upload/types'
+export * from "./upload/service"
+export * from "./upload/types"

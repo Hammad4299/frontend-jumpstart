@@ -1,11 +1,11 @@
 interface SiteConfig {
-    rollbarClientToken:string,
-    environment:string,
-    baseUrl:string
-    staticContentBaseUrl:string
-    appname: string,
-    rollbarPublicDomain: string,
-    code_version: string    //git hash
+    rollbarClientToken: string
+    environment: string
+    baseUrl: string
+    staticContentBaseUrl: string
+    appname: string
+    rollbarPublicDomain: string
+    code_version: string //git hash
 }
 
-export default <SiteConfig>{};
+export default {} as SiteConfig

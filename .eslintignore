@@ -1,1 +1,7 @@
 **/3rdparty/**
+**/jquery-dependent/**/*.ts
+**/jquery-dependent/**/*.tsx
+**/needs-to-refactor/**/*.ts
+**/needs-to-refactor/**/*.tsx
+**/react-without-hooks/**/*.ts
+**/react-without-hooks/**/*.tsx

@@ -1,12 +1,12 @@
-import { RoutingContext } from "../../routing";
+import { RoutingContext } from "../../routing"
 
 export interface RoutingState {
-    routingContext:RoutingContext
+    routingContext: RoutingContext
 }
 
 export interface SetRoutingContextAction {
-    type: 'routing_set_context',
+    type: "routing_set_context"
     context: RoutingContext
 }
 
-export type RoutingActions = SetRoutingContextAction;
+export type RoutingActions = SetRoutingContextAction

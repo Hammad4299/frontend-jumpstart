@@ -1,6 +1,9 @@
-import { parsePhoneNumber as _parsePhoneNumber, E164Number } from 'libphonenumber-js';
-import { isValidPhoneNumber } from 'react-phone-number-input';
-import { getErrorInfo, ErrorInfo, ValidityState } from '../types';
+import {
+    parsePhoneNumber as _parsePhoneNumber,
+    E164Number,
+} from "libphonenumber-js"
+import { isValidPhoneNumber } from "react-phone-number-input"
+import { getErrorInfo, ErrorInfo, ValidityState } from "../types"
 
 export interface PhoneNumberParseResult {
     formatted?: string
@@ -9,50 +12,56 @@ export interface PhoneNumberParseResult {
     isValid: boolean
 }
 
-export function phoneNumberValid(number:string):boolean {
-    if(number){
-        return isValidPhoneNumber(number);
+export function phoneNumberValid(number: string): boolean {
+    if (number) {
+        return isValidPhoneNumber(number)
     }
-    return false;
+    return false
 }
 
-export function getPhoneErrorInfo(number:string, field:string = null,  fieldState:ValidityState = null):ErrorInfo {
-    let phoneValid = !number || phoneNumberValid(number) || number.length===0;
-    if(phoneValid) {
-        if(field!==null) {
-            return getErrorInfo(fieldState, field);
+export function getPhoneErrorInfo(
+    number: string,
+    field: string = null,
+    fieldState: ValidityState = null
+): ErrorInfo {
+    const phoneValid =
+        !number || phoneNumberValid(number) || number.length === 0
+    if (phoneValid) {
+        if (field !== null) {
+            return getErrorInfo(fieldState, field)
         } else {
             return {
                 hasError: false,
                 error: null,
-                errors: []
-            };
+                errors: [],
+            }
         }
     } else {
         return {
             hasError: true,
-            error: 'Please enter a valid phone number',
-            errors: ['Please enter a valid phone number']
+            error: "Please enter a valid phone number",
+            errors: ["Please enter a valid phone number"],
         }
     }
 }
 
 export function parsePhoneNumber(number: string): PhoneNumberParseResult {
-    let res: PhoneNumberParseResult = {
+    const res: PhoneNumberParseResult = {
         isValid: false,
-        original: number
+        original: number,
     }
     try {
-        const parsed = _parsePhoneNumber(number, 'BM');
-        res.formatted = parsed.formatInternational();
-        res.persistable = parsed.number;
-        res.isValid = parsed.isValid();
+        const parsed = _parsePhoneNumber(number, "BM")
+        res.formatted = parsed.formatInternational()
+        res.persistable = parsed.number
+        res.isValid = parsed.isValid()
     } catch (e) {
+        console.debug(e)
     }
-    return res;
+    return res
 }
 
 export function formatPhoneNumber(number: string) {
-    const re = parsePhoneNumber(number);
-    return re.isValid ? re.formatted : re.original;
+    const re = parsePhoneNumber(number)
+    return re.isValid ? re.formatted : re.original
 }

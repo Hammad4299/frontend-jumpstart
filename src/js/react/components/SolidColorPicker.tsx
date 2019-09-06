@@ -1,18 +1,11 @@
-import React from 'react';
-import { SketchPicker, SketchPickerProps } from 'react-color';
+import React from "react"
+import { SketchPicker, SketchPickerProps } from "react-color"
 
-interface Props extends SketchPickerProps {
+type Props = SketchPickerProps
+
+export function SolidColorPicker(props: Props) {
+    const { presetColors = [], color = "#ff0", ...rest } = props
+    return <SketchPicker presetColors={presetColors} color={color} {...rest} />
 }
 
-export function SolidColorPicker (props:Props) {
-    const {presetColors = [], color = '#ff0', ...rest} = props;
-    return (
-        <SketchPicker
-            presetColors = {presetColors}
-            color={color}
-            {...rest}
-        />
-    );
-}
-
-export default SolidColorPicker;
+export default SolidColorPicker

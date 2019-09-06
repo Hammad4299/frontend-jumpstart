@@ -1,37 +1,42 @@
-import React from "react";
-import { Theme, StandardProps } from "@material-ui/core";
-import { ButtonProps } from "@material-ui/core/Button";
-import { createStyles, makeStyles }from "@material-ui/styles";
-import { StyleClassKey } from "../typescript";
-import { AppButton, AppButtonProps } from "./";
+import React from "react"
+import { Theme, StandardProps } from "@material-ui/core"
+import { ButtonProps } from "@material-ui/core/Button"
+import { createStyles, makeStyles } from "@material-ui/styles"
+import { StyleClassKey } from "../typescript"
+import { AppButton, AppButtonProps } from "./"
 
-const styles = (theme:Theme) => createStyles({
-});
+const styles = (theme: Theme) => createStyles({})
 
 type AppDialogButtonClassKey = StyleClassKey<typeof styles>
-let useStyles = makeStyles(styles);
+const useStyles = makeStyles(styles)
 
-export interface AppDialogButtonProps extends StandardProps<AppButtonProps, AppDialogButtonClassKey> {
-    styleVariant?:'dismiss'|'proceed'
+export interface AppDialogButtonProps
+    extends StandardProps<AppButtonProps, AppDialogButtonClassKey> {
+    styleVariant?: "dismiss" | "proceed"
 }
 
-const Component = (props:AppDialogButtonProps) => {
-    let { styleVariant, classes, ...rest} = props;
-    let color:ButtonProps['color'] = 'secondary';
-    let variant:ButtonProps['variant'] = 'contained';
-    classes = useStyles(props);
-    if(styleVariant === 'dismiss') {
-        color = 'primary';
-        variant = 'text';
+const Component = (props: AppDialogButtonProps) => {
+    const { styleVariant, classes: temp, ...rest } = props
+    let color: ButtonProps["color"] = "secondary"
+    let variant: ButtonProps["variant"] = "contained"
+    const classes = useStyles(props)
+    if (styleVariant === "dismiss") {
+        color = "primary"
+        variant = "text"
     }
     return (
-        <AppButton color={color} variant={variant} {...rest} classes={classes} />
+        <AppButton
+            color={color}
+            variant={variant}
+            {...rest}
+            classes={classes}
+        />
     )
 }
-Component.displayName = 'AppDialogButton';
+Component.displayName = "AppDialogButton"
 Component.defaultProps = {
-    styleVariant: 'proceed'
+    styleVariant: "proceed",
 } as AppDialogButtonProps
 
-export let AppDialogButton = Component;
-export default AppDialogButton;
+export const AppDialogButton = Component
+export default AppDialogButton

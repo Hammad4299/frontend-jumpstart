@@ -1,1 +1,1 @@
-export * from '../react/typescript/index'
+export * from "../react/typescript/index"

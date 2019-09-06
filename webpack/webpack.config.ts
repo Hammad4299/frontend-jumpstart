@@ -83,6 +83,7 @@ export default function buildBaseConfig(projectSettings:ProjectSettings, options
                         //     }] : []
                         // })(),
                         { loader: 'babel-loader' }, //ts also handled by babel. It seems faster but doesn't provide typechecking. For that TypeCheckFork plugin is used or run tsc separately
+                        // { loader: 'eslint-loader'}
                         // {
                         //     loader: 'ts-loader',
                         //     options: {

@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, Theme, StandardProps } from "@material-ui/core";
 import { DialogProps } from "@material-ui/core/Dialog";
 import { createStyles, makeStyles } from "@material-ui/styles";
-import { StyleClassKey } from "typehelper";
+import { StyleClassKey } from "../typescript";
 
 const styles = (theme:Theme) => createStyles({
     paper: {

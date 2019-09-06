@@ -1,6 +1,5 @@
-import { toNumber as _ToNumber } from 'lodash-es';
+import { config } from '../config';
 import SiteConfig from 'externals/SiteConfig';
-
 
 export function buildPageTitle(title="Untitled", base = `${SiteConfig.appname} - `) {
     return `${base}${title}`
@@ -30,14 +29,6 @@ export function base64toBlob(b64Data: string, contentType = '', sliceSize: numbe
 
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
-}
-
-export function toNumber(a: any) {
-    if (a !== null && a !== undefined && !isNaN(a)) {
-        return _ToNumber(a);
-    } else {
-        return null;
-    }
 }
 
 export function filePreviewUrl(file:File) {

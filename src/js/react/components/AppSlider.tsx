@@ -2,7 +2,7 @@ import React from 'react';
 import {createStyles, Theme, StandardProps} from "@material-ui/core";
 import { withStyles } from '@material-ui/styles';
 import Slider, { SliderProps, SliderClassKey } from '@material-ui/core/Slider';
-import { StyleClassKey, StylesType } from 'typehelper';
+import { StyleClassKey, StylesType } from "../typescript";
 
 const styles = (theme: Theme) => createStyles({
     slider: {

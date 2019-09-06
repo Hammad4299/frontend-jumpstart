@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Theme, StandardProps, Typography} from "@material-ui/core";
 import { withStyles, createStyles }from "@material-ui/styles";
-import { StyleClassKey } from "typehelper";
+import { StyleClassKey } from "../typescript";
 
 const styles = (theme:Theme) => createStyles({
     root: {

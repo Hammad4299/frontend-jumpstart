@@ -2,8 +2,8 @@ import React from "react";
 import {List,ListItem, Theme, Typography, StandardProps} from "@material-ui/core";
 import { withStyles, createStyles }from "@material-ui/styles";
 import {ListItemProps} from "@material-ui/core/ListItem";
-import { StyleClassKey } from "typehelper";
-import { PaginationInfo, extractPaginationDetail, getPagesRange } from "types";
+import { StyleClassKey } from "../typescript";
+import { PaginationInfo, extractPaginationDetail, getPagesRange } from "../../types";
 
 const styles = (theme:Theme) => createStyles({
     root: {

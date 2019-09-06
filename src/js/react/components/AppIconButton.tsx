@@ -1,7 +1,7 @@
 import React from "react";
 import {IconButton, Theme, StandardProps} from "@material-ui/core";
 import { withStyles, createStyles }from "@material-ui/styles";
-import { StyleClassKey, StylesType } from "typehelper";
+import { StyleClassKey, StylesType } from "../typescript";
 import { IconButtonProps, IconButtonClassKey } from "@material-ui/core/IconButton";
 
 

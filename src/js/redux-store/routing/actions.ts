@@ -1,4 +1,4 @@
-import { RoutingContext } from "routing";
+import { RoutingContext } from "../../routing";
 import { SetRoutingContextAction } from "./types";
 
 

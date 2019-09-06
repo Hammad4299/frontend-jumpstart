@@ -2,7 +2,7 @@ import React from "react";
 import { Theme, StandardProps, Button } from "@material-ui/core";
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { ButtonProps } from "@material-ui/core/Button";
-import { StyleClassKey } from "typehelper";
+import { StyleClassKey } from "../typescript";
 
 const styles = (theme:Theme) => createStyles({
 })

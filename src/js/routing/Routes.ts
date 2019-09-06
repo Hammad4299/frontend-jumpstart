@@ -1,4 +1,4 @@
-import { RoutingContext, BaseRoutingContext } from "routing";
+import { RoutingContext, BaseRoutingContext } from "./context";
 
 
 export function routesForContext(context: RoutingContext = new BaseRoutingContext()) {

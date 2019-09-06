@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatPhoneNumber } from 'helpers';
+import { formatPhoneNumber } from '../../helpers';
 
 interface Props {
     children:string

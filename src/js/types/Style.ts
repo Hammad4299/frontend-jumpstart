@@ -1,6 +1,6 @@
-import { UploadedFile } from "models";
+import { UploadedFile } from "../models";
 import { RGBColor } from "react-color";
-import { toNumber } from "helpers";
+import { toNumber } from "lodash-es";
 import WebFont from 'webfontloader';
 
 const loadedFontFamilies:{[family:string]:boolean} = {};

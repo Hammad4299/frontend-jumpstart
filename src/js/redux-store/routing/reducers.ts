@@ -1,5 +1,5 @@
 import { RoutingState, RoutingActions } from "./types";
-import { BaseRoutingContext } from "routing";
+import { BaseRoutingContext } from "../../routing";
 
 export function routingStateReducer(previous:RoutingState, action: RoutingActions):RoutingState {
     previous = previous || {

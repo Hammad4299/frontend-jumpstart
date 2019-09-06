@@ -10,7 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { createGenerateClassName, StylesProvider } from "@material-ui/styles";
 import theme from '../style/Theme';
-import { store } from 'redux-store';
+import { store } from '../../redux-store';
 import Root from './root';
 
 // if (process.env.NODE_ENV !== 'production') {
@@ -19,7 +19,7 @@ import Root from './root';
 // }
 const generateClassName = createGenerateClassName();
 // const jss = create(jssPreset());
-const App = () => (
+export const App = () => (
     <StylesProvider generateClassName={generateClassName}>
         <Provider store={store}>
             <ThemeProvider theme={theme}>

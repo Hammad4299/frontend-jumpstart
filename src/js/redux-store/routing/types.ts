@@ -1,4 +1,4 @@
-import { RoutingContext } from "routing";
+import { RoutingContext } from "../../routing";
 
 export interface RoutingState {
     routingContext:RoutingContext

@@ -1,5 +1,4 @@
-import { ValidityState } from "types";
-import { getInitializedValidityState, setErrors } from "./ValidityState";
+import { ValidityState, getInitializedValidityState, setErrors } from "./ValidityState";
 
 export interface AppResponse<T> {
     status:boolean

@@ -4,9 +4,9 @@ import { withStyles, createStyles } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Table, { TableClassKey } from "@material-ui/core/Table";
 import {TableProps} from "@material-ui/core/Table";
-import { StyleClassKey, StylesType } from "typehelper";
-import { PaginationInfo, extractPaginationDetail } from "types";
-import { PerPageSelectorProps, PaginationProps, PerPageSelector, Pagination } from "components";
+import { StyleClassKey, StylesType } from "../typescript";
+import { PaginationInfo, extractPaginationDetail } from "../../types";
+import { PerPageSelectorProps, PaginationProps, PerPageSelector, Pagination } from "./";
 
 const styles = (theme:Theme) => createStyles({
     paper: {

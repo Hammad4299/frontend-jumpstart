@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Theme, StandardProps, DialogContent } from "@material-ui/core";
-import { StyleClassKey } from "typehelper";
+import { StyleClassKey } from "../typescript";
 import { createStyles, withStyles } from '@material-ui/core';
 import classNames from "classnames";
 import { DialogContentProps } from "@material-ui/core/DialogContent";

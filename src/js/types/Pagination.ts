@@ -1,4 +1,4 @@
-import { AppResponse } from "types";
+import { AppResponse } from "./Response";
 import { Omit } from "utility-types";
 
 export interface PaginationInfo {

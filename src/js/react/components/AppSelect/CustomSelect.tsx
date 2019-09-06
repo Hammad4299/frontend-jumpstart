@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { FixedSizeListProps } from "react-window";
 import { CustomSelectComponentSelectProps } from "./types";
 import { Option, Control, MenuList, Menu, MultiValue, NoOptionsMessage, Placeholder, SingleValue, ValueContainer } from "./CustomComponents";
-import { StyleClassKey } from "typehelper";
+import { StyleClassKey } from "../../typescript";
 import { Props } from "react-select/src/Select";
 
 const styles = (theme: Theme) => createStyles({

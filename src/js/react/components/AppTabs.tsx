@@ -3,7 +3,7 @@ import { AppBar, Tabs, Theme, StandardProps } from "@material-ui/core";
 import { withStyles, createStyles } from '@material-ui/styles';
 import { TabsProps, TabsClassKey } from '@material-ui/core/Tabs';
 import { AppBarProps } from '@material-ui/core/AppBar';
-import { StyleClassKey, StylesType } from 'typehelper';
+import { StyleClassKey, StylesType } from "../typescript";
 
 const styles = (theme:Theme) => createStyles({
     appbar: {

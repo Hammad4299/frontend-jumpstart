@@ -1,6 +1,6 @@
 import { parsePhoneNumber as _parsePhoneNumber, E164Number } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import { getErrorInfo, ErrorInfo, ValidityState } from 'types';
+import { getErrorInfo, ErrorInfo, ValidityState } from '../types';
 
 export interface PhoneNumberParseResult {
     formatted?: string

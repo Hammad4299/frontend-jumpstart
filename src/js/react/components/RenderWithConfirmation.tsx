@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import { DialogActions, Dialog, DialogContent,DialogTitle,DialogContentText, Theme, Button, StandardProps } from '@material-ui/core';
 import { withStyles, createStyles } from '@material-ui/styles';
-import { AppButton } from 'components';
-import { StyleClassKey } from 'typehelper';
+import { AppButton } from "./";
+import { StyleClassKey } from "../typescript";
 
 const styles = (theme:Theme)=>createStyles({
     actionButton: {

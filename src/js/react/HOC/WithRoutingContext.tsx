@@ -2,8 +2,8 @@
  * Created by talha on 5/15/2018.
  */
 import React from 'react';
-import { RoutingContext } from 'routing';
-import { useRoutingContext } from 'custom-hooks';
+import { RoutingContext } from '../../routing';
+import { useRoutingContext } from '../hooks';
 
 export interface WithRoutingContextInjectedProps {
     routingContext?: RoutingContext

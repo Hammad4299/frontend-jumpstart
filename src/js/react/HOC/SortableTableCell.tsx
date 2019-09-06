@@ -2,7 +2,7 @@ import React from "react";
 import { TableCellProps } from "@material-ui/core/TableCell";
 import Tooltip, { TooltipProps } from "@material-ui/core/Tooltip";
 import TableSortLabel, { TableSortLabelProps } from "@material-ui/core/TableSortLabel";
-import { ColumnSort, getToggledSortDirection } from "types";
+import { ColumnSort, getToggledSortDirection } from "../../types";
 
 export function sortableTableCell<T extends TableCellProps>(Component:React.ComponentType<T>) {
     interface Props {

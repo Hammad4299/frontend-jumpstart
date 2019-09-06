@@ -1,10 +1,10 @@
-import { StyleClassKey } from 'typehelper';
+import { StyleClassKey } from "../typescript";
 import React from 'react';
 import 'react-phone-number-input/style.css'
 import {default as ReactPhoneInput} from 'react-phone-number-input/core'
 import { Theme, Typography, Paper, Input, StandardProps } from "@material-ui/core";
 import { withStyles, createStyles } from '@material-ui/styles';
-import { AppSelect, SimpleOption } from 'components';
+import { AppSelect, SimpleOption } from "./";
 const labels = require('react-phone-number-input/locale/default.json')
 const metadata = require('libphonenumber-js/metadata.min.json')
 import InternationalIcon from 'react-phone-number-input/international-icon'

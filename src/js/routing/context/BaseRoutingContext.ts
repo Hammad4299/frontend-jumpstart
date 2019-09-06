@@ -1,4 +1,4 @@
-import { RoutingContext } from "routing";
+import { RoutingContext } from "../";
 
 export class BaseRoutingContext implements RoutingContext {
     getContextIdentifier(): string {

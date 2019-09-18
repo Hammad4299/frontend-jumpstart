@@ -1,31 +1,31 @@
 /**
  * Created by talha on 5/15/2018.
  */
-import { Subtract } from "utility-types"
-import { AnyAction } from "redux"
-import { ThunkDispatch } from "redux-thunk"
-import React from "react"
-import { AppStore, setBreadcrumbs } from "redux-store"
-import { BreadcrumbContextContract, BreadcrumbInfo } from "breadcrumbs"
-import { connect } from "react-redux"
+import { Subtract } from "utility-types";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import React from "react";
+import { AppStore, setBreadcrumbs } from "redux-store";
+import { BreadcrumbContextContract, BreadcrumbInfo } from "breadcrumbs";
+import { connect } from "react-redux";
 
 export interface UseBreadcrumbsInjectedProps {
     breadcrumbInjection?: {
-        breadcrumbs?: BreadcrumbInfo[]
-        breadcrumbForExample?: () => void
-    }
+        breadcrumbs?: BreadcrumbInfo[];
+        breadcrumbForExample?: () => void;
+    };
 }
 
-type AvailableContext = BreadcrumbContextContract
-type ContextType = "general"
-type ArgType = "simple" | "myLoadable1"
+type AvailableContext = BreadcrumbContextContract;
+type ContextType = "general";
+type ArgType = "simple" | "myLoadable1";
 
 interface Arg {
-    argType: ArgType
-    value: any
+    argType: ArgType;
+    value: any;
 }
 
-type FuncType = keyof BreadcrumbContextContract
+type FuncType = keyof BreadcrumbContextContract;
 
 /**
  * Coordinates with BreadcrumbContextContract.
@@ -36,27 +36,27 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
     WrappedComponent: React.ComponentType<WrappedProps>
 ) {
     interface State {
-        func: FuncType
-        args: Arg[]
-        ready: boolean
-        contextType: ContextType
+        func: FuncType;
+        args: Arg[];
+        ready: boolean;
+        contextType: ContextType;
     }
 
     interface MappedProps {
-        breadcrumbs: BreadcrumbInfo[]
-        breadcrumbContext: BreadcrumbContextContract
+        breadcrumbs: BreadcrumbInfo[];
+        breadcrumbContext: BreadcrumbContextContract;
     }
 
     interface MappedDispatch {
-        setBreadcrumbs: (crumbs: BreadcrumbInfo[]) => void
+        setBreadcrumbs: (crumbs: BreadcrumbInfo[]) => void;
     }
 
-    type Props = Mapped
+    type Props = Mapped;
 
-    type Mapped = MappedDispatch & MappedProps
-    type ComponentProps = Subtract<WrappedProps, UseBreadcrumbsInjectedProps>
-    type HOCProps = Mapped
-    type OwnProps = Subtract<Props, Mapped> & ComponentProps //Props that are allowed to passed from Resulting component returned from HOC.
+    type Mapped = MappedDispatch & MappedProps;
+    type ComponentProps = Subtract<WrappedProps, UseBreadcrumbsInjectedProps>;
+    type HOCProps = Mapped;
+    type OwnProps = Subtract<Props, Mapped> & ComponentProps; //Props that are allowed to passed from Resulting component returned from HOC.
 
     const mapStateToProps = (
         store: AppStore,
@@ -64,9 +64,9 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
     ): MappedProps => {
         return {
             breadcrumbs: store.breadcrumbs.breadcrumbs,
-            breadcrumbContext: store.breadcrumbs.context,
-        }
-    }
+            breadcrumbContext: store.breadcrumbs.context
+        };
+    };
 
     const mapDispatchToProps = (
         dispatch: ThunkDispatch<AppStore, void, AnyAction>,
@@ -74,25 +74,25 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
     ): MappedDispatch => {
         return {
             setBreadcrumbs: (crumbs: BreadcrumbInfo[]) =>
-                dispatch(setBreadcrumbs(crumbs)),
-        }
-    }
+                dispatch(setBreadcrumbs(crumbs))
+        };
+    };
 
     const enhancer = connect(
         mapStateToProps,
         mapDispatchToProps
-    )
+    );
 
     return enhancer(
-        class extends React.Component<HOCProps, State> {
+        class UseBreadcrumbs extends React.Component<HOCProps, State> {
             constructor(props: HOCProps) {
-                super(props)
+                super(props);
                 this.state = {
                     args: [],
                     func: null,
                     ready: false,
-                    contextType: "general",
-                }
+                    contextType: "general"
+                };
             }
 
             protected setContextFunc(
@@ -107,31 +107,31 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
                             ? arg
                             : {
                                   argType: "simple",
-                                  value: arg,
-                              }
-                    })
+                                  value: arg
+                              };
+                    });
                 }
                 this.setState({
                     args: args,
                     ready,
                     func,
-                    contextType,
-                })
+                    contextType
+                });
             }
 
             componentDidUpdate(nextProps: HOCProps, nextState: State) {
-                const state = this.state
-                const props = this.props
+                const state = this.state;
+                const props = this.props;
                 if (state.func) {
                     //pending call to set breadcrumbs remains
                     //No pending data needs to be fetched
                     const allReady = !state.args.find(
                         arg => arg.argType !== "simple"
-                    )
-                    let context: AvailableContext = null
+                    );
+                    let context: AvailableContext = null;
 
                     if (state.contextType === "general") {
-                        context = props.breadcrumbContext
+                        context = props.breadcrumbContext;
                     }
 
                     if (
@@ -146,36 +146,36 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
                         )
                         /* eslint-enable */
                         this.setState({
-                            func: null,
-                        })
+                            func: null
+                        });
                     } else if (!allReady) {
-                        const newArgs: Arg[] = []
-                        let changed = false
+                        const newArgs: Arg[] = [];
+                        let changed = false;
                         state.args.map((arg, index) => {
                             if (arg.argType === "simple") {
-                                newArgs.push(arg)
+                                newArgs.push(arg);
                             } else if (arg.argType === "myLoadable1") {
-                                const isLoaded = true
+                                const isLoaded = true;
                                 if (isLoaded) {
                                     //loaded
-                                    changed = true
+                                    changed = true;
                                     newArgs.push({
                                         argType: "simple",
-                                        value: null, //loaded value. null here for just demo
-                                    })
+                                        value: null //loaded value. null here for just demo
+                                    });
                                 } else {
                                     //make call to load value. Add checks to ensure efficient loading/prevent loading/requesting load for same data
                                 }
                             }
-                        })
+                        });
                         if (changed) {
                             this.setState({
-                                args: newArgs,
-                            })
+                                args: newArgs
+                            });
                         }
                     }
                 }
-                return this.props.breadcrumbs !== nextProps.breadcrumbs
+                return this.props.breadcrumbs !== nextProps.breadcrumbs;
             }
 
             render() {
@@ -184,8 +184,8 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
                     breadcrumbContext,
                     setBreadcrumbs,
                     ...rest
-                } = this.props
-                const tsBypass: WrappedProps = rest as any
+                } = this.props;
+                const tsBypass: WrappedProps = rest as any;
 
                 return (
                     <WrappedComponent
@@ -196,14 +196,14 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
                                     "example",
                                     [setBreadcrumbs],
                                     "general"
-                                ),
+                                )
                         }}
                         {...tsBypass}
                     />
-                )
+                );
             }
         }
-    )
+    );
 }
 
-export default UseBreadcrumbs
+export default UseBreadcrumbs;

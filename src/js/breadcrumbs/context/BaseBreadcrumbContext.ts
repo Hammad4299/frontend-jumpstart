@@ -1,11 +1,11 @@
-import { Dispatcher, breadcrumbCreator, BreadcrumbInfo } from "breadcrumbs"
-import { Routes, routesForContext, RoutingContext } from "routing"
+import { Dispatcher, breadcrumbCreator, BreadcrumbInfo } from "breadcrumbs";
+import { Routes, routesForContext, RoutingContext } from "routing";
 
 export abstract class BaseBreadcrumbContext {
-    protected routes: Routes
+    protected routes: Routes;
 
     constructor(routingContext: RoutingContext) {
-        this.routes = routesForContext(routingContext)
+        this.routes = routesForContext(routingContext);
     }
 
     protected dispatchCrumbs(
@@ -13,17 +13,17 @@ export abstract class BaseBreadcrumbContext {
         crumbs: BreadcrumbInfo[]
     ): BreadcrumbInfo[] {
         if (dispatcher) {
-            dispatcher(crumbs)
+            dispatcher(crumbs);
         }
-        return crumbs
+        return crumbs;
     }
 
     isReady(): boolean {
-        return true
+        return true;
     }
     example(additionalData: any, dispatcher?: Dispatcher) {
         return this.dispatchCrumbs(dispatcher, [
-            breadcrumbCreator.example(this.routes),
-        ])
+            breadcrumbCreator.example(this.routes)
+        ]);
     }
 }

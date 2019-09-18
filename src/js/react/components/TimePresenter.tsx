@@ -1,13 +1,13 @@
-import { timeHelper } from "../../helpers"
-import React from "react"
+import { timeHelper } from "../../helpers";
+import React from "react";
 
 export interface TimePresenterProps {
-    children: string | number
-    variant?: "date" | "time" | "datetime" | "duration"
-    parseFormat?: string
-    outputFormat?: string
-    parseTimezone?: string | number | "utc"
-    outputTimezone?: string | number | "user"
+    children: string | number;
+    variant?: "date" | "time" | "datetime" | "duration";
+    parseFormat?: string;
+    outputFormat?: string;
+    parseTimezone?: string | number | "utc";
+    outputTimezone?: string | number | "user";
 }
 
 export function TimePresenter({
@@ -16,7 +16,7 @@ export function TimePresenter({
     parseTimezone = "utc",
     variant = "date",
     parseFormat = "X",
-    outputFormat = "MMMM D, YYYY",
+    outputFormat = "MMMM D, YYYY"
 }: TimePresenterProps) {
     return (
         <React.Fragment>
@@ -24,7 +24,7 @@ export function TimePresenter({
                 .convertUtcToUserTime(children.toString(), parseFormat)
                 .format(outputFormat)}
         </React.Fragment>
-    )
+    );
 }
 
-export default TimePresenter
+export default TimePresenter;

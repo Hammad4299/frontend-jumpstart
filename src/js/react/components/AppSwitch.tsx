@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Theme, StandardProps } from "@material-ui/core"
-import Switch, { SwitchProps, SwitchClassKey } from "@material-ui/core/Switch"
-import { withStyles, createStyles } from "@material-ui/styles"
-import { StyleClassKey, StylesType } from "../typescript"
+import * as React from "react";
+import { Theme, StandardProps } from "@material-ui/core";
+import Switch, { SwitchProps, SwitchClassKey } from "@material-ui/core/Switch";
+import { withStyles, createStyles } from "@material-ui/styles";
+import { StyleClassKey, StylesType } from "../typescript";
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -10,23 +10,23 @@ const styles = (theme: Theme) =>
             "&$checked": {
                 color: theme.palette.common.white,
                 "& + $track": {
-                    backgroundColor: theme.palette.primary.main,
+                    backgroundColor: theme.palette.primary.main
                 },
                 "& $thumb": {
-                    boxShadow: theme.shadows[1],
-                },
+                    boxShadow: theme.shadows[1]
+                }
             },
             transition: theme.transitions.create("transform", {
                 duration: theme.transitions.duration.shortest,
-                easing: theme.transitions.easing.sharp,
-            }),
+                easing: theme.transitions.easing.sharp
+            })
         },
         checked: {
             transform: "translateX(15px)",
             "& + $track": {
                 opacity: 1,
-                border: "none",
-            },
+                border: "none"
+            }
         },
         track: {
             borderRadius: 13,
@@ -38,30 +38,27 @@ const styles = (theme: Theme) =>
             borderColor: theme.palette.grey[400],
             backgroundColor: theme.palette.grey[50],
             opacity: 1,
-            transition: theme.transitions.create([
-                "background-color",
-                "border",
-            ]),
+            transition: theme.transitions.create(["background-color", "border"])
         },
         thumb: {
             width: 24,
-            height: 24,
-        },
-    })
+            height: 24
+        }
+    });
 
-type AppSwitchClassKey = StyleClassKey<typeof styles> | SwitchClassKey
+type AppSwitchClassKey = StyleClassKey<typeof styles> | SwitchClassKey;
 
-const decorator = withStyles(styles as StylesType<AppSwitchClassKey>)
+const decorator = withStyles(styles as StylesType<AppSwitchClassKey>);
 
 export interface AppSwitchProps
     extends StandardProps<SwitchProps, AppSwitchClassKey> {}
 
 function Component(props: AppSwitchProps) {
-    return <Switch {...props} />
+    return <Switch {...props} />;
 }
 Component.defaultProps = {
-    disableRipple: true,
-} as AppSwitchProps
-Component.displayName = "AppSwitch"
-export const AppSwitch = decorator(Component)
-export default AppSwitch
+    disableRipple: true
+} as AppSwitchProps;
+Component.displayName = "AppSwitch";
+export const AppSwitch = decorator(Component);
+export default AppSwitch;

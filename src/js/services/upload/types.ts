@@ -1,17 +1,17 @@
-import { UploadedFile } from "models"
+import { UploadedFile } from "models";
 
 export enum UploadKind {
-    Simple = "simple",
+    Simple = "simple"
 }
 
 export interface UploadFilesRequest {
-    kind?: UploadKind
+    kind?: UploadKind;
     file_infos: {
-        [index: string]: any
-        identifier: string
-        name: string
-    }[]
-    files: { [index: string]: Blob }
+        [index: string]: any;
+        identifier: string;
+        name: string;
+    }[];
+    files: { [index: string]: Blob };
 }
 
-export type UploadInfo = UploadedFile
+export type UploadInfo = UploadedFile;

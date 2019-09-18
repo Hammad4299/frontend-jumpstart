@@ -1,5 +1,5 @@
 export const config = {
-    SiteName: "SmartHub",
-}
+    SiteName: "SmartHub"
+};
 
-export default config
+export default config;

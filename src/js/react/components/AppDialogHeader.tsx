@@ -1,29 +1,29 @@
-import * as React from "react"
-import { Theme, Toolbar, IconButton, StandardProps } from "@material-ui/core"
-import { Close as CloseIcon } from "@material-ui/icons"
-import { withStyles, createStyles } from "@material-ui/styles"
-import { ToolbarProps } from "@material-ui/core/Toolbar"
-import { StyleClassKey } from "../typescript"
-import classNames from "classnames"
+import * as React from "react";
+import { Theme, Toolbar, IconButton, StandardProps } from "@material-ui/core";
+import { Close as CloseIcon } from "@material-ui/icons";
+import { withStyles, createStyles } from "@material-ui/styles";
+import { ToolbarProps } from "@material-ui/core/Toolbar";
+import { StyleClassKey } from "../typescript";
+import classNames from "classnames";
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
             display: "flex",
             padding: theme.spacing(1),
-            borderBottom: `solid 1px ${theme.palette.grey["200"]}`,
+            borderBottom: `solid 1px ${theme.palette.grey["200"]}`
         },
         closeIcon: {
             marginLeft: "auto",
-            justifyContent: "flex-end",
-        },
-    })
+            justifyContent: "flex-end"
+        }
+    });
 
-const decorator = withStyles(styles)
+const decorator = withStyles(styles);
 
 export interface AppDialogHeaderProps
     extends StandardProps<ToolbarProps, StyleClassKey<typeof styles>> {
-    onClose?: () => void
+    onClose?: () => void;
 }
 
 const Component = ({
@@ -45,15 +45,15 @@ const Component = ({
                 <CloseIcon />
             </IconButton>
         </Toolbar>
-    )
-}
+    );
+};
 
 Component.defaultProps = {
-    onClose: () => {},
-} as AppDialogHeaderProps
+    onClose: () => {}
+} as AppDialogHeaderProps;
 
-Component.displayName = "AppDialogHeader"
+Component.displayName = "AppDialogHeader";
 
-export const AppDialogHeader = decorator(Component)
+export const AppDialogHeader = decorator(Component);
 
-export default AppDialogHeader
+export default AppDialogHeader;

@@ -1,13 +1,13 @@
-import React from "react"
-import Webcam from "react-webcam"
-import "webrtc-adapter"
-import { base64toBlob } from "helpers"
+import React from "react";
+import Webcam from "react-webcam";
+import "webrtc-adapter";
+import { base64toBlob } from "helpers";
 
-export type ImageCapturerProps = {}
+export type ImageCapturerProps = {};
 
 interface State {
-    width: number
-    height: number
+    width: number;
+    height: number;
 }
 
 /**
@@ -17,20 +17,20 @@ export class ImageCapturer extends React.PureComponent<
     ImageCapturerProps,
     State
 > {
-    protected webcam: Webcam
-    protected imageFormat: "image/png" = "image/png"
+    protected webcam: Webcam;
+    protected imageFormat: "image/png" = "image/png";
     constructor(props: ImageCapturerProps) {
-        super(props)
+        super(props);
         this.state = {
             height: null,
-            width: null,
-        }
+            width: null
+        };
     }
     public takePictureBase64(): string {
-        return this.webcam.getScreenshot()
+        return this.webcam.getScreenshot();
     }
     public takePictureBlob(): Blob {
-        return base64toBlob(this.takePictureBase64(), this.imageFormat)
+        return base64toBlob(this.takePictureBase64(), this.imageFormat);
     }
     componentDidMount() {
         navigator.mediaDevices
@@ -39,34 +39,34 @@ export class ImageCapturer extends React.PureComponent<
                     height: {
                         min: 300,
                         max: 850,
-                        ideal: 600,
+                        ideal: 600
                     },
                     width: {
                         min: 300,
                         max: 850,
-                        ideal: 800,
-                    },
-                },
+                        ideal: 800
+                    }
+                }
             })
             .then(stream => {
-                let found = false
+                let found = false;
                 stream.getVideoTracks().forEach(track => {
                     if (!found) {
-                        found = true
+                        found = true;
                         this.setState({
                             height: track.getSettings().height,
-                            width: track.getSettings().width,
-                        })
+                            width: track.getSettings().width
+                        });
                     }
-                    track.stop()
-                })
-            })
+                    track.stop();
+                });
+            });
     }
     render() {
         const videoConstraints = {
             width: { exact: this.state.width },
-            height: { exact: this.state.height },
-        }
+            height: { exact: this.state.height }
+        };
 
         return (
             this.state.width && (
@@ -77,12 +77,12 @@ export class ImageCapturer extends React.PureComponent<
                     ref={webcam => (this.webcam = webcam)}
                     screenshotFormat={this.imageFormat}
                     {...{
-                        videoConstraints,
+                        videoConstraints
                     }}
                 />
             )
-        )
+        );
     }
 }
 
-export default ImageCapturer
+export default ImageCapturer;

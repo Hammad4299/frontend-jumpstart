@@ -1,24 +1,24 @@
-import React from "react"
-import { TableCellProps } from "@material-ui/core/TableCell"
-import Tooltip, { TooltipProps } from "@material-ui/core/Tooltip"
+import React from "react";
+import { TableCellProps } from "@material-ui/core/TableCell";
+import Tooltip, { TooltipProps } from "@material-ui/core/Tooltip";
 import TableSortLabel, {
-    TableSortLabelProps,
-} from "@material-ui/core/TableSortLabel"
-import { ColumnSort, getToggledSortDirection } from "../../types"
+    TableSortLabelProps
+} from "@material-ui/core/TableSortLabel";
+import { ColumnSort, getToggledSortDirection } from "../../types";
 
 export function sortableTableCell<T extends TableCellProps>(
     Component: React.ComponentType<T>
 ) {
     interface Props {
-        isNumeric?: boolean
-        sortLabelProps?: TableSortLabelProps
-        tooltipProps?: TooltipProps
-        sort: ColumnSort
-        onSortChanged: (sort: ColumnSort) => void
+        isNumeric?: boolean;
+        sortLabelProps?: TableSortLabelProps;
+        tooltipProps?: TooltipProps;
+        sort: ColumnSort;
+        onSortChanged: (sort: ColumnSort) => void;
     }
 
-    type HOCProps = OwnProps
-    type OwnProps = Props & T //Props that are allowed to passed from Resulting component returned from HOC.
+    type HOCProps = OwnProps;
+    type OwnProps = Props & T; //Props that are allowed to passed from Resulting component returned from HOC.
 
     function SortableTableCell(props: HOCProps) {
         const {
@@ -28,9 +28,9 @@ export function sortableTableCell<T extends TableCellProps>(
             sort,
             onSortChanged = () => {},
             ...rest
-        } = props
-        const { children, ...cellProps } = rest
-        const tsBypass: T = cellProps as any
+        } = props;
+        const { children, ...cellProps } = rest;
+        const tsBypass: T = cellProps as any;
 
         return (
             <Component
@@ -48,7 +48,7 @@ export function sortableTableCell<T extends TableCellProps>(
                         onClick={() =>
                             onSortChanged({
                                 ...sort,
-                                dir: getToggledSortDirection(sort.dir),
+                                dir: getToggledSortDirection(sort.dir)
                             })
                         }
                     >
@@ -56,10 +56,10 @@ export function sortableTableCell<T extends TableCellProps>(
                     </TableSortLabel>
                 </Tooltip>
             </Component>
-        )
+        );
     }
 
-    return SortableTableCell
+    return SortableTableCell;
 }
 
-export default sortableTableCell
+export default sortableTableCell;

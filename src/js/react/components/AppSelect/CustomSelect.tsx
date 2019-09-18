@@ -1,11 +1,11 @@
-import React from "react"
-import { defaults } from "lodash-es"
-import { Theme, StandardProps } from "@material-ui/core"
-import { createStyles, makeStyles, useTheme } from "@material-ui/styles"
-import { emphasize } from "@material-ui/core/styles/colorManipulator"
-import classNames from "classnames"
-import { FixedSizeListProps } from "react-window"
-import { CustomSelectComponentSelectProps } from "./types"
+import React from "react";
+import { defaults } from "lodash-es";
+import { Theme, StandardProps } from "@material-ui/core";
+import { createStyles, makeStyles, useTheme } from "@material-ui/styles";
+import { emphasize } from "@material-ui/core/styles/colorManipulator";
+import classNames from "classnames";
+import { FixedSizeListProps } from "react-window";
+import { CustomSelectComponentSelectProps } from "./types";
 import {
     Option,
     Control,
@@ -15,18 +15,18 @@ import {
     NoOptionsMessage,
     Placeholder,
     SingleValue,
-    ValueContainer,
-} from "./CustomComponents"
-import { StyleClassKey } from "../../typescript"
-import { Props } from "react-select/src/Select"
+    ValueContainer
+} from "./CustomComponents";
+import { StyleClassKey } from "../../typescript";
+import { Props } from "react-select/src/Select";
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
             "&$fullWidth": {
-                width: "100%",
+                width: "100%"
             },
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: theme.palette.background.paper
         },
         fullWidth: {},
         formControl: {
@@ -34,38 +34,38 @@ const styles = (theme: Theme) =>
             minHeight: "40px",
             borderRadius: "5px",
             "&:hover": {
-                borderBottom: `1px solid ${theme.palette.primary.main}!important`,
-            },
+                borderBottom: `1px solid ${theme.palette.primary.main}!important`
+            }
         },
         formControlInput: {},
         input: {
             display: "flex",
-            padding: 0,
+            padding: 0
         },
         controlContainer: {
             display: "flex",
-            flexGrow: 1,
+            flexGrow: 1
         },
         valueContainer: {
             display: "flex",
             flexWrap: "wrap",
             flex: 1,
-            alignItems: "center",
+            alignItems: "center"
         },
         noOptionsMessage: {
-            padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+            padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`
         },
         singleValue: {
             fontSize: 16,
             paddingLeft: theme.spacing(1),
-            paddingRight: theme.spacing(1),
+            paddingRight: theme.spacing(1)
         },
         placeholder: {
             position: "absolute",
             left: 2,
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
-            fontSize: 16,
+            fontSize: 16
         },
         paper: {
             border: `1px solid ${theme.palette.grey.A100}`,
@@ -74,16 +74,16 @@ const styles = (theme: Theme) =>
             zIndex: 1,
             marginTop: theme.spacing(1),
             left: 0,
-            right: 0,
+            right: 0
         },
         chip: {
             borderRadius: "0px",
             height: "auto",
             padding: theme.spacing(1) / 3,
-            margin: `${theme.spacing(1) / 2}px ${theme.spacing(1) / 4}px`,
+            margin: `${theme.spacing(1) / 2}px ${theme.spacing(1) / 4}px`
         },
         chipLabel: {
-            order: 1,
+            order: 1
         },
         chipFocused: {
             backgroundColor: emphasize(
@@ -91,7 +91,7 @@ const styles = (theme: Theme) =>
                     ? theme.palette.grey[300]
                     : theme.palette.grey[700],
                 0.08
-            ),
+            )
         },
         deleteIconStyle: {
             // color: theme.custom.text.secondary,
@@ -99,17 +99,17 @@ const styles = (theme: Theme) =>
             order: 0,
             fontSize: theme.typography.pxToRem(12),
             marginLeft: "5px",
-            marginRight: "-8px",
+            marginRight: "-8px"
         },
         reloadIcon: {
             alignSelf: "flex-start",
-            padding: theme.spacing(1) / 2,
-        },
-    })
+            padding: theme.spacing(1) / 2
+        }
+    });
 
-export type CustomSelectClassKey = StyleClassKey<typeof styles>
+export type CustomSelectClassKey = StyleClassKey<typeof styles>;
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 
 const ccomponents = {
     Control,
@@ -120,15 +120,15 @@ const ccomponents = {
     Option,
     Placeholder,
     SingleValue,
-    ValueContainer,
-}
+    ValueContainer
+};
 
 interface PrivateProps extends StandardProps<{}, CustomSelectClassKey> {
-    showDropdownIndicator?: boolean
-    fullWidth?: boolean
-    fixedSizeListProps?: FixedSizeListProps
-    allowReload?: boolean
-    onReload?: () => void
+    showDropdownIndicator?: boolean;
+    fullWidth?: boolean;
+    fixedSizeListProps?: FixedSizeListProps;
+    allowReload?: boolean;
+    onReload?: () => void;
 }
 
 export type CustomSelectProps<
@@ -136,8 +136,8 @@ export type CustomSelectProps<
     OptionType
 > = PrivateProps &
     TProps & {
-        Component: React.ComponentType<TProps>
-    }
+        Component: React.ComponentType<TProps>;
+    };
 
 function Component<
     TProps extends CustomSelectProps<SProps, OptionType>,
@@ -151,10 +151,10 @@ function Component<
         fullWidth,
         allowReload,
         onReload,
-        fixedSizeListProps,
-    } = props
-    const classes = useStyles(props)
-    const theme = useTheme<Theme>()
+        fixedSizeListProps
+    } = props;
+    const classes = useStyles(props);
+    const theme = useTheme<Theme>();
 
     defaults(components, {
         Control: ccomponents.Control,
@@ -165,51 +165,51 @@ function Component<
         Option: ccomponents.Option,
         Placeholder: ccomponents.Placeholder,
         SingleValue: ccomponents.SingleValue,
-        ValueContainer: ccomponents.ValueContainer,
-    })
+        ValueContainer: ccomponents.ValueContainer
+    });
 
     const extraInjectedProps: CustomSelectComponentSelectProps = {
         classes,
         controlProps: {
             fullWidth: fullWidth,
             allowReload,
-            onReload,
+            onReload
         },
-        fixedSizeListProps: fixedSizeListProps,
-    }
+        fixedSizeListProps: fixedSizeListProps
+    };
 
-    const TComponent: React.ComponentType<SProps> = props.Component
+    const TComponent: React.ComponentType<SProps> = props.Component;
 
     return (
         <TComponent
             {...props}
             className={classNames(props.className, classes.root, {
-                [classes.fullWidth]: fullWidth,
+                [classes.fullWidth]: fullWidth
             })}
             {...extraInjectedProps}
             styles={{
                 indicatorsContainer: base => ({
-                    ...base,
+                    ...base
                 }),
                 input: base => ({
                     ...base,
                     paddingLeft: theme.spacing(1),
-                    paddingRight: theme.spacing(1),
+                    paddingRight: theme.spacing(1)
                 }),
                 indicatorSeparator: base => ({
                     ...base,
-                    display: "none",
+                    display: "none"
                 }),
                 dropdownIndicator: base => ({
                     ...base,
-                    display: !showDropdownIndicator ? "none" : undefined,
+                    display: !showDropdownIndicator ? "none" : undefined
                 }),
-                ...styles,
+                ...styles
             }}
         />
-    )
+    );
 }
-Component.displayName = "CustomSelect"
+Component.displayName = "CustomSelect";
 Component.defaultProps = {
     menuShouldBlockScroll: false,
     showDropdownIndicator: true,
@@ -223,8 +223,8 @@ Component.defaultProps = {
     allowReload: false,
     onReload: () => {},
     value: null,
-    fullWidth: false,
-}
+    fullWidth: false
+};
 
-export const CustomSelect = Component
-export default CustomSelect
+export const CustomSelect = Component;
+export default CustomSelect;

@@ -1,84 +1,85 @@
-import React from "react"
-import Cropper from "react-cropper"
-import "cropperjs/dist/cropper.css" // see installation section above for versions of NPM older than 3.0.0
-import { Theme, StandardProps } from "@material-ui/core"
-import { withStyles, createStyles } from "@material-ui/styles"
+import React, { RefObject } from "react";
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css"; // see installation section above for versions of NPM older than 3.0.0
+import { Theme, StandardProps } from "@material-ui/core";
+import { withStyles, createStyles } from "@material-ui/styles";
 import {
     CropperOptions,
     CropBoxData,
     Data,
-    CroppedCanvasOptions,
-} from "cropperjs"
-import { isEqual } from "lodash-es"
-import { StyleClassKey } from "typehelper"
+    CroppedCanvasOptions
+} from "cropperjs";
+import { isEqual } from "lodash-es";
+import { StyleClassKey } from "typehelper";
 
-const styles = (theme: Theme) => createStyles({})
+const styles = (theme: Theme) => createStyles({});
 
-export type ImageCropperClassKey = StyleClassKey<typeof styles>
+export type ImageCropperClassKey = StyleClassKey<typeof styles>;
 
 export interface ImageCropperProps
     extends StandardProps<CropperOptions, ImageCropperClassKey> {
-    cropBoxData?: CropBoxData
-    style?: React.CSSProperties
-    zoomTo?: number
-    src: string
-    centerCropBox?: boolean
-    onZoomChanged?: (zoom: number) => void
-    cropOutput?: CroppedCanvasOptions
-    outputType: "blob" | "dataUrl" | "both"
-    outputMime?: string
-    onCropped?: (data: CropResult) => void
+    cropBoxData?: CropBoxData;
+    style?: React.CSSProperties;
+    zoomTo?: number;
+    src: string;
+    centerCropBox?: boolean;
+    onZoomChanged?: (zoom: number) => void;
+    cropOutput?: CroppedCanvasOptions;
+    outputType: "blob" | "dataUrl" | "both";
+    outputMime?: string;
+    onCropped?: (data: CropResult) => void;
 }
 
 export type CropResult = Data & {
-    blob?: Blob
-    dataUrl?: string
-}
+    blob?: Blob;
+    dataUrl?: string;
+};
 
-const decorator = withStyles(styles)
+const decorator = withStyles(styles);
 
 class Component extends React.PureComponent<ImageCropperProps> {
-    protected preData: Data
-    protected dismounted: boolean
+    protected preData: Data;
+    protected dismounted: boolean;
+    protected cropperRefObject: RefObject<any> = React.createRef();
     _crop() {
-        const { onCropped = () => {} } = this.props
-        const d = this.cropperRef().getData()
+        const { onCropped = () => {} } = this.props;
+        const d = this.cropperRef().getData();
         if (!isEqual(this.preData, d)) {
-            this.preData = d
+            this.preData = d;
             const res: CropResult = {
-                ...d,
-            }
+                ...d
+            };
 
-            const { outputMime, outputType, cropOutput } = this.props
-            const canvas = this.cropperRef().getCroppedCanvas(cropOutput)
-            let promise: Promise<CropResult> = Promise.resolve(res)
+            const { outputMime, outputType, cropOutput } = this.props;
+            const canvas = this.cropperRef().getCroppedCanvas(cropOutput);
+            let promise: Promise<CropResult> = Promise.resolve(res);
             if (outputType === "blob" || outputType === "both") {
                 promise = promise.then(r => {
                     const p = new Promise<CropResult>(resolve => {
                         canvas.toBlob(blob => {
-                            r.blob = blob
-                            resolve(r)
-                        }, outputMime)
-                    })
+                            r.blob = blob;
+                            resolve(r);
+                        }, outputMime);
+                    });
 
-                    return p
-                })
+                    return p;
+                });
             }
             if (outputType === "dataUrl" || outputType === "both") {
                 promise = promise.then(r => {
-                    r.dataUrl = canvas.toDataURL(outputMime)
-                    return r
-                })
+                    r.dataUrl = canvas.toDataURL(outputMime);
+                    return r;
+                });
             }
 
             promise.then(r => {
-                onCropped(r)
-            })
+                onCropped(r);
+            });
         }
     }
 
     protected cropperRef(): any {
-        return this.refs.cropper
+        return this.cropperRefObject.current;
     }
 
     render() {
@@ -103,14 +104,14 @@ class Component extends React.PureComponent<ImageCropperProps> {
             guides = false,
             src,
             onZoomChanged = z => {
-                console.log(z)
+                console.log(z);
             },
             ...rest
-        } = this.props
+        } = this.props;
 
         return (
             <Cropper
-                ref={"cropper"}
+                ref={this.cropperRefObject}
                 center
                 src={src}
                 zoomTo={zoomTo}
@@ -127,20 +128,20 @@ class Component extends React.PureComponent<ImageCropperProps> {
                 guides={guides}
                 zoom={e => onZoomChanged(e.detail.ratio)}
                 ready={() => {
-                    const data = this.props.cropBoxData
+                    const data = this.props.cropBoxData;
                     if (centerCropBox) {
-                        const spec = this.cropperRef().getContainerData()
-                        data.left = (spec.width - data.width) / 2
-                        data.top = (spec.height - data.height) / 2
+                        const spec = this.cropperRef().getContainerData();
+                        data.left = (spec.width - data.width) / 2;
+                        data.top = (spec.height - data.height) / 2;
                     }
-                    this.cropperRef().setCropBoxData(data)
+                    this.cropperRef().setCropBoxData(data);
                 }}
                 crop={this._crop.bind(this)}
                 {...rest}
             />
-        )
+        );
     }
 }
 
-export const ImageCropper = decorator(Component)
-export default ImageCropper
+export const ImageCropper = decorator(Component);
+export default ImageCropper;

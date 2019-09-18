@@ -1,17 +1,17 @@
 /**
  * Created by talha on 5/15/2018.
  */
-import React from "react"
-import { Route, Redirect, RouteProps } from "react-router-dom"
+import React from "react";
+import { Route, Redirect, RouteProps } from "react-router-dom";
 
-type PrivateRouteProps = RouteProps
+type PrivateRouteProps = RouteProps;
 
 const PrivateRoute = ({
     render,
     component: Component,
     ...rest
 }: PrivateRouteProps) => {
-    const authorized = true
+    const authorized = true;
     return (
         <Route
             {...rest}
@@ -22,13 +22,13 @@ const PrivateRoute = ({
                     <Redirect
                         to={{
                             pathname: "/unauthorized",
-                            state: { from: props.location },
+                            state: { from: props.location }
                         }}
                     />
-                )
+                );
             }}
         />
-    )
-}
+    );
+};
 
-export default PrivateRoute
+export default PrivateRoute;

@@ -1,29 +1,29 @@
-import React, { ReactNode } from "react"
-import { Theme, Typography, StandardProps } from "@material-ui/core"
-import { withStyles, createStyles } from "@material-ui/styles"
-import { AppSelect, SimpleOption } from "./"
-import { StyleClassKey } from "../typescript"
+import React, { ReactNode } from "react";
+import { Theme, Typography, StandardProps } from "@material-ui/core";
+import { withStyles, createStyles } from "@material-ui/styles";
+import { AppSelect, SimpleOption } from "./";
+import { StyleClassKey } from "../typescript";
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
             display: "flex",
-            alignItems: "center",
-        },
-    })
+            alignItems: "center"
+        }
+    });
 
-export type PerPageSelectorClassKey = StyleClassKey<typeof styles>
+export type PerPageSelectorClassKey = StyleClassKey<typeof styles>;
 
 export interface PerPageSelectorProps
     extends StandardProps<{}, PerPageSelectorClassKey> {
-    selected?: number
-    before?: ReactNode
-    after?: ReactNode
-    allowed?: number[]
-    onChange: (perPage: number) => void
+    selected?: number;
+    before?: ReactNode;
+    after?: ReactNode;
+    allowed?: number[];
+    onChange: (perPage: number) => void;
 }
 
-const decorator = withStyles(styles)
+const decorator = withStyles(styles);
 
 function Component({
     classes,
@@ -39,19 +39,19 @@ function Component({
             <AppSelect
                 value={{
                     label: rest.selected.toString(),
-                    value: rest.selected,
+                    value: rest.selected
                 }}
                 isSearchable={false}
                 onChange={(val: SimpleOption) => onChange(val.value)}
                 options={allowed.map(item => ({
                     label: item.toString(),
-                    value: item,
+                    value: item
                 }))}
             />
             {after}
         </div>
-    )
+    );
 }
 
-export const PerPageSelector = decorator(Component)
-export default PerPageSelector
+export const PerPageSelector = decorator(Component);
+export default PerPageSelector;

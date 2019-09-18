@@ -1,26 +1,26 @@
-import moment, { Moment } from "moment"
+import moment, { Moment } from "moment";
 
 class TimeHelper {
-    private userTimezone: string | null | undefined
-    private dateTimeFormat: string
+    private userTimezone: string | null | undefined;
+    private dateTimeFormat: string;
 
     constructor(userTimezone?: string | null | undefined) {
-        this.setTimezone(userTimezone)
-        this.dateTimeFormat = "YYYY-MM-DD hh:mm a"
+        this.setTimezone(userTimezone);
+        this.dateTimeFormat = "YYYY-MM-DD hh:mm a";
     }
 
     public setTimezone(userTimezone?: string | null | undefined) {
-        this.userTimezone = userTimezone
+        this.userTimezone = userTimezone;
     }
 
     public getUserUtcOffset(): number {
-        let baseOffset = moment().utcOffset()
+        let baseOffset = moment().utcOffset();
 
         if (this.userTimezone) {
-            baseOffset = parseInt(this.userTimezone) * 60
+            baseOffset = parseInt(this.userTimezone) * 60;
         }
 
-        return baseOffset
+        return baseOffset;
     }
 
     public convertUtcToUserTime(
@@ -29,21 +29,21 @@ class TimeHelper {
     ): Moment {
         return moment
             .utc(utcdateTime, parseFormat)
-            .utcOffset(this.getUserUtcOffset())
+            .utcOffset(this.getUserUtcOffset());
     }
 
     public timestampToLocal(timestamp: number): string {
         return this.convertUtcToUserTime(`${timestamp}`, "X").format(
             this.dateTimeFormat
-        )
+        );
     }
 
     public userTime(): any {
-        return moment.utc().utcOffset(this.getUserUtcOffset())
+        return moment.utc().utcOffset(this.getUserUtcOffset());
     }
 
     public static utcTime(): any {
-        return moment.utc()
+        return moment.utc();
     }
 
     public static convertTimeToDifferentZone(
@@ -52,25 +52,25 @@ class TimeHelper {
         currentOffset: number,
         desiredOffset: number
     ): Moment {
-        const localdateTime1 = moment(timestring, parseFormat)
+        const localdateTime1 = moment(timestring, parseFormat);
         return localdateTime1
             .subtract(desiredOffset - currentOffset, "minutes")
-            .utcOffset(desiredOffset)
+            .utcOffset(desiredOffset);
     }
 
     public convertLocalToUtc(
         localdateTime: string,
         parseFormat: string
     ): Moment {
-        const localdateTime1 = moment(localdateTime, parseFormat)
+        const localdateTime1 = moment(localdateTime, parseFormat);
         return TimeHelper.convertTimeToDifferentZone(
             localdateTime,
             parseFormat,
             localdateTime1.utcOffset(),
             this.getUserUtcOffset()
-        ).utcOffset(0)
+        ).utcOffset(0);
     }
 }
 
-export const timeHelper = new TimeHelper()
-export default timeHelper
+export const timeHelper = new TimeHelper();
+export default timeHelper;

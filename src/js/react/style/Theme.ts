@@ -1,8 +1,8 @@
-import { Breakpoint } from "@material-ui/core/styles/createBreakpoints"
+import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import createMuiTheme, {
-    ThemeOptions,
-} from "@material-ui/core/styles/createMuiTheme"
-import React from "react"
+    ThemeOptions
+} from "@material-ui/core/styles/createMuiTheme";
+import React from "react";
 
 declare module "@material-ui/core/styles/createMuiTheme" {
     //custom theme options typings

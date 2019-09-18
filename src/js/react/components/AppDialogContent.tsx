@@ -1,26 +1,26 @@
-import * as React from "react"
-import { Theme, StandardProps, DialogContent } from "@material-ui/core"
-import { StyleClassKey } from "../typescript"
-import { createStyles, withStyles } from "@material-ui/core"
-import classNames from "classnames"
-import { DialogContentProps } from "@material-ui/core/DialogContent"
+import * as React from "react";
+import { Theme, StandardProps, DialogContent } from "@material-ui/core";
+import { StyleClassKey } from "../typescript";
+import { createStyles, withStyles } from "@material-ui/core";
+import classNames from "classnames";
+import { DialogContentProps } from "@material-ui/core/DialogContent";
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            padding: theme.spacing(2),
+            padding: theme.spacing(2)
         },
         body: {
-            overflowY: "visible",
-        },
-    })
+            overflowY: "visible"
+        }
+    });
 
-const decorator = withStyles(styles)
+const decorator = withStyles(styles);
 
 export interface AppDialogContentProps
     extends StandardProps<DialogContentProps, StyleClassKey<typeof styles>> {
-    scroll?: "body" | "paper"
-    children: React.ReactNode
+    scroll?: "body" | "paper";
+    children: React.ReactNode;
 }
 
 const Component = ({
@@ -33,22 +33,22 @@ const Component = ({
     return (
         <DialogContent
             className={classNames(root, className, {
-                [body]: scroll === "body",
+                [body]: scroll === "body"
             })}
             classes={restClasses}
             {...rest}
         >
             {children}
         </DialogContent>
-    )
-}
+    );
+};
 
 Component.defaultProps = {
-    scroll: "body",
-} as AppDialogContentProps
+    scroll: "body"
+} as AppDialogContentProps;
 
-Component.displayName = "AppDialogContent"
+Component.displayName = "AppDialogContent";
 
-export const AppDialogContent = decorator(Component)
+export const AppDialogContent = decorator(Component);
 
-export default AppDialogContent
+export default AppDialogContent;

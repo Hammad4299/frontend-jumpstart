@@ -1,8 +1,8 @@
-import React from "react"
-import { Dialog, Theme, StandardProps } from "@material-ui/core"
-import { DialogProps } from "@material-ui/core/Dialog"
-import { createStyles, makeStyles } from "@material-ui/styles"
-import { StyleClassKey } from "../typescript"
+import React from "react";
+import { Dialog, Theme, StandardProps } from "@material-ui/core";
+import { DialogProps } from "@material-ui/core/Dialog";
+import { createStyles, makeStyles } from "@material-ui/styles";
+import { StyleClassKey } from "../typescript";
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -10,30 +10,30 @@ const styles = (theme: Theme) =>
             maxWidth: "95vw",
             overflowY: "visible",
             marginTop:
-                theme.spacing(3) + parseInt(theme.header.height.toString()),
+                theme.spacing(3) + parseInt(theme.header.height.toString())
         },
         scrollBody: {
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
-        },
-    })
+            alignItems: "flex-start"
+        }
+    });
 
-type AppDialogClassKey = StyleClassKey<typeof styles>
+type AppDialogClassKey = StyleClassKey<typeof styles>;
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 
 export interface AppDialogProps
     extends StandardProps<DialogProps, AppDialogClassKey> {}
 
 function Component(props: AppDialogProps) {
-    const classes = useStyles(props)
-    return <Dialog {...props} classes={classes} />
+    const classes = useStyles(props);
+    return <Dialog {...props} classes={classes} />;
 }
 
 Component.defaultProps = {
-    scroll: "body",
-} as AppDialogProps
-Component.displayName = "AppDialog"
-export const AppDialog = Component
-export default AppDialog
+    scroll: "body"
+} as AppDialogProps;
+Component.displayName = "AppDialog";
+export const AppDialog = Component;
+export default AppDialog;

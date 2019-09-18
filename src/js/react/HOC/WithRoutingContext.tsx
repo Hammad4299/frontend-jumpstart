@@ -1,23 +1,23 @@
 /**
  * Created by talha on 5/15/2018.
  */
-import React from "react"
-import { RoutingContext } from "../../routing"
-import { useRoutingContext } from "../hooks"
+import React from "react";
+import { RoutingContext } from "../../routing";
+import { useRoutingContext } from "../hooks";
 
 export interface WithRoutingContextInjectedProps {
-    routingContext?: RoutingContext
+    routingContext?: RoutingContext;
 }
 
 export function withRoutingContext<
     WrappedProps extends WithRoutingContextInjectedProps
 >(WrappedComponent: React.ComponentType<WrappedProps>) {
     function WithRoutingContext(props: WrappedProps) {
-        const [routingContext] = useRoutingContext()
-        return <WrappedComponent routingContext={routingContext} {...props} />
+        const [routingContext] = useRoutingContext();
+        return <WrappedComponent routingContext={routingContext} {...props} />;
     }
 
-    return WithRoutingContext
+    return WithRoutingContext;
 }
 
-export default withRoutingContext
+export default withRoutingContext;

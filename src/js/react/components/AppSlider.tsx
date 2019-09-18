@@ -1,44 +1,44 @@
-import React from "react"
-import { createStyles, Theme, StandardProps } from "@material-ui/core"
-import { withStyles } from "@material-ui/styles"
-import Slider, { SliderProps, SliderClassKey } from "@material-ui/core/Slider"
-import { StyleClassKey, StylesType } from "../typescript"
+import React from "react";
+import { createStyles, Theme, StandardProps } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
+import Slider, { SliderProps, SliderClassKey } from "@material-ui/core/Slider";
+import { StyleClassKey, StylesType } from "../typescript";
 
 const styles = (theme: Theme) =>
     createStyles({
         slider: {
-            flexGrow: 1,
+            flexGrow: 1
         },
         container: {
-            padding: "22px 0px",
+            padding: "22px 0px"
         },
         track: {
-            height: "12px",
+            height: "12px"
         },
         thumb: {
             width: "18px",
-            height: "18px",
+            height: "18px"
         },
         trackBefore: {
-            backgroundColor: "#afafaf",
+            backgroundColor: "#afafaf"
         },
         trackAfter: {
-            backgroundColor: "#e4e4e4",
-        },
-    })
+            backgroundColor: "#e4e4e4"
+        }
+    });
 
-type AppSliderClassKey = StyleClassKey<typeof styles> | SliderClassKey
+type AppSliderClassKey = StyleClassKey<typeof styles> | SliderClassKey;
 
 interface AppSliderProps
     extends StandardProps<SliderProps, AppSliderClassKey> {}
 
-const sliderStyle: StylesType<AppSliderClassKey> = styles as any
+const sliderStyle: StylesType<AppSliderClassKey> = styles as any;
 
-const decorator = withStyles(sliderStyle)
+const decorator = withStyles(sliderStyle);
 
 function Component(props: AppSliderProps) {
-    const { classes, min, max, ...rest } = props
-    const { slider, ...restClasses } = classes
+    const { classes, min, max, ...rest } = props;
+    const { slider, ...restClasses } = classes;
     return (
         <Slider
             className={classes.slider}
@@ -47,12 +47,12 @@ function Component(props: AppSliderProps) {
             max={max}
             {...rest}
         />
-    )
+    );
 }
 Component.defaultProps = {
     min: 0,
-    max: 100,
-} as AppSliderProps
-Component.displayName = "AppSlider"
-export const AppSlider = decorator(Component)
-export default AppSlider
+    max: 100
+} as AppSliderProps;
+Component.displayName = "AppSlider";
+export const AppSlider = decorator(Component);
+export default AppSlider;

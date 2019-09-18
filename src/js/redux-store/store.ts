@@ -1,48 +1,48 @@
-import { combineReducers, applyMiddleware, createStore } from "redux"
+import { combineReducers, applyMiddleware, createStore } from "redux";
 import {
     routingStateReducer,
     breadcrumbStateReducer,
     RoutingState,
     BreadcrumbState,
     BreadcrumbActions,
-    RoutingActions,
-} from "./"
-import { BreadcrumbContext } from "../breadcrumbs"
-import { BaseRoutingContext } from "../routing"
-import thunkMiddleware from "redux-thunk"
+    RoutingActions
+} from "./";
+import { BreadcrumbContext } from "../breadcrumbs";
+import { BaseRoutingContext } from "../routing";
+import thunkMiddleware from "redux-thunk";
 
 interface Store {
-    routing: RoutingState
-    breadcrumbs: BreadcrumbState
+    routing: RoutingState;
+    breadcrumbs: BreadcrumbState;
 }
 
-export type AppStore = Store
+export type AppStore = Store;
 
-export type StoreActions = BreadcrumbActions | RoutingActions
+export type StoreActions = BreadcrumbActions | RoutingActions;
 
 const initState: AppStore = {
     breadcrumbs: {
         breadcrumbs: [],
-        context: new BreadcrumbContext(),
+        context: new BreadcrumbContext()
     },
     routing: {
-        routingContext: new BaseRoutingContext(),
-    },
-}
+        routingContext: new BaseRoutingContext()
+    }
+};
 
 const appReducer = combineReducers<AppStore, StoreActions>({
     breadcrumbs: breadcrumbStateReducer,
-    routing: routingStateReducer,
-})
+    routing: routingStateReducer
+});
 
 const rootReducer = (state: AppStore, action: StoreActions) => {
-    return appReducer(state, action)
-}
+    return appReducer(state, action);
+};
 
 export const store = createStore(
     rootReducer,
     initState,
     applyMiddleware(thunkMiddleware)
-)
+);
 
-export default store
+export default store;

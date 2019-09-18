@@ -1,7 +1,7 @@
-import { BreadcrumbInfo } from "breadcrumbs"
-export type Dispatcher = (breadcrumbs: BreadcrumbInfo[]) => void
+import { BreadcrumbInfo } from "breadcrumbs";
+export type Dispatcher = (breadcrumbs: BreadcrumbInfo[]) => void;
 
 export interface BreadcrumbContextContract {
-    isReady(): boolean
-    example: (additionalData: any, dispatcher?: Dispatcher) => BreadcrumbInfo[]
+    isReady(): boolean;
+    example: (additionalData: any, dispatcher?: Dispatcher) => BreadcrumbInfo[];
 }

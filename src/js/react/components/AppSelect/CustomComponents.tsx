@@ -1,18 +1,18 @@
 import {
     Clear as DeleteIcon,
     Refresh as ReloadIcon,
-    OpenInNew as OpenNewIcon,
-} from "@material-ui/icons"
+    OpenInNew as OpenNewIcon
+} from "@material-ui/icons";
 import {
     MenuListComponentProps,
     MenuProps,
-    NoticeProps,
-} from "react-select/src/components/Menu"
-import { MultiValueProps } from "react-select/src/components/MultiValue"
-import { ValueContainerProps } from "react-select/src/components/containers"
-import { PlaceholderProps } from "react-select/src/components/Placeholder"
-import { OptionProps } from "react-select/src/components/Option"
-import { ControlProps } from "react-select/src/components/Control"
+    NoticeProps
+} from "react-select/src/components/Menu";
+import { MultiValueProps } from "react-select/src/components/MultiValue";
+import { ValueContainerProps } from "react-select/src/components/containers";
+import { PlaceholderProps } from "react-select/src/components/Placeholder";
+import { OptionProps } from "react-select/src/components/Option";
+import { ControlProps } from "react-select/src/components/Control";
 import {
     Typography,
     Paper,
@@ -20,26 +20,26 @@ import {
     MenuItem,
     IconButton,
     FormControl,
-    Input,
-} from "@material-ui/core"
-import { FixedSizeList, FixedSizeListProps } from "react-window"
-import { SelectComponentProps } from "./types"
-import React from "react"
-import classNames from "classnames"
-import { SingleValueProps } from "react-select/src/components/SingleValue"
+    Input
+} from "@material-ui/core";
+import { FixedSizeList, FixedSizeListProps } from "react-window";
+import { SelectComponentProps } from "./types";
+import React from "react";
+import classNames from "classnames";
+import { SingleValueProps } from "react-select/src/components/SingleValue";
 
 type TextFieldInputComponentProps<OptionType> = {
-    className: string
-    inputRef: SelectComponentProps<ControlProps<OptionType>>["innerRef"]
-    innerProps: SelectComponentProps<ControlProps<OptionType>>["innerProps"]
-    children: SelectComponentProps<ControlProps<OptionType>>["children"]
+    className: string;
+    inputRef: SelectComponentProps<ControlProps<OptionType>>["innerRef"];
+    innerProps: SelectComponentProps<ControlProps<OptionType>>["innerProps"];
+    children: SelectComponentProps<ControlProps<OptionType>>["children"];
     classes: SelectComponentProps<
         ControlProps<OptionType>
-    >["selectProps"]["classes"]
+    >["selectProps"]["classes"];
     controlProps: SelectComponentProps<
         ControlProps<OptionType>
-    >["selectProps"]["controlProps"]
-}
+    >["selectProps"]["controlProps"];
+};
 
 function TextFieldInputComponent<OptionType>({
     inputRef,
@@ -52,7 +52,7 @@ function TextFieldInputComponent<OptionType>({
         <div className={classes.controlContainer}>
             <div
                 style={{
-                    flexGrow: 1,
+                    flexGrow: 1
                 }}
                 ref={inputRef}
                 {...innerProps}
@@ -67,7 +67,7 @@ function TextFieldInputComponent<OptionType>({
                 </IconButton>
             )}
         </div>
-    )
+    );
 }
 
 export function Control<OptionType>(
@@ -79,8 +79,8 @@ export function Control<OptionType>(
         children: props.children,
         classes: props.selectProps.classes,
         controlProps: props.selectProps.controlProps,
-        innerProps: props.innerProps,
-    }
+        innerProps: props.innerProps
+    };
     return (
         <FormControl
             className={props.selectProps.classes.formControl}
@@ -93,7 +93,7 @@ export function Control<OptionType>(
                 inputProps={iProps}
             />
         </FormControl>
-    )
+    );
 }
 
 export function Option<OptionType>(
@@ -105,13 +105,13 @@ export function Option<OptionType>(
             selected={props.isSelected}
             component="div"
             style={{
-                fontWeight: props.isSelected ? 500 : 400,
+                fontWeight: props.isSelected ? 500 : 400
             }}
             {...props.innerProps}
         >
             {props.children}
         </MenuItem>
-    )
+    );
 }
 
 export function Placeholder<OptionType>(
@@ -125,7 +125,7 @@ export function Placeholder<OptionType>(
         >
             {props.children}
         </Typography>
-    )
+    );
 }
 
 export function SingleValue<OptionType>(
@@ -138,7 +138,7 @@ export function SingleValue<OptionType>(
         >
             {props.children}
         </Typography>
-    )
+    );
 }
 
 export function ValueContainer<OptionType>(
@@ -148,7 +148,7 @@ export function ValueContainer<OptionType>(
         <div className={props.selectProps.classes.valueContainer}>
             {props.children}
         </div>
-    )
+    );
 }
 
 export function MultiValue<OptionType>(
@@ -158,17 +158,17 @@ export function MultiValue<OptionType>(
         <Chip
             classes={{
                 deleteIcon: props.selectProps.classes.deleteIconStyle,
-                label: props.selectProps.classes.chipLabel,
+                label: props.selectProps.classes.chipLabel
             }}
             deleteIcon={<DeleteIcon {...props.removeProps} />}
             className={classNames(props.selectProps.classes.chip, {
-                [props.selectProps.classes.chipFocused]: props.isFocused,
+                [props.selectProps.classes.chipFocused]: props.isFocused
             })}
             color="primary"
             label={props.children}
             onDelete={props.removeProps.onClick}
         />
-    )
+    );
 }
 
 export function Menu<OptionType>(
@@ -183,7 +183,7 @@ export function Menu<OptionType>(
         >
             {props.children}
         </Paper>
-    )
+    );
 }
 
 export function MenuList<OptionType>(
@@ -191,16 +191,16 @@ export function MenuList<OptionType>(
 ) {
     const other = props.selectProps.controlProps.fullWidth
         ? {
-              width: "100%",
+              width: "100%"
           }
-        : {}
+        : {};
 
     const fixedSizeListProps: FixedSizeListProps = {
         ...other,
-        ...props.selectProps.fixedSizeListProps,
-    }
-    const childs = props.children
-    const count = React.Children.count(childs)
+        ...props.selectProps.fixedSizeListProps
+    };
+    const childs = props.children;
+    const count = React.Children.count(childs);
     return (
         <FixedSizeList
             // innerRef={props.innerRef}
@@ -213,7 +213,7 @@ export function MenuList<OptionType>(
                 <div style={renderProps.style}>{childs[renderProps.index]}</div>
             )}
         </FixedSizeList>
-    )
+    );
 }
 
 export function NoOptionsMessage<OptionType>(
@@ -227,5 +227,5 @@ export function NoOptionsMessage<OptionType>(
         >
             {props.children}
         </Typography>
-    )
+    );
 }

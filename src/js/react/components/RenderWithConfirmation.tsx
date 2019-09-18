@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode } from "react";
 import {
     DialogActions,
     Dialog,
@@ -7,41 +7,41 @@ import {
     DialogContentText,
     Theme,
     Button,
-    StandardProps,
-} from "@material-ui/core"
-import { withStyles, createStyles } from "@material-ui/styles"
-import { AppButton } from "./"
-import { StyleClassKey } from "../typescript"
+    StandardProps
+} from "@material-ui/core";
+import { withStyles, createStyles } from "@material-ui/styles";
+import { AppButton } from "./";
+import { StyleClassKey } from "../typescript";
 
 const styles = (theme: Theme) =>
     createStyles({
         actionButton: {
             marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-    })
+            marginRight: theme.spacing(1)
+        }
+    });
 
-export type RenderWithConfirmationClassKey = StyleClassKey<typeof styles>
+export type RenderWithConfirmationClassKey = StyleClassKey<typeof styles>;
 
 interface State {
-    modelOpen: boolean
-    confirmationData?: any
+    modelOpen: boolean;
+    confirmationData?: any;
 }
 
 interface RenderProps {
-    askConfirmation: (data?: any) => void
+    askConfirmation: (data?: any) => void;
 }
 
 export interface RenderWithConfirmationProps
     extends StandardProps<{}, RenderWithConfirmationClassKey> {
-    dialogTitle: string
-    dialogMessage: string
-    dialogActions?: (dismiss: () => void, confirm: () => void) => ReactNode
-    onConfirm: (data?: any) => void
-    children: (renderProps: RenderProps) => ReactNode
+    dialogTitle: string;
+    dialogMessage: string;
+    dialogActions?: (dismiss: () => void, confirm: () => void) => ReactNode;
+    onConfirm: (data?: any) => void;
+    children: (renderProps: RenderProps) => ReactNode;
 }
 
-const decorator = withStyles(styles)
+const decorator = withStyles(styles);
 
 class Component extends React.PureComponent<
     RenderWithConfirmationProps,
@@ -49,16 +49,16 @@ class Component extends React.PureComponent<
 > {
     static defaultProps = {
         onConfirm: () => {},
-        children: (renderProps: RenderProps) => null,
-    } as RenderWithConfirmationProps
-    static displayName = "RenderWithConfirmation"
+        children: (renderProps: RenderProps) => null
+    } as RenderWithConfirmationProps;
+    static displayName = "RenderWithConfirmation";
 
     constructor(props: RenderWithConfirmationProps) {
-        super(props)
+        super(props);
         this.state = {
             modelOpen: false,
-            confirmationData: null,
-        }
+            confirmationData: null
+        };
     }
 
     render() {
@@ -68,22 +68,22 @@ class Component extends React.PureComponent<
             dialogActions,
             classes,
             onConfirm,
-            children,
-        } = this.props
-        const { actionButton, ...restclasses } = classes
+            children
+        } = this.props;
+        const { actionButton, ...restclasses } = classes;
 
         const confirm = () => {
-            onConfirm(this.state.confirmationData)
-            this.setState({ modelOpen: false })
-        }
-        const dismiss = () => this.setState({ modelOpen: false })
+            onConfirm(this.state.confirmationData);
+            this.setState({ modelOpen: false });
+        };
+        const dismiss = () => this.setState({ modelOpen: false });
 
         const dialog = this.state.modelOpen && (
             <Dialog
                 onClick={e => e.stopPropagation()}
                 open={this.state.modelOpen}
                 onClose={() => {
-                    this.setState({ modelOpen: false })
+                    this.setState({ modelOpen: false });
                 }}
             >
                 <DialogTitle>{dialogTitle}</DialogTitle>
@@ -111,7 +111,7 @@ class Component extends React.PureComponent<
                     )}
                 </DialogActions>
             </Dialog>
-        )
+        );
 
         return (
             <React.Fragment>
@@ -120,13 +120,13 @@ class Component extends React.PureComponent<
                     askConfirmation: (data: any) =>
                         this.setState({
                             modelOpen: true,
-                            confirmationData: data,
-                        }),
+                            confirmationData: data
+                        })
                 })}
             </React.Fragment>
-        )
+        );
     }
 }
 
-export const RenderWithConfirmation = decorator(Component)
-export default RenderWithConfirmation
+export const RenderWithConfirmation = decorator(Component);
+export default RenderWithConfirmation;

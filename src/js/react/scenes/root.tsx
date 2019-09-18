@@ -1,13 +1,13 @@
-import React from "react"
-import { Route, Redirect, Switch } from "react-router-dom"
-import { routesForContext } from "../../routing"
-import { Snackbar } from "@material-ui/core"
-import { library } from "@fortawesome/fontawesome-svg-core"
-import { faFilter } from "@fortawesome/free-solid-svg-icons"
-import { Sample } from "./sample"
-library.add(faFilter)
+import React from "react";
+import { Route, Redirect, Switch } from "react-router-dom";
+import { routesForContext } from "../../routing";
+import { Snackbar } from "@material-ui/core";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { Sample } from "./sample";
+library.add(faFilter);
 
-const routes = routesForContext()
+const routes = routesForContext();
 const Root = () => (
     // <ContextManager>
     <React.Fragment>
@@ -22,6 +22,6 @@ const Root = () => (
                 /> */}
     </React.Fragment>
     // </ContextManager>
-)
+);
 
-export default Root
+export default Root;

@@ -1,26 +1,26 @@
-import React from "react"
+import React from "react";
 import {
     List,
     ListItem,
     Theme,
     Typography,
-    StandardProps,
-} from "@material-ui/core"
-import { withStyles, createStyles } from "@material-ui/styles"
-import { ListItemProps } from "@material-ui/core/ListItem"
-import { StyleClassKey } from "../typescript"
+    StandardProps
+} from "@material-ui/core";
+import { withStyles, createStyles } from "@material-ui/styles";
+import { ListItemProps } from "@material-ui/core/ListItem";
+import { StyleClassKey } from "../typescript";
 import {
     PaginationInfo,
     extractPaginationDetail,
-    getPagesRange,
-} from "../../types"
+    getPagesRange
+} from "../../types";
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
             display: "flex",
             flexGrow: 1,
-            flexDirection: "row",
+            flexDirection: "row"
         },
         item: {
             padding: theme.spacing(1.5),
@@ -31,23 +31,23 @@ const styles = (theme: Theme) =>
             borderBottom: `1px solid ${theme.palette.divider}`,
             borderTop: `1px solid ${theme.palette.divider}`,
             "&:last-child": {
-                borderRight: `1px solid ${theme.palette.divider}`,
+                borderRight: `1px solid ${theme.palette.divider}`
             },
             "&$selected": {
-                background: theme.palette.primary.main,
-            },
+                background: theme.palette.primary.main
+            }
         },
-        selected: {},
-    })
+        selected: {}
+    });
 
-export type PaginationClassKey = StyleClassKey<typeof styles>
+export type PaginationClassKey = StyleClassKey<typeof styles>;
 
 export interface PaginationProps extends StandardProps<{}, PaginationClassKey> {
-    info?: PaginationInfo
-    propsForPage?: (page: number) => ListItemProps
+    info?: PaginationInfo;
+    propsForPage?: (page: number) => ListItemProps;
 }
 
-const decorator = withStyles(styles)
+const decorator = withStyles(styles);
 
 function Component({
     classes,
@@ -64,7 +64,7 @@ function Component({
                 key={`${page}|${text}`}
                 classes={{
                     root: classes.item,
-                    selected: classes.selected,
+                    selected: classes.selected
                 }}
                 {...lprops}
                 button={true as any}
@@ -72,29 +72,29 @@ function Component({
             >
                 <Typography>{text}</Typography>
             </ListItem>
-        )
-    }
+        );
+    };
 
-    const detail = rest.info ? extractPaginationDetail(rest.info) : null
+    const detail = rest.info ? extractPaginationDetail(rest.info) : null;
     const range = detail
         ? getPagesRange(detail.current_page, detail.totalPages)
-        : []
+        : [];
     return (
         <List className={classes.root}>
             {renderButton(detail.current_page - 1, "Previous", {
-                disabled: detail.current_page <= 1,
+                disabled: detail.current_page <= 1
             })}
             {range.map(page =>
                 renderButton(page, page, {
-                    selected: page === detail.current_page,
+                    selected: page === detail.current_page
                 })
             )}
             {renderButton(detail.current_page + 1, "Next", {
-                disabled: detail.current_page >= detail.totalPages,
+                disabled: detail.current_page >= detail.totalPages
             })}
         </List>
-    )
+    );
 }
 
-export const Pagination = decorator(Component)
-export default Pagination
+export const Pagination = decorator(Component);
+export default Pagination;

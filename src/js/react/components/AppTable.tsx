@@ -1,51 +1,51 @@
-import { Theme, Typography, StandardProps } from "@material-ui/core"
-import React, { ReactNode } from "react"
-import { withStyles, createStyles } from "@material-ui/styles"
-import Paper from "@material-ui/core/Paper"
-import Table, { TableClassKey } from "@material-ui/core/Table"
-import { TableProps } from "@material-ui/core/Table"
-import { StyleClassKey, StylesType } from "../typescript"
-import { PaginationInfo, extractPaginationDetail } from "../../types"
+import { Theme, Typography, StandardProps } from "@material-ui/core";
+import React, { ReactNode } from "react";
+import { withStyles, createStyles } from "@material-ui/styles";
+import Paper from "@material-ui/core/Paper";
+import Table, { TableClassKey } from "@material-ui/core/Table";
+import { TableProps } from "@material-ui/core/Table";
+import { StyleClassKey, StylesType } from "../typescript";
+import { PaginationInfo, extractPaginationDetail } from "../../types";
 import {
     PerPageSelectorProps,
     PaginationProps,
     PerPageSelector,
-    Pagination,
-} from "./"
+    Pagination
+} from "./";
 
 const styles = (theme: Theme) =>
     createStyles({
         paper: {
-            color: theme.palette.text.primary,
+            color: theme.palette.text.primary
         },
         rightContainer: {
-            display: "flex",
+            display: "flex"
         },
         table: {
             fontWeight: "bold",
-            borderColor: theme.palette.divider,
+            borderColor: theme.palette.divider
         },
         tableTopToolbar: {
             display: "flex",
             alignItems: "center",
-            margin: theme.spacing(1),
+            margin: theme.spacing(1)
         },
         perPageContainer: {
-            flexGrow: 1,
-        },
-    })
+            flexGrow: 1
+        }
+    });
 
-export type AppTableClassKey = StyleClassKey<typeof styles> | TableClassKey
+export type AppTableClassKey = StyleClassKey<typeof styles> | TableClassKey;
 
 export interface AppTableProps
     extends StandardProps<TableProps, AppTableClassKey> {
-    perPageProps?: PerPageSelectorProps
-    paginationInfo?: PaginationInfo
-    rightToolContainer?: ReactNode
-    paginationProps?: PaginationProps
+    perPageProps?: PerPageSelectorProps;
+    paginationInfo?: PaginationInfo;
+    rightToolContainer?: ReactNode;
+    paginationProps?: PaginationProps;
 }
 
-const decorator = withStyles(styles as StylesType<AppTableClassKey>)
+const decorator = withStyles(styles as StylesType<AppTableClassKey>);
 
 function Component({
     rightToolContainer,
@@ -62,11 +62,11 @@ function Component({
         paper,
         table,
         ...restClasses
-    } = classes
+    } = classes;
 
     const detail = paginationInfo
         ? extractPaginationDetail(paginationInfo)
-        : null
+        : null;
 
     return (
         <Paper className={paper} elevation={0}>
@@ -103,13 +103,13 @@ function Component({
                 </div>
             </div>
         </Paper>
-    )
+    );
 }
 
-Component.displayName = "AppTable"
+Component.displayName = "AppTable";
 Component.defaultProps = {
-    paginationProps: {},
-} as AppTableProps
+    paginationProps: {}
+} as AppTableProps;
 
-export const AppTable = decorator(Component)
-export default AppTable
+export const AppTable = decorator(Component);
+export default AppTable;

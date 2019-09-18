@@ -1,22 +1,22 @@
-import * as React from "react"
-import { Theme, StandardProps, Typography } from "@material-ui/core"
-import { withStyles, createStyles } from "@material-ui/styles"
-import { StyleClassKey } from "../typescript"
-import classNames from "classnames"
+import * as React from "react";
+import { Theme, StandardProps, Typography } from "@material-ui/core";
+import { withStyles, createStyles } from "@material-ui/styles";
+import { StyleClassKey } from "../typescript";
+import classNames from "classnames";
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
             color: theme.palette.text.hint,
-            fontSize: "0.8rem",
-        },
-    })
+            fontSize: "0.8rem"
+        }
+    });
 
-const decorator = withStyles(styles)
+const decorator = withStyles(styles);
 
 export interface AppDialogSubtitleProps
     extends StandardProps<{}, StyleClassKey<typeof styles>> {
-    children: string
+    children: string;
 }
 
 const Component = ({ classes, children, ...rest }: AppDialogSubtitleProps) => {
@@ -24,11 +24,11 @@ const Component = ({ classes, children, ...rest }: AppDialogSubtitleProps) => {
         <Typography className={classes.root} variant={"subtitle1"}>
             {children}
         </Typography>
-    )
-}
+    );
+};
 
-Component.displayName = "AppDialogSubtitle"
+Component.displayName = "AppDialogSubtitle";
 
-export const AppDialogSubtitle = decorator(Component)
+export const AppDialogSubtitle = decorator(Component);
 
-export default AppDialogSubtitle
+export default AppDialogSubtitle;

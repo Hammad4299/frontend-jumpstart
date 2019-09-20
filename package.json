@@ -12,6 +12,7 @@
         "./src/js/helpers/rollbar.ts"
     ],
     "scripts": {
+        "gen:declarations": "ttsc -p tsconfig.json --noEmit false --emitDeclarationOnly true --isolatedModules false --allowJs false --declarationDir ./dist --declaration true",
         "lint": "eslint src --ext .js,.ts,.jsx,.tsx",
         "docker:webpack": "docker run -v %cd%:/var/www -w /var/www node:10.13.0 yarn",
         "devserver": "concurrently -k --raw \"yarn webpackenv webpack-dev-server --config webpack/webpack.devserver.config.ts\" \"yarn check-types-watch\"",
@@ -176,6 +177,8 @@
         "redux-thunk": "^2.3.0",
         "rollbar": "^2.12.0",
         "ts-loader": "^6.1.1",
+        "ttypescript": "^1.5.7",
+        "typescript-transform-paths": "^1.1.10",
         "webfontloader": "^1.6.28",
         "webrtc-adapter": "^7.3.0"
     }

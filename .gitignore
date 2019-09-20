@@ -17,3 +17,4 @@
 .idea/
 .env
 dist-node/
+yarn-error.log

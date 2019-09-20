@@ -68,6 +68,8 @@ export default function buildBaseConfig(
         entry: projectSettings.entry,
         output: {
             path: path.resolve(projectSettings.contentOutput),
+            //library: '',
+            //libraryTarget: 'umd',
             filename: options.buildOutputName("js"),
             pathinfo: false,
             publicPath: process.env.STATIC_CONTENT_URL

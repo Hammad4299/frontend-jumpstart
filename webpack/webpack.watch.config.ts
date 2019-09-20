@@ -28,6 +28,7 @@ const config = webpackMerge(
     }),
     {
         mode: "development",
+        name: webProjectConfig.name,
         optimization: {
             splitChunks: false,
         },
@@ -56,6 +57,7 @@ const nodeConfig = webpackMerge(
     {
         mode: "development",
         target: "node",
+        name: nodeProjectConfig.name,
         node: {
             __dirname: false
         },

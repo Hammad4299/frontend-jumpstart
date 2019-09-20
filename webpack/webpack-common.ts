@@ -1,9 +1,9 @@
-import webpack, { Entry, EntryFunc, ExternalsElement } from "webpack"
+import webpack, { Entry, EntryFunc, ExternalsElement } from "webpack";
 
-const emptyStr = (str: string, notEmpty: boolean) => (notEmpty ? str : "")
+const emptyStr = (str: string, notEmpty: boolean) => (notEmpty ? str : "");
 
 export interface FaviconSetting {
-    logo: string
+    logo: string;
 }
 
 export type AssetsType =
@@ -13,42 +13,43 @@ export type AssetsType =
     | "image"
     | "favicon"
     | "image-imagemin"
-    | "html"
+    | "html";
 
 export interface Options {
-    readonly mode?: "watch" | "devserver" | "production"
-    readonly extractCss?: boolean
-    readonly responsiveImages?: boolean
-    readonly lint?: boolean
-    readonly shouldClean?: boolean
-    readonly enableCacheBusting?: boolean
-    readonly cacheResults?: boolean
-    readonly htmlPlugin?: boolean
-    readonly shouldGenerateSourceMaps?: boolean
-    readonly imagemin?: boolean
-    readonly favicon?: FaviconSetting
-    readonly hmrNeeded?: boolean
-    readonly minimizeCss?: boolean
-    readonly imageminOptions?: any
-    readonly imageminWebpOptions?: any
-    buildOutputName?(type: AssetsType): string
+    readonly mode?: "watch" | "devserver" | "production";
+    readonly extractCss?: boolean;
+    readonly responsiveImages?: boolean;
+    readonly lint?: boolean;
+    readonly shouldClean?: boolean;
+    readonly enableCacheBusting?: boolean;
+    readonly cacheResults?: boolean;
+    readonly htmlPlugin?: boolean;
+    readonly shouldGenerateSourceMaps?: boolean;
+    readonly imagemin?: boolean;
+    readonly favicon?: FaviconSetting;
+    readonly hmrNeeded?: boolean;
+    readonly minimizeCss?: boolean;
+    readonly imageminOptions?: any;
+    readonly imageminWebpOptions?: any;
+    buildOutputName?(type: AssetsType): string;
 }
 
 export interface CopySetting {
-    to: string
-    from: string
+    to: string;
+    from: string;
 }
 
 export interface ProjectSettings {
-    root: string
-    entry: string | string[] | Entry | EntryFunc
-    externals?: ExternalsElement | ExternalsElement[]
-    toClean: string[]
-    alias: { [index: string]: string }
-    toCopy: CopySetting[]
-    src: string
-    contentOutput: string
-    optimizations: webpack.Options.Optimization
+    root: string;
+    name: webpack.Configuration["name"];
+    entry: webpack.Configuration["entry"];
+    externals?: webpack.Configuration["externals"];
+    toClean: string[];
+    alias: webpack.Configuration["resolve"]["alias"];
+    toCopy: CopySetting[];
+    src: string;
+    contentOutput: string;
+    optimizations: webpack.Options.Optimization;
 }
 
 export const baseOptions = {
@@ -58,52 +59,55 @@ export const baseOptions = {
         lint: false,
         shouldGenerateSourceMaps: true,
         buildOutputName: function(type: AssetsType): string {
-            let toRet = ""
-            const enableCacheBusting: boolean = this.enableCacheBusting
+            let toRet = "";
+            const enableCacheBusting: boolean = this.enableCacheBusting;
             switch (type) {
                 case "font":
                     toRet = `[path][name]${emptyStr(
                         ".[hash]",
                         enableCacheBusting
-                    )}.[ext]`
-                    break
+                    )}.[ext]`;
+                    break;
                 case "image-imagemin":
                     toRet = `[path][name]${emptyStr(
                         ".hash-[hash]",
                         enableCacheBusting
-                    )}.[ext]` // "/" is very important otherwise it will skip first letter (on windows).
-                    break
+                    )}.[ext]`; // "/" is very important otherwise it will skip first letter (on windows).
+                    break;
                 case "image":
                     toRet = `[path]loaded/[name]${emptyStr(
                         ".hash-[hash]",
                         enableCacheBusting
-                    )}.[ext]`
-                    break
+                    )}.[ext]`;
+                    break;
                 case "favicon":
-                    toRet = `favicon${emptyStr("-[hash]", enableCacheBusting)}/`
-                    break
+                    toRet = `favicon${emptyStr(
+                        "-[hash]",
+                        enableCacheBusting
+                    )}/`;
+                    break;
                 case "style":
                     toRet = `css/generated/[name]${emptyStr(
                         ".[chunkhash]",
                         enableCacheBusting
-                    )}.css`
-                    break
+                    )}.css`;
+                    break;
                 case "html":
                     toRet = `html/generated/[name]${emptyStr(
                         ".[chunkhash]",
                         enableCacheBusting
-                    )}.html`
-                    break
+                    )}.html`;
+                    break;
                 case "js":
                     toRet = `js/generated/[name]${emptyStr(
                         ".[chunkhash]",
                         enableCacheBusting
-                    )}.js`
-                    break
+                    )}.js`;
+                    break;
                 default:
-                    toRet = `[name].[ext]`
+                    toRet = `[name].[ext]`;
             }
-            return toRet
+            return toRet;
         },
         imageminOptions: {
             imageminOptions: {
@@ -112,29 +116,29 @@ export const baseOptions = {
                     [
                         "gifsicle",
                         {
-                            interlaced: true,
-                        },
+                            interlaced: true
+                        }
                     ],
                     [
                         "jpegtran",
                         {
-                            progressive: true,
-                        },
+                            progressive: true
+                        }
                     ],
                     [
                         "optipng",
                         {
-                            optimizationLevel: 1,
-                        },
+                            optimizationLevel: 1
+                        }
                     ],
                     [
                         "svgo",
                         {
-                            removeViewBox: true,
-                        },
-                    ],
-                ],
-            },
+                            removeViewBox: true
+                        }
+                    ]
+                ]
+            }
         },
         imageminWebpOptions: {
             imageminOptions: {
@@ -143,12 +147,12 @@ export const baseOptions = {
                     [
                         "webp",
                         {
-                            loseless: true,
-                        },
-                    ],
-                ],
-            },
-        },
+                            loseless: true
+                        }
+                    ]
+                ]
+            }
+        }
     } as Options,
     node: {
         favicon: null,
@@ -156,52 +160,55 @@ export const baseOptions = {
         lint: false,
         shouldGenerateSourceMaps: true,
         buildOutputName: function(type: AssetsType): string {
-            let toRet = ""
-            const enableCacheBusting: boolean = this.enableCacheBusting
+            let toRet = "";
+            const enableCacheBusting: boolean = this.enableCacheBusting;
             switch (type) {
                 case "font":
                     toRet = `[path][name]${emptyStr(
                         ".[hash]",
                         enableCacheBusting
-                    )}.[ext]`
-                    break
+                    )}.[ext]`;
+                    break;
                 case "image-imagemin":
                     toRet = `[path][name]${emptyStr(
                         ".hash-[hash]",
                         enableCacheBusting
-                    )}.[ext]` // "/" is very important otherwise it will skip first letter (on windows).
-                    break
+                    )}.[ext]`; // "/" is very important otherwise it will skip first letter (on windows).
+                    break;
                 case "image":
                     toRet = `[path]loaded/[name]${emptyStr(
                         ".hash-[hash]",
                         enableCacheBusting
-                    )}.[ext]`
-                    break
+                    )}.[ext]`;
+                    break;
                 case "favicon":
-                    toRet = `favicon${emptyStr("-[hash]", enableCacheBusting)}/`
-                    break
+                    toRet = `favicon${emptyStr(
+                        "-[hash]",
+                        enableCacheBusting
+                    )}/`;
+                    break;
                 case "style":
                     toRet = `css/generated/[name]${emptyStr(
                         ".[chunkhash]",
                         enableCacheBusting
-                    )}.css`
-                    break
+                    )}.css`;
+                    break;
                 case "html":
                     toRet = `html/generated/[name]${emptyStr(
                         ".[chunkhash]",
                         enableCacheBusting
-                    )}.html`
-                    break
+                    )}.html`;
+                    break;
                 case "js":
                     toRet = `js/generated/[name]${emptyStr(
                         ".[chunkhash]",
                         enableCacheBusting
-                    )}.js`
-                    break
+                    )}.js`;
+                    break;
                 default:
-                    toRet = `[name].[ext]`
+                    toRet = `[name].[ext]`;
             }
-            return toRet
+            return toRet;
         },
         imageminOptions: {
             imageminOptions: {
@@ -210,29 +217,29 @@ export const baseOptions = {
                     [
                         "gifsicle",
                         {
-                            interlaced: true,
-                        },
+                            interlaced: true
+                        }
                     ],
                     [
                         "jpegtran",
                         {
-                            progressive: true,
-                        },
+                            progressive: true
+                        }
                     ],
                     [
                         "optipng",
                         {
-                            optimizationLevel: 1,
-                        },
+                            optimizationLevel: 1
+                        }
                     ],
                     [
                         "svgo",
                         {
-                            removeViewBox: true,
-                        },
-                    ],
-                ],
-            },
+                            removeViewBox: true
+                        }
+                    ]
+                ]
+            }
         },
         imageminWebpOptions: {
             imageminOptions: {
@@ -241,11 +248,11 @@ export const baseOptions = {
                     [
                         "webp",
                         {
-                            loseless: true,
-                        },
-                    ],
-                ],
-            },
-        },
-    } as Options,
-}
+                            loseless: true
+                        }
+                    ]
+                ]
+            }
+        }
+    } as Options
+};

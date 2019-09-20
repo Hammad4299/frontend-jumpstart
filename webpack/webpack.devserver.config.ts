@@ -35,6 +35,7 @@ const config = webpackMerge(
         devtool: "eval-source-map", //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
         // devtool: 'cheap-module-eval-source-map',  //debugging only per line (doesn't seem to work with css for some reason)
         target: "web",
+        name: webProjectConfig.name,
         devServer: {
             // proxy: {
             //     '/': process.env.DEV_SERVER_PROXY
@@ -67,6 +68,7 @@ const nodeConfig = webpackMerge(
         //devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
         devtool: "cheap-module-eval-source-map", //debugging only per line (doesn't seem to work with css for some reason)
         target: "node",
+        name: nodeProjectConfig.name,
         devServer: {
             proxy: {
                 "/": process.env.DEV_SERVER_PROXY,

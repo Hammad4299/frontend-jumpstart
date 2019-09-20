@@ -12,6 +12,7 @@ export const projectConfig: ProjectSettings = {
     },
     externals: [nodeExternals()],
     src: src,
+    name: 'nodeconfig',
     alias: {
         images: path.join(src, "images"),
         styles: path.join(src, "styles"),

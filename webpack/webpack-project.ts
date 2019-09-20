@@ -9,7 +9,9 @@ export const projectConfig: ProjectSettings = {
     entry: {
         index: path.join(src, "js/index.ts"),
     },
+    name: 'webconfig',
     externals: {
+
         "externals/CSRFToken": "csrftoken", //now import xyz from 'myExternal' should work
         "externals/SiteConfig": "siteConfig",
     },

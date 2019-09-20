@@ -5,7 +5,8 @@
       "@babel/preset-env",
       {
         "useBuiltIns": "entry",
-        "corejs": "3.2.1"
+        "corejs": "3.2.1",
+        "modules": false  //allow webpack to handle
       }
     ],
     "@babel/preset-react"

@@ -2,35 +2,36 @@
 //TODO make css source map work with eval-source-map
 //TODO webp-loader might help in producing 2 outputs for images, one in current format, other in webp
 //TODO dynamic code splitting
-import webpack from "webpack"
-import ImageminWebpackPlugin from "imagemin-webpack"
-import Dotenv from "dotenv-webpack"
-import path from "path"
-import CircularDependencyPlugin from "circular-dependency-plugin"
-import HtmlWebpackPlugin from "html-webpack-plugin"
-import { CleanWebpackPlugin } from "clean-webpack-plugin"
-import CopyWebpackPlugin from "copy-webpack-plugin"
-import responsiveSharp from "responsive-loader/sharp"
-import MiniCssExtractPlugin from "mini-css-extract-plugin"
-import Favicon from "favicons-webpack-plugin"
-import cssnano from "cssnano"
-import { ProjectSettings, Options } from "./webpack-common"
-import ManifestPlugin from "webpack-manifest-plugin"
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin"
-import NullPlugin from "webpack-null-plugin"
-import postcssPresetEnv from "postcss-preset-env"
-import ImageminWebpack from "imagemin-webpack"
+import webpack from "webpack";
+import ImageminWebpackPlugin from "imagemin-webpack";
+import Dotenv from "dotenv-webpack";
+import path from "path";
+import CircularDependencyPlugin from "circular-dependency-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import responsiveSharp from "responsive-loader/sharp";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import Favicon from "favicons-webpack-plugin";
+import cssnano from "cssnano";
+import { ProjectSettings, Options } from "./webpack-common";
+import ManifestPlugin from "webpack-manifest-plugin";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import NullPlugin from "webpack-null-plugin";
+import postcssPresetEnv from "postcss-preset-env";
+import ImageminWebpack from "imagemin-webpack";
 
 export default function buildBaseConfig(
     projectSettings: ProjectSettings,
     options: Options
 ) {
     const cleanupPlugin = new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: projectSettings.toClean,
-    })
-    const copyPlugin = new CopyWebpackPlugin(projectSettings.toCopy)
+        cleanOnceBeforeBuildPatterns: projectSettings.toClean
+    });
+    const copyPlugin = new CopyWebpackPlugin(projectSettings.toCopy);
     //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
-    const manifestSeed: { [index: string]: string } = {}
+    const manifestSeed: { [index: string]: string } = {};
 
     const cacheLoader = options.cacheResults
         ? [
@@ -40,27 +41,27 @@ export default function buildBaseConfig(
                       cacheDirectory: path.resolve(
                           projectSettings.root,
                           "node_modules/.cache/cache-loader"
-                      ),
-                  },
-              },
+                      )
+                  }
+              }
           ]
-        : []
+        : [];
 
     const eslintLoader = options.lint
         ? [
               {
-                  loader: "eslint-loader",
-              },
+                  loader: "eslint-loader"
+              }
           ]
-        : []
+        : [];
 
-    let optimizations = projectSettings.optimizations
+    let optimizations = projectSettings.optimizations;
     if (options.mode !== "production") {
         optimizations = {
             removeAvailableModules: false,
             removeEmptyChunks: false,
-            ...optimizations,
-        }
+            ...optimizations
+        };
     }
 
     const config: webpack.Configuration = {
@@ -69,7 +70,7 @@ export default function buildBaseConfig(
             path: path.resolve(projectSettings.contentOutput),
             filename: options.buildOutputName("js"),
             pathinfo: false,
-            publicPath: process.env.STATIC_CONTENT_URL,
+            publicPath: process.env.STATIC_CONTENT_URL
         },
         optimization: optimizations,
         externals: projectSettings.externals,
@@ -78,8 +79,10 @@ export default function buildBaseConfig(
             symlinks: false, // if you don't use symlinks (e.g. npm link or yarn link).
             extensions: [".js", ".jsx", ".ts", ".tsx"],
             plugins: [
-                new TsconfigPathsPlugin(/* { configFileName, compiler } */),
-            ],
+                new TsconfigPathsPlugin({
+                    configFile: process.env.TS_NODE_PROJECT
+                })
+            ]
         },
         module: {
             rules: [
@@ -100,15 +103,16 @@ export default function buildBaseConfig(
                         // })(),
                         { loader: "babel-loader" }, //ts also handled by babel. It seems faster but doesn't provide typechecking. For that TypeCheckFork plugin is used or run tsc separately
                         ...eslintLoader,
-                        // {
-                        //     loader: 'ts-loader',
-                        //     options: {
-                        //         happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack. Turing this on seems to reduce build time even on incremental builds
-                        //         experimentalWatchApi: options.mode !== 'production',
-                        //         transpileOnly: true
-                        //     }
-                        // }
-                    ],
+                        {
+                            loader: "ts-loader",
+                            options: {
+                                // happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack. Turing this on seems to reduce build time even on incremental builds
+                                // experimentalWatchApi: options.mode !== 'production',
+                                configFile: process.env.TS_NODE_PROJECT,
+                                transpileOnly: true
+                            }
+                        }
+                    ]
                 },
                 {
                     test: /\.(css|scss|sass)$/,
@@ -117,15 +121,15 @@ export default function buildBaseConfig(
                         ...cacheLoader,
                         options.hmrNeeded || !options.extractCss
                             ? {
-                                  loader: "style-loader",
+                                  loader: "style-loader"
                               }
                             : MiniCssExtractPlugin.loader,
                         {
                             loader: "css-loader", // creates style nodes from JS strings
                             options: {
                                 importLoaders: 2, //how many loaders before css-loader should be applied to @imported resources.
-                                sourceMap: options.shouldGenerateSourceMaps,
-                            },
+                                sourceMap: options.shouldGenerateSourceMaps
+                            }
                         },
                         {
                             loader: "postcss-loader", // creates style nodes from JS strings
@@ -138,17 +142,17 @@ export default function buildBaseConfig(
                                             /* use stage 3 features + css nesting rules */
                                             stage: 3,
                                             features: {
-                                                "nesting-rules": true,
-                                            },
-                                        }),
-                                    ]
+                                                "nesting-rules": true
+                                            }
+                                        })
+                                    ];
                                     if (options.minimizeCss) {
-                                        plugins.push(cssnano())
+                                        plugins.push(cssnano());
                                     }
 
-                                    return plugins
-                                },
-                            },
+                                    return plugins;
+                                }
+                            }
                         },
                         // {
                         // loader: 'resolve-url-loader',
@@ -159,10 +163,10 @@ export default function buildBaseConfig(
                         {
                             loader: "sass-loader", // creates style nodes from JS strings
                             options: {
-                                sourceMap: options.shouldGenerateSourceMaps,
-                            },
-                        },
-                    ],
+                                sourceMap: options.shouldGenerateSourceMaps
+                            }
+                        }
+                    ]
                 },
                 {
                     test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
@@ -179,18 +183,18 @@ export default function buildBaseConfig(
                                     ? "responsive-loader"
                                     : "file-loader",
                                 //    quality: 100,
-                                adapter: responsiveSharp,
-                            },
+                                adapter: responsiveSharp
+                            }
                         },
                         ...(options.imagemin
                             ? [
                                   {
                                       loader: ImageminWebpack.loader,
-                                      options: options.imageminOptions,
-                                  },
+                                      options: options.imageminOptions
+                                  }
                               ]
-                            : []),
-                    ],
+                            : [])
+                    ]
                 },
                 {
                     test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
@@ -206,18 +210,18 @@ export default function buildBaseConfig(
                                     ? "responsive-loader"
                                     : "file-loader",
                                 //    quality: 100,
-                                adapter: responsiveSharp,
-                            },
+                                adapter: responsiveSharp
+                            }
                         },
                         ...(options.imagemin
                             ? [
                                   {
                                       loader: ImageminWebpack.loader,
-                                      options: options.imageminWebpOptions,
-                                  },
+                                      options: options.imageminWebpOptions
+                                  }
                               ]
-                            : []),
-                    ],
+                            : [])
+                    ]
                 },
                 {
                     test: /\.(ttf|woff|woff2|otf|eot)$/,
@@ -227,17 +231,17 @@ export default function buildBaseConfig(
                             loader: "file-loader",
                             options: {
                                 context: projectSettings.src, //[path] is relative to this context
-                                name: options.buildOutputName("font"),
-                            },
-                        },
-                    ],
-                },
-            ],
+                                name: options.buildOutputName("font")
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         plugins: [
             options.htmlPlugin
                 ? new HtmlWebpackPlugin({
-                      template: "./src/index.html",
+                      template: "./src/index.html"
                   })
                 : new NullPlugin(),
             options.hmrNeeded || !options.extractCss
@@ -245,18 +249,18 @@ export default function buildBaseConfig(
                 : new MiniCssExtractPlugin({
                       // Options similar to the same options in webpackOptions.output
                       // both options are optional
-                      filename: options.buildOutputName("style"),
+                      filename: options.buildOutputName("style")
                       //chunkFilename: options.buildOutputName("css/[id].hash-[chunkhash].css",'.hash-[chunkhash]')
                   }),
             new Dotenv({
                 defaults: true,
-                systemvars: true,
+                systemvars: true
             }) as any,
             options.shouldClean ? cleanupPlugin : new NullPlugin(),
             copyPlugin,
-            // new ForkTsCheckerWebpackPlugin({
-            //     checkSyntacticErrors: true
-            // }),
+            new ForkTsCheckerWebpackPlugin({
+                checkSyntacticErrors: true
+            }),
             options.favicon
                 ? new Favicon({
                       logo: options.favicon.logo,
@@ -285,8 +289,8 @@ export default function buildBaseConfig(
                           opengraph: true,
                           twitter: true,
                           yandex: true,
-                          windows: true,
-                      },
+                          windows: true
+                      }
                   })
                 : new NullPlugin(),
             // new CircularDependencyPlugin({
@@ -305,18 +309,18 @@ export default function buildBaseConfig(
                 writeToFileEmit: true,
                 seed: manifestSeed,
                 map: (obj: any) => {
-                    let name: string = obj.name
+                    let name: string = obj.name;
                     if (name) {
-                        name = obj.name.replace(/\.hash-.*\./, ".") //fixes imagemin hashes
+                        name = obj.name.replace(/\.hash-.*\./, "."); //fixes imagemin hashes
                         obj.name =
-                            name.charAt(0) === "/" ? name.substring(1) : name
+                            name.charAt(0) === "/" ? name.substring(1) : name;
                     }
 
-                    return obj
-                },
-            }),
-        ],
-    }
+                    return obj;
+                }
+            })
+        ]
+    };
 
     if (options.imagemin) {
         const imagemin = new ImageminWebpackPlugin({
@@ -324,20 +328,20 @@ export default function buildBaseConfig(
             exclude: /webp-images/,
             loader: false,
             name: options.buildOutputName("image-imagemin"),
-            ...options.imageminOptions,
-        })
+            ...options.imageminOptions
+        });
 
         const imagemin2 = new ImageminWebpackPlugin({
             test: /\.(png|jpe?g|webp)$/i,
             loader: false,
             include: /webp-images/,
             name: options.buildOutputName("image-imagemin"),
-            ...options.imageminWebpOptions,
-        })
+            ...options.imageminWebpOptions
+        });
 
-        config.plugins.push(imagemin)
-        config.plugins.push(imagemin2)
+        config.plugins.push(imagemin);
+        config.plugins.push(imagemin2);
     }
 
-    return config
+    return config;
 }

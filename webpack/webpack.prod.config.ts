@@ -75,6 +75,9 @@ const nodeConfig = webpackMerge(
         devtool: "source-map", //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
         mode: "production",
         target: "node",
+        node: {
+            __dirname: false
+        },
         // devtool: 'nosources-source-map',  //Production ready separate sourcemap files with no original source code. SourceMaps Can be deployed securely
         optimization: {
             minimizer: [
@@ -103,4 +106,4 @@ const nodeConfig = webpackMerge(
     } as webpack.Configuration
 )
 
-export default [config, nodeConfig]
+export default [nodeConfig]

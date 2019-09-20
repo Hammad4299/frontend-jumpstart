@@ -56,6 +56,9 @@ const nodeConfig = webpackMerge(
     {
         mode: "development",
         target: "node",
+        node: {
+            __dirname: false
+        },
         // devtool: 'eval',
         // devtool: 'source-map',      //slowest and accurate. (seem to work with css)
         // devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them

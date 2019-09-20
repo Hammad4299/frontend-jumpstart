@@ -76,6 +76,9 @@ const nodeConfig = webpackMerge(
             hotOnly: true,
             contentBase: path.resolve(webProjectConfig.contentOutput),
         },
+        node: {
+            __dirname: false
+        },
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
             new webpack.BannerPlugin({

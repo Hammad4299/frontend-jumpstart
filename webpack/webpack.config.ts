@@ -90,7 +90,7 @@ export default function buildBaseConfig(
                     test: /\.(tsx|jsx|ts|js)$/,
                     exclude: /node_modules/,
                     use: [
-                        // 'awesome-typescript-loader',
+                        // 'awesome-typescript-loader', //IMPORTANT this doesn't seem to either tsconfig or calls babel correctly for transpiling. Make sure to test by setting debug true for babel preset env
                         ...cacheLoader,
                         // ...(()=>{
                         //     return options.mode === 'production' ? [{

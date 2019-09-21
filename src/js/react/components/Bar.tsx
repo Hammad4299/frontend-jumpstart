@@ -1,5 +1,5 @@
 import React from "react";
-import { Theme, StandardProps, Typography, WithTheme } from "@material-ui/core";
+import { Theme, StandardProps } from "@material-ui/core";
 import { withStyles, createStyles } from "@material-ui/styles";
 import classNames from "classnames";
 import { StylesType, StyleClassKey } from "../typescript";

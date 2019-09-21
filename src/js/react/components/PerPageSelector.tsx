@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { Theme, Typography, StandardProps } from "@material-ui/core";
 import { withStyles, createStyles } from "@material-ui/styles";
-import { AppSelect, SimpleOption } from "./";
+import { AppSelect, SimpleOption } from "./AppSelect";
 import { StyleClassKey } from "../typescript";
 
 const styles = (theme: Theme) =>

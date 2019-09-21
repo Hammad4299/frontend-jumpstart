@@ -1,6 +1,6 @@
-import React, { RefObject, useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Theme, StandardProps } from "@material-ui/core";
-import { createStyles, withStyles, makeStyles } from "@material-ui/styles";
+import { createStyles, makeStyles } from "@material-ui/styles";
 import { InputProps } from "@material-ui/core/Input";
 import { defaultTo } from "lodash-es";
 import {

@@ -3,7 +3,7 @@ import { Theme, StandardProps } from "@material-ui/core";
 import { ButtonProps } from "@material-ui/core/Button";
 import { createStyles, makeStyles } from "@material-ui/styles";
 import { StyleClassKey } from "../typescript";
-import { AppButton, AppButtonProps } from "./";
+import { AppButton, AppButtonProps } from "./AppButton";
 
 const styles = (theme: Theme) => createStyles({});
 

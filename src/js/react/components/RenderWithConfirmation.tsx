@@ -6,11 +6,10 @@ import {
     DialogTitle,
     DialogContentText,
     Theme,
-    Button,
     StandardProps
 } from "@material-ui/core";
 import { withStyles, createStyles } from "@material-ui/styles";
-import { AppButton } from "./";
+import { AppButton } from "./AppButton";
 import { StyleClassKey } from "../typescript";
 
 const styles = (theme: Theme) =>

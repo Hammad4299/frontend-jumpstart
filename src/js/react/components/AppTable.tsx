@@ -1,8 +1,13 @@
-import { Theme, Typography, StandardProps } from "@material-ui/core";
 import React, { ReactNode } from "react";
+import {
+    Table,
+    Theme,
+    Paper,
+    Typography,
+    StandardProps
+} from "@material-ui/core";
 import { withStyles, createStyles } from "@material-ui/styles";
-import Paper from "@material-ui/core/Paper";
-import Table, { TableClassKey } from "@material-ui/core/Table";
+import { TableClassKey } from "@material-ui/core/Table";
 import { TableProps } from "@material-ui/core/Table";
 import { StyleClassKey, StylesType } from "../typescript";
 import { PaginationInfo, extractPaginationDetail } from "../../types";

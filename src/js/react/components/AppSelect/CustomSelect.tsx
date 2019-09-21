@@ -2,7 +2,6 @@ import React from "react";
 import { defaults } from "lodash-es";
 import { Theme, StandardProps } from "@material-ui/core";
 import { createStyles, makeStyles, useTheme } from "@material-ui/styles";
-import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import classNames from "classnames";
 import { FixedSizeListProps } from "react-window";
 import { CustomSelectComponentSelectProps } from "./types";
@@ -19,6 +18,7 @@ import {
 } from "./CustomComponents";
 import { StyleClassKey } from "../../typescript";
 import { Props } from "react-select/src/Select";
+import { emphasize } from "@material-ui/core/styles";
 
 const styles = (theme: Theme) =>
     createStyles({

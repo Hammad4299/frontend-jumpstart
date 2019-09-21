@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Theme, StandardProps } from "@material-ui/core";
-import Switch, { SwitchProps, SwitchClassKey } from "@material-ui/core/Switch";
+import { Switch, Theme, StandardProps } from "@material-ui/core";
+import { SwitchProps, SwitchClassKey } from "@material-ui/core/Switch";
 import { withStyles, createStyles } from "@material-ui/styles";
 import { StyleClassKey, StylesType } from "../typescript";
 

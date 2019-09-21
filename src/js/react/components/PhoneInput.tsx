@@ -17,8 +17,8 @@ import {
     formatIncompletePhoneNumber
 } from "libphonenumber-js/custom";
 /* eslint-disable */
-const labels = require("react-phone-number-input/locale/default.json")
-const metadata = require("libphonenumber-js/metadata.min.json")
+import labels from "react-phone-number-input/locale/default.json";
+import metadata from "libphonenumber-js/metadata.min.json";
 /* eslint-enable */
 
 const styles = (theme: Theme) => createStyles({});

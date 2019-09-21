@@ -9,7 +9,8 @@ import {
 } from "helpers";
 import { StyleClassKey } from "typehelper";
 import { AppSelect, SimpleOption } from "components";
-
+import googleAttribution from "images/powered_by_google.png";
+console.log(googleAttribution);
 const styles = (theme: Theme) =>
     createStyles({
         root: {
@@ -92,11 +93,7 @@ function Component(props: AddressFieldProps) {
                     if (option.value !== "google") {
                         return option.label;
                     } else if (option.value === "google") {
-                        return (
-                            <img
-                                src={require("images/powered_by_google.png")}
-                            />
-                        );
+                        return <img src={googleAttribution} />;
                     }
                 }}
                 onChange={(value: any) => {

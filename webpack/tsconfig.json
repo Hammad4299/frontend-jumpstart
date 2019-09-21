@@ -33,6 +33,7 @@
             "helpers": ["js/helpers/index.ts"]
         },
         "typeRoots": [
+            "../src/js/custom-typings",
             "../node_modules/types-redux-orm",
             "../node_modules/@types"
         ],

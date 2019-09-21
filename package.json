@@ -9,7 +9,7 @@
         "*.css",
         "*.less",
         "./src/js/publicpath.ts",
-        "./src/js/helpers/rollbar.ts"
+        "./src/js/react/scenes/index.tsx"
     ],
     "scripts": {
         "webpackenv": "cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack-config.json\"",

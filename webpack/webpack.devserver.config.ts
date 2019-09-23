@@ -1,15 +1,15 @@
-delete process.env.TS_NODE_PROJECT
-import dotenv from "dotenv-defaults"
+delete process.env.TS_NODE_PROJECT;
+import dotenv from "dotenv-defaults";
 dotenv.config({
-    defaults: ".env.defaults",
-})
-import webpackMerge from "webpack-merge"
-import commonConfig from "./webpack.config"
-import path from "path"
-import webpack from "webpack"
-import webProjectConfig from "./webpack-project"
-import { baseOptions } from "./webpack-common"
-process.env.TS_NODE_PROJECT = path.resolve(__dirname, "./tsconfig.json")
+    defaults: ".env.defaults"
+});
+import webpackMerge from "webpack-merge";
+import commonConfig from "./webpack.config";
+import path from "path";
+import webpack from "webpack";
+import webProjectConfig from "./webpack-project";
+import { baseOptions } from "./webpack-common";
+process.env.TS_NODE_PROJECT = path.resolve(__dirname, "../tsconfig.json");
 
 const config = webpackMerge(
     commonConfig(webProjectConfig, {
@@ -22,11 +22,11 @@ const config = webpackMerge(
         extractCss: false,
         minimizeCss: false,
         responsiveImages: false,
-        shouldClean: true, //Better to keep it on. Would prevent issues where some gzipped file gets served instead of actual one
+        shouldClean: true //Better to keep it on. Would prevent issues where some gzipped file gets served instead of actual one
     }),
     {
         optimization: {
-            splitChunks: false,
+            splitChunks: false
         },
         mode: "development",
         // devtool: 'eval',      //slowest and accurate. (seem to work with css)
@@ -41,10 +41,10 @@ const config = webpackMerge(
             port: parseInt(process.env.DEV_SERVER_PORT) || undefined,
             host: process.env.DEV_SERVER_HOST || "0.0.0.0",
             hotOnly: true,
-            contentBase: path.resolve(webProjectConfig.contentOutput),
+            contentBase: path.resolve(webProjectConfig.contentOutput)
         },
-        plugins: [new webpack.HotModuleReplacementPlugin()],
+        plugins: [new webpack.HotModuleReplacementPlugin()]
     } as webpack.Configuration
-)
+);
 
-export default [config]
+export default [config];

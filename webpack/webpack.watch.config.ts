@@ -10,7 +10,7 @@ import path from "path"
 import webProjectConfig from "./webpack-project"
 import nodeProjectConfig from "./webpack-project-node"
 import { baseOptions } from "./webpack-common"
-process.env.TS_NODE_PROJECT = path.resolve(__dirname, "./tsconfig.json")
+process.env.TS_NODE_PROJECT = path.resolve(__dirname, "../tsconfig.json")
 
 const config = webpackMerge(
     commonConfig(webProjectConfig, {

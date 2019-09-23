@@ -15,7 +15,7 @@ import nodeProjectConfig from "./webpack-project-node"
 import { baseOptions } from "./webpack-common"
 import MomentLocalesPlugin from "moment-locales-webpack-plugin"
 import webpack from "webpack"
-process.env.TS_NODE_PROJECT = path.resolve(__dirname, "./tsconfig.json")
+process.env.TS_NODE_PROJECT = path.resolve(__dirname, "../tsconfig.json")
 
 const config = webpackMerge(
     commonConfig(webProjectConfig, {
@@ -92,14 +92,6 @@ const nodeConfig = webpackMerge(
             ],
         },
         plugins: [
-            new MomentLocalesPlugin(),
-            new CompressionPlugin({
-                threshold: 0,
-                test: /\.(js|css|ttf|otf|eot)/,
-            }),
-            // new BundleAnalyzerPlugin({
-            //     analyzerMode: "static",
-            // }),
             new webpack.BannerPlugin({
                 banner: 'require("source-map-support").install();', //stacktrace sourcemaps for nodejs
                 raw: true,
@@ -147,10 +139,6 @@ const libConfig = webpackMerge(
         },
         plugins: [
             new MomentLocalesPlugin(),
-            new CompressionPlugin({
-                threshold: 0,
-                test: /\.(js|css|ttf|otf|eot)/,
-            }),
             // new BundleAnalyzerPlugin({
             //     analyzerMode: "static",
             // }),
@@ -197,10 +185,6 @@ const libConfigEsm = webpackMerge(
         },
         plugins: [
             new MomentLocalesPlugin(),
-            new CompressionPlugin({
-                threshold: 0,
-                test: /\.(js|css|ttf|otf|eot)/,
-            }),
             // new BundleAnalyzerPlugin({
             //     analyzerMode: "static",
             // }),

@@ -164,46 +164,25 @@ export const baseOptions = {
             const enableCacheBusting: boolean = this.enableCacheBusting;
             switch (type) {
                 case "font":
-                    toRet = `[path][name]${emptyStr(
-                        ".[hash]",
-                        enableCacheBusting
-                    )}.[ext]`;
+                    toRet = `[path][name].[ext]`;
                     break;
                 case "image-imagemin":
-                    toRet = `[path][name]${emptyStr(
-                        ".hash-[hash]",
-                        enableCacheBusting
-                    )}.[ext]`; // "/" is very important otherwise it will skip first letter (on windows).
+                    toRet = `[path][name].[ext]`; // "/" is very important otherwise it will skip first letter (on windows).
                     break;
                 case "image":
-                    toRet = `[path]loaded/[name]${emptyStr(
-                        ".hash-[hash]",
-                        enableCacheBusting
-                    )}.[ext]`;
+                    toRet = `[path]/[name].[ext]`;
                     break;
                 case "favicon":
-                    toRet = `favicon${emptyStr(
-                        "-[hash]",
-                        enableCacheBusting
-                    )}/`;
+                    toRet = `favicon/`;
                     break;
                 case "style":
-                    toRet = `css/generated/[name]${emptyStr(
-                        ".[chunkhash]",
-                        enableCacheBusting
-                    )}.css`;
+                    toRet = `[name].css`;
                     break;
                 case "html":
-                    toRet = `html/generated/[name]${emptyStr(
-                        ".[chunkhash]",
-                        enableCacheBusting
-                    )}.html`;
+                    toRet = `[name].html`;
                     break;
                 case "js":
-                    toRet = `js/generated/[name]${emptyStr(
-                        ".[chunkhash]",
-                        enableCacheBusting
-                    )}.js`;
+                    toRet = `[name].js`;
                     break;
                 default:
                     toRet = `[name].[ext]`;
@@ -254,5 +233,163 @@ export const baseOptions = {
                 ]
             }
         }
-    } as Options
+    } as Options,
+    lib: {
+        favicon: null,
+        htmlPlugin: true,
+        lint: false,
+        shouldGenerateSourceMaps: true,
+        buildOutputName: function(type: AssetsType): string {
+            let toRet = "";
+            switch (type) {
+                case "font":
+                    toRet = `[path][name].[ext]`;
+                    break;
+                case "image-imagemin":
+                    toRet = `[path][name].[ext]`; // "/" is very important otherwise it will skip first letter (on windows).
+                    break;
+                case "image":
+                    toRet = `[path]loaded/[name].[ext]`;
+                    break;
+                case "favicon":
+                    toRet = `favicon/`;
+                    break;
+                case "style":
+                    toRet = `[name].css`;
+                    break;
+                case "html":
+                    toRet = `[name].html`;
+                    break;
+                case "js":
+                    toRet = `[name].js`;
+                    break;
+                default:
+                    toRet = `[name].[ext]`;
+            }
+            return toRet;
+        },
+        imageminOptions: {
+            imageminOptions: {
+                // Lossless optimization with custom option
+                plugins: [
+                    [
+                        "gifsicle",
+                        {
+                            interlaced: true
+                        }
+                    ],
+                    [
+                        "jpegtran",
+                        {
+                            progressive: true
+                        }
+                    ],
+                    [
+                        "optipng",
+                        {
+                            optimizationLevel: 1
+                        }
+                    ],
+                    [
+                        "svgo",
+                        {
+                            removeViewBox: true
+                        }
+                    ]
+                ]
+            }
+        },
+        imageminWebpOptions: {
+            imageminOptions: {
+                // Lossless optimization with custom option
+                plugins: [
+                    [
+                        "webp",
+                        {
+                            loseless: true
+                        }
+                    ]
+                ]
+            }
+        }
+    } as Options,
+    test: {
+        favicon: null,
+        htmlPlugin: true,
+        lint: false,
+        shouldGenerateSourceMaps: true,
+        buildOutputName: function(type: AssetsType): string {
+            let toRet = "";
+            switch (type) {
+                case "font":
+                    toRet = `[path][name].[ext]`;
+                    break;
+                case "image-imagemin":
+                    toRet = `[path][name].[ext]`; // "/" is very important otherwise it will skip first letter (on windows).
+                    break;
+                case "image":
+                    toRet = `[path]loaded/[name].[ext]`;
+                    break;
+                case "favicon":
+                    toRet = `favicon/`;
+                    break;
+                case "style":
+                    toRet = `[name].css`;
+                    break;
+                case "html":
+                    toRet = `[name].html`;
+                    break;
+                case "js":
+                    toRet = `[name].js`;
+                    break;
+                default:
+                    toRet = `[name].[ext]`;
+            }
+            return toRet;
+        },
+        imageminOptions: {
+            imageminOptions: {
+                // Lossless optimization with custom option
+                plugins: [
+                    [
+                        "gifsicle",
+                        {
+                            interlaced: true
+                        }
+                    ],
+                    [
+                        "jpegtran",
+                        {
+                            progressive: true
+                        }
+                    ],
+                    [
+                        "optipng",
+                        {
+                            optimizationLevel: 1
+                        }
+                    ],
+                    [
+                        "svgo",
+                        {
+                            removeViewBox: true
+                        }
+                    ]
+                ]
+            }
+        },
+        imageminWebpOptions: {
+            imageminOptions: {
+                // Lossless optimization with custom option
+                plugins: [
+                    [
+                        "webp",
+                        {
+                            loseless: true
+                        }
+                    ]
+                ]
+            }
+        }
+    } as Options,
 };

@@ -11,7 +11,6 @@ export const projectConfig: ProjectSettings = {
     },
     name: 'webconfig',
     externals: {
-
         "externals/CSRFToken": "csrftoken", //now import xyz from 'myExternal' should work
         "externals/SiteConfig": "siteConfig",
     },

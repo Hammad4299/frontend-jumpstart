@@ -6,7 +6,6 @@ dotenv.config({
 import webpackMerge from "webpack-merge"
 import commonConfig from "./webpack.config"
 import webpack from "webpack"
-//import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 import path from "path"
 import webProjectConfig from "./webpack-project"
 import nodeProjectConfig from "./webpack-project-node"
@@ -61,10 +60,7 @@ const nodeConfig = webpackMerge(
         node: {
             __dirname: false
         },
-        // devtool: 'eval',
-        // devtool: 'source-map',      //slowest and accurate. (seem to work with css)
-        // devtool: 'eval-source-map',  //best for dev (doesn't seem to work with css for some reason). For debugging purposes. Not for production because files also contains sourcemaps in them
-        devtool: "cheap-module-eval-source-map", //debugging only per line (doesn't seem to work with css for some reason)
+        devtool: "source-map",
         plugins: [
             new webpack.BannerPlugin({
                 banner: 'require("source-map-support").install();', //stacktrace sourcemaps for nodejs
@@ -75,6 +71,4 @@ const nodeConfig = webpackMerge(
     } as webpack.Configuration
 )
 
-//const smp = new SpeedMeasurePlugin();
-// export default smp.wrap(config);
 export default [config, nodeConfig]

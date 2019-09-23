@@ -22,6 +22,11 @@ import NullPlugin from "webpack-null-plugin";
 import postcssPresetEnv from "postcss-preset-env";
 import ImageminWebpack from "imagemin-webpack";
 
+
+function getLoader(loaderConfig: webpack.RuleSetUseItem, condition:boolean):webpack.RuleSetUseItem[] {
+    return condition ? [loaderConfig] : [];
+}
+
 export default function buildBaseConfig(
     projectSettings: ProjectSettings,
     options: Options
@@ -33,36 +38,26 @@ export default function buildBaseConfig(
     //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
     const manifestSeed: { [index: string]: string } = {};
 
-    const cacheLoader = options.cacheResults
-        ? [
-              {
-                  loader: "cache-loader",
-                  options: {
-                      cacheDirectory: path.resolve(
-                          projectSettings.root,
-                          "node_modules/.cache/cache-loader"
-                      )
-                  }
-              }
-          ]
-        : [];
-
     const eslintLoader = options.lint
         ? [
-              {
-                  loader: "eslint-loader"
-              }
-          ]
+            {
+                loader: "eslint-loader"
+            }
+        ]
         : [];
 
+    const cacheLoader = getLoader({
+        loader: "cache-loader",
+        options: {
+            cacheDirectory: path.resolve(
+                projectSettings.root,
+                "node_modules/.cache/cache-loader"
+            )
+        }
+    }, options.cacheResults)
+
     let optimizations = projectSettings.optimizations;
-    if (options.mode !== "production") {
-        optimizations = {
-            removeAvailableModules: false,
-            removeEmptyChunks: false,
-            ...optimizations
-        };
-    }
+
 
     const config: webpack.Configuration = {
         entry: projectSettings.entry,
@@ -94,22 +89,12 @@ export default function buildBaseConfig(
                     use: [
                         // 'awesome-typescript-loader', //IMPORTANT this doesn't seem to either tsconfig or calls babel correctly for transpiling. Make sure to test by setting debug true for babel preset env
                         ...cacheLoader,
-                        // ...(()=>{
-                        //     return options.mode === 'production' ? [{
-                        //         loader: 'thread-loader',    //seems to significantly slow down incremental builds as well as production builds
-                        //         options: {
-                        //             // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-                        //             workers: require('os').cpus().length - 1,
-                        //         },
-                        //     }] : []
-                        // })(),
                         { loader: "babel-loader" }, //ts also handled by babel. It seems faster but doesn't provide typechecking. For that TypeCheckFork plugin is used or run tsc separately
                         ...eslintLoader,
                         {
                             loader: "ts-loader",
                             options: {
-                                // happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack. Turing this on seems to reduce build time even on incremental builds
-                                // experimentalWatchApi: options.mode !== 'production',
+
                                 configFile: process.env.TS_NODE_PROJECT,
                                 transpileOnly: true
                             }
@@ -123,8 +108,8 @@ export default function buildBaseConfig(
                         ...cacheLoader,
                         options.hmrNeeded || !options.extractCss
                             ? {
-                                  loader: "style-loader"
-                              }
+                                loader: "style-loader"
+                            }
                             : MiniCssExtractPlugin.loader,
                         {
                             loader: "css-loader", // creates style nodes from JS strings
@@ -157,10 +142,10 @@ export default function buildBaseConfig(
                             }
                         },
                         // {
-                        // loader: 'resolve-url-loader',
-                        // options: {
-                        // removeCR: true
-                        // }
+                        //      loader: 'resolve-url-loader',
+                        //      options: {
+                        //          removeCR: true
+                        //      }
                         // },
                         {
                             loader: "sass-loader", // creates style nodes from JS strings
@@ -190,11 +175,11 @@ export default function buildBaseConfig(
                         },
                         ...(options.imagemin
                             ? [
-                                  {
-                                      loader: ImageminWebpack.loader,
-                                      options: options.imageminOptions
-                                  }
-                              ]
+                                {
+                                    loader: ImageminWebpack.loader,
+                                    options: options.imageminOptions
+                                }
+                            ]
                             : [])
                     ]
                 },
@@ -217,11 +202,11 @@ export default function buildBaseConfig(
                         },
                         ...(options.imagemin
                             ? [
-                                  {
-                                      loader: ImageminWebpack.loader,
-                                      options: options.imageminWebpOptions
-                                  }
-                              ]
+                                {
+                                    loader: ImageminWebpack.loader,
+                                    options: options.imageminWebpOptions
+                                }
+                            ]
                             : [])
                     ]
                 },
@@ -243,17 +228,17 @@ export default function buildBaseConfig(
         plugins: [
             options.htmlPlugin
                 ? new HtmlWebpackPlugin({
-                      template: "./src/index.html"
-                  })
+                    template: "./src/index.html"
+                })
                 : new NullPlugin(),
             options.hmrNeeded || !options.extractCss
                 ? new NullPlugin()
                 : new MiniCssExtractPlugin({
-                      // Options similar to the same options in webpackOptions.output
-                      // both options are optional
-                      filename: options.buildOutputName("style")
-                      //chunkFilename: options.buildOutputName("css/[id].hash-[chunkhash].css",'.hash-[chunkhash]')
-                  }),
+                    // Options similar to the same options in webpackOptions.output
+                    // both options are optional
+                    filename: options.buildOutputName("style")
+                    //chunkFilename: options.buildOutputName("css/[id].hash-[chunkhash].css",'.hash-[chunkhash]')
+                }),
             new Dotenv({
                 defaults: true,
                 systemvars: true
@@ -265,36 +250,36 @@ export default function buildBaseConfig(
             }),
             options.favicon
                 ? new Favicon({
-                      logo: options.favicon.logo,
-                      prefix: options.buildOutputName("favicon"),
-                      // Emit all stats of the generated icons
-                      emitStats: true,
-                      // The name of the json containing all favicon information
-                      statsFilename: "faviconstats.json",
-                      // Generate a cache file with control hashes and
-                      // don't rebuild the favicons until those hashes change
-                      persistentCache: options.cacheResults,
-                      // Inject the html into the html-webpack-plugin
-                      inject: false,
-                      // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-                      background: "#fff",
-                      // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-                      title: "Untitled",
-                      // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
-                      icons: {
-                          android: true,
-                          appleIcon: true,
-                          appleStartup: true,
-                          coast: true,
-                          favicons: true,
-                          firefox: true,
-                          opengraph: true,
-                          twitter: true,
-                          yandex: true,
-                          windows: true
-                      }
-                  })
-                : new NullPlugin(),
+                    logo: options.favicon.logo,
+                    prefix: options.buildOutputName("favicon"),
+                    // Emit all stats of the generated icons
+                    emitStats: true,
+                    // The name of the json containing all favicon information
+                    statsFilename: "faviconstats.json",
+                    // Generate a cache file with control hashes and
+                    // don't rebuild the favicons until those hashes change
+                    persistentCache: options.cacheResults,
+                    // Inject the html into the html-webpack-plugin
+                    inject: false,
+                    // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
+                    background: "#fff",
+                    // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+                    title: "Untitled",
+                    // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+                    icons: {
+                        android: true,
+                        appleIcon: true,
+                        appleStartup: true,
+                        coast: true,
+                        favicons: true,
+                        firefox: true,
+                        opengraph: true,
+                        twitter: true,
+                        yandex: true,
+                        windows: true
+                    }
+                })
+            : new NullPlugin(),
             // new CircularDependencyPlugin({
             //     // exclude detection of files based on a RegExp
             //     exclude: /node_modules/,

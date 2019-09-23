@@ -14,8 +14,8 @@
         "./src/js/react/scenes/index.tsx"
     ],
     "scripts": {
-        "build:lib": "yarn build:webpack --config-name libconfig",
-        "build:lib:esm": "cross-env BABEL_ENV=esm yarn build:webpack --config-name libconfig.esm",
+        "build:webpack:lib": "yarn build:webpack --config-name libconfig",
+        "build:webpack:lib:esm": "cross-env BABEL_ENV=esm yarn build:webpack --config-name libconfig.esm",
         "webpackenv": "cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack-config.json\"",
         "start:concurrently:devserver:tsc": "concurrently -k --raw \"yarn start:devserver\" \"yarn watch:tsc\"",
         "start:devserver": "yarn webpackenv webpack-dev-server --config webpack/webpack.devserver.config.ts",
@@ -33,7 +33,7 @@
         "lint": "eslint src --ext .js,.ts,.jsx,.tsx",
         "start": "yarn start:devserver",
         "watch": "yarn watch:webpack",
-        "build": "yarn build:webpack --config-name webconfig && yarn build:lib && yarn build:lib:esm && yarn build:declarations"
+        "build": "yarn build:webpack --config-name webconfig && yarn build:webpack:lib && yarn build:webpack:lib:esm && yarn build:declarations"
     },
     "author": "",
     "license": "ISC",
@@ -111,7 +111,6 @@
         "imagemin-webpack": "^5.1.0",
         "mini-css-extract-plugin": "^0.8.0",
         "mocha": "^6.2.0",
-        "mocha-webpack": "^1.1.0",
         "moment-locales-webpack-plugin": "^1.1.0",
         "node-sass": "^4.12.0",
         "postcss-loader": "^3.0.0",

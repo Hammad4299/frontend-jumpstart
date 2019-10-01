@@ -4,6 +4,7 @@
 //TODO dynamic code splitting
 import webpack from "webpack";
 import ImageminWebpackPlugin from "imagemin-webpack";
+import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import Dotenv from "dotenv-webpack";
 import path from "path";
 import CircularDependencyPlugin from "circular-dependency-plugin";
@@ -229,6 +230,7 @@ export default function buildBaseConfig(
             ]
         },
         plugins: [
+            new CaseSensitivePathsPlugin(),
             options.htmlPlugin
                 ? new HtmlWebpackPlugin({
                       template: "./src/index.html"

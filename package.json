@@ -26,6 +26,7 @@
         "build:webpack": "yarn webpackenv webpack --config webpack/webpack.prod.config.ts",
         "build:concurrently:webpack:tsc": "concurrently --raw \"yarn build:webpack\"  \"yarn tsc\"",
         "build:webpack:test": "yarn webpackenv webpack --config webpack/webpack.test.config.ts",
+        "build:webpack:test:watch": "yarn build:webpack:test --watch",
         "docker:webpack": "docker run -v %cd%:/var/www -w /var/www node:10.13.0 yarn",
         "tsc": "tsc -p webpack/tsconfig.json",
         "mocha:test": "mocha -r esm --diff tests/**/*.spec.js",

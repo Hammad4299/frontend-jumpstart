@@ -1,29 +1,22 @@
 import { defaultTo, orderBy } from "lodash-es";
 
-export type SortDirection = "asc" | "desc" | "none";
+export type SortDirection = "asc" | "desc" | false;
 
 export interface ColumnSort {
     col: string;
     dir?: SortDirection;
+    position: number;
 }
 
 export type Sorting = ColumnSort[];
 
-export function sortData<T>(data: T[], orders: ColumnSort[]): T[] {
-    const filteredOrders = orders.filter(order => order.dir !== "none");
-    return orderBy(
-        data,
-        filteredOrders.map(({ col }) => col),
-        filteredOrders.map(({ dir }) => dir as "asc")
-    );
-}
-
-export function getColumnSort(sorting: Sorting, { col }: ColumnSort) {
+export function getColumnSort(sorting: Sorting, { col, position }: ColumnSort) {
     let spec = sorting.find(x => x.col === col);
     if (!spec) {
         spec = {
             col,
-            dir: "none"
+            position,
+            dir: null
         };
     }
     return spec;
@@ -34,24 +27,36 @@ export function addColumnSort(
     sorting: Sorting = []
 ): Sorting {
     sorting = defaultTo(sorting, []);
-
-    if (sort.dir === "none") {
-        sorting = sorting.filter(s => s.col !== sort.col);
-    } else {
-        const exists = sorting.find(a => a.col === sort.col);
-        if (exists) {
-            sorting = sorting.map(a => {
-                if (a.col === sort.col) {
-                    return sort;
-                }
-                return a;
-            });
-        } else {
-            sorting.push(sort);
-        }
+    const existingIndex = sorting.findIndex(s => s.col === sort.col);
+    if (existingIndex >= 0) {
+        sort = {
+            ...sort,
+            position: sorting[existingIndex].position
+        };
     }
+    let spec = sorting.filter(s => s.col !== sort.col);
 
-    return sorting;
+    spec.push(sort);
+    spec = spec
+        .sort((pre, current) => {
+            return pre.position === current.position
+                ? 0
+                : pre.position < current.position
+                ? -1
+                : 1;
+        })
+        .filter(a => a.dir !== null);
+
+    return spec;
+}
+
+export function sortData<T>(data: T[], orders: ColumnSort[]): T[] {
+    const filteredOrders = orders.filter(order => order.dir !== null);
+    return orderBy(
+        data,
+        filteredOrders.map(({ col }) => col),
+        filteredOrders.map(({ dir }) => dir as "asc")
+    );
 }
 
 export function getToggledSortDirection(
@@ -60,6 +65,6 @@ export function getToggledSortDirection(
     return currentDirection === "asc"
         ? "desc"
         : currentDirection === "desc"
-        ? "none"
+        ? null
         : "asc";
 }

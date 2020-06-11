@@ -32,6 +32,8 @@
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/unbound-method": "warn",
         "@typescript-eslint/camelcase": "off",
+		"react/self-closing-comp": "error",
+		"curly": "error",
         "react/prop-types": ["error",{
             "skipUndeclared": true
         }],

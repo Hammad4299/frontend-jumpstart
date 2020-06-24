@@ -75,7 +75,7 @@ export class ValidityStateManager {
 
     addErrorInfo(identifier: string, error: ErrorInfo) {
         let state = getInitializedValidityState(this.state, identifier);
-        state = this.state.map(a => {
+        state = state.map(a => {
             if (a.identifier === identifier && error) {
                 return {
                     ...a,
@@ -90,7 +90,7 @@ export class ValidityStateManager {
 
     addChildren(identifier: string, childrens: ValidityState) {
         let state = getInitializedValidityState(this.state, identifier);
-        state = this.state.map(a => {
+        state = state.map(a => {
             if (a.identifier === identifier && childrens) {
                 return {
                     ...a,
@@ -105,7 +105,7 @@ export class ValidityStateManager {
 
     replaceErrors(identifier: string, error: ErrorInfo) {
         let state = getInitializedValidityState(this.state, identifier);
-        state = this.state.map(a => {
+        state = state.map(a => {
             if (a.identifier === identifier) {
                 return {
                     ...a,

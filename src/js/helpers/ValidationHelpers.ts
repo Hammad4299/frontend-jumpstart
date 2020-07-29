@@ -3,6 +3,7 @@ import {
     getInitializedValidityState,
     ValidityStateManager
 } from "js/types";
+import { isNumber, toNumber } from "custom-hooks";
 
 export type ValidationRules<T extends string> = Partial<
     Record<T, InputValidationRule[]>
@@ -12,7 +13,9 @@ export enum Validations {
     REQUIRED = "required",
     EMAIL = "email",
     // DATE = "date",
-    NUMBER = "number"
+    NUMBER = "number",
+    MIN = "min",
+    MAX = "max"
 }
 
 export interface InputValidationRule {
@@ -47,8 +50,12 @@ const validators: { [index in Validations]: RuleDefinition } = {
             message ? message : `Entered email is invalid`
     },
     [Validations.NUMBER]: {
-        validate: (str: any) => {
-            if (!isNaN(str)) {
+        validate: (str: any, options) => {
+            const requiredPass = validators[Validations.REQUIRED].validate(
+                str,
+                options
+            );
+            if (!requiredPass || isNumber(str)) {
                 return true;
             } else {
                 return false;
@@ -56,6 +63,38 @@ const validators: { [index in Validations]: RuleDefinition } = {
         },
         formatMessage: (message, fieldName, value, option) =>
             message ? message : `Not a number`
+    },
+    [Validations.MIN]: {
+        validate: (str: any, options: any) => {
+            const requiredPass = validators[Validations.REQUIRED].validate(
+                str,
+                options
+            );
+            const { value = 0 } = options;
+            if (!requiredPass || (isNumber(str) && toNumber(str) >= value)) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        formatMessage: (message, fieldName, value, option) =>
+            message ? message : `Value not allowed`
+    },
+    [Validations.MAX]: {
+        validate: (str: any, options: any) => {
+            const requiredPass = validators[Validations.REQUIRED].validate(
+                str,
+                options
+            );
+            const { value = Infinity } = options;
+            if (!requiredPass || (isNumber(str) && toNumber(str) <= value)) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        formatMessage: (message, fieldName, value, option) =>
+            message ? message : `Value not allowed`
     },
     [Validations.REQUIRED]: {
         validate: value =>
@@ -89,7 +128,8 @@ export function applyValidations(
     let isValid = true;
     let stateManager: ValidityStateManager = new ValidityStateManager(state);
     rules.forEach(rule => {
-        let result = !validators[rule.rule].validate(value, rule.options);
+        const options = rule.options || {};
+        const result = !validators[rule.rule].validate(value, options);
 
         if (result) {
             isValid = false;
@@ -99,7 +139,7 @@ export function applyValidations(
                     rule.message,
                     field,
                     value,
-                    rule.options
+                    options
                 )
             });
         }

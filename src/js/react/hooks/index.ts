@@ -4,7 +4,19 @@ import { useState, useEffect } from "react";
 import numeral from "numeral";
 
 export function isNumber(value: any) {
-    return numeral.validate(value, numeral.locale());
+    if (value != null) {
+        if (!isNaN(parseFloat(value))) {
+            return true;
+        } else {
+            //Numeral.validate returns false for negative values
+            return numeral.validate(value.toString(), numeral.locale());
+        }
+    } else {
+        return false;
+    }
+}
+export function toNumber(value: any) {
+    return numeral(value).value();
 }
 
 export function useNumberInput(
@@ -15,7 +27,7 @@ export function useNumberInput(
     } = { format: "0,0.00" }
 ) {
     const [textState, setTextState] = useState(
-        defaultValue === null
+        !isNumber(defaultValue)
             ? ""
             : numeral(defaultValue).format(options.format)
     );
@@ -29,16 +41,25 @@ export function useNumberInput(
             value = "";
         }
         value = value.trim();
-        setTextState(value);
-        return toNum(value);
+        const num = toNum(value);
+        onChangeValue(num);
+        return num;
     };
 
-    useEffect(() => {
-        onChangeValue(toNum(textState));
-    }, [textState]);
+    // useEffect(() => {
+    //     onChangeValue(toNum(textState));
+    // }, [textState]);
 
     return {
         inputValue: textState,
+        setDefaultValue: (val: any) => {
+            if (!isNumber(defaultValue)) {
+                val = "";
+                setTextState(val);
+            } else {
+                setTextState(numeral(val).format(options.format));
+            }
+        },
         onInputChange,
         value: toNum(textState)
     };

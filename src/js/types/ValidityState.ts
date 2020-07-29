@@ -88,6 +88,23 @@ export class ValidityStateManager {
         return new ValidityStateManager(state);
     }
 
+    merge(withState: ValidityState) {
+        let state = new ValidityStateManager(this.state);
+        withState.map(field => {
+            field.errors.forEach(error => {
+                state = state.addErrorInfo(field.identifier, error);
+            });
+            const destField = state.getFieldState(field.identifier);
+            state = state.addChildren(
+                field.identifier,
+                new ValidityStateManager(destField.children).merge(
+                    field.children
+                ).state
+            );
+        });
+        return state;
+    }
+
     addChildren(identifier: string, childrens: ValidityState) {
         let state = getInitializedValidityState(this.state, identifier);
         state = state.map(a => {

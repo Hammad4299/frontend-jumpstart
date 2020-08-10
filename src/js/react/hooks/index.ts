@@ -53,7 +53,7 @@ export function useNumberInput(
     return {
         inputValue: textState,
         setDefaultValue: (val: any) => {
-            if (!isNumber(defaultValue)) {
+            if (!isNumber(val)) {
                 val = "";
                 setTextState(val);
             } else {

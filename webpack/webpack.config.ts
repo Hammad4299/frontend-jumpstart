@@ -109,6 +109,7 @@ export default function buildBaseConfig(
                 },
                 {
                     test: /\.(css|scss|sass)$/,
+
                     // include: path.resolve(projectSettings.src),
                     use: [
                         ...cacheLoader,
@@ -120,41 +121,44 @@ export default function buildBaseConfig(
                         {
                             loader: "css-loader", // creates style nodes from JS strings
                             options: {
-                                importLoaders: 2, //how many loaders before css-loader should be applied to @imported resources.
+                                importLoaders: 3, //how many loaders before css-loader should be applied to @imported resources.
                                 sourceMap: options.shouldGenerateSourceMaps
                             }
                         },
-                        // {
-                        //     loader: "postcss-loader", // creates style nodes from JS strings
-                        //     options: {
-                        //         sourceMap: options.shouldGenerateSourceMaps,
-                        //         execute: true,
-                        //         postcssOptions: {
-                        //             plugins: () => {
-                        //                 const plugins = [
-                        //                     postcssPresetEnv({
-                        //                         /* use stage 3 features + css nesting rules */
-                        //                         stage: 3,
-                        //                         features: {
-                        //                             "nesting-rules": true
-                        //                         }
-                        //                     })
-                        //                 ];
-                        //                 if (options.minimizeCss) {
-                        //                     plugins.push(cssnano());
-                        //                 }
+                        {
+                            loader: "postcss-loader", // creates style nodes from JS strings
+                            options: {
+                                sourceMap: options.shouldGenerateSourceMaps,
+                                // execute: false,
+                                postcssOptions: () => {
+                                    const opts = {
+                                        // parser: "postcss-js",
+                                        plugins: []
+                                    };
 
-                        //                 return plugins;
-                        //             }
-                        //         }
-                        //     }
-                        // },
-                        // {
-                        //      loader: 'resolve-url-loader',
-                        //      options: {
-                        //          removeCR: true
-                        //      }
-                        // },
+                                    opts.plugins = [
+                                        postcssPresetEnv({
+                                            /* use stage 3 features + css nesting rules */
+                                            stage: 3,
+                                            features: {
+                                                "nesting-rules": true
+                                            }
+                                        })
+                                    ];
+                                    if (options.minimizeCss) {
+                                        opts.plugins.push(cssnano());
+                                    }
+
+                                    return opts;
+                                }
+                            }
+                        },
+                        {
+                            loader: "resolve-url-loader",
+                            options: {
+                                removeCR: true
+                            }
+                        },
                         {
                             loader: "sass-loader", // creates style nodes from JS strings
                             options: {

@@ -43,7 +43,6 @@ export interface MappedDispatch {
     setBreadcrumbs: (crumbs: BreadcrumbInfo[]) => void;
 }
 
-
 /**
  * Coordinates with BreadcrumbContextContract.
  * Can load unavailable data before coordination using deferred.
@@ -52,8 +51,6 @@ export interface MappedDispatch {
 function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
     WrappedComponent: React.ComponentType<WrappedProps>
 ) {
-   
-    
     type Props = Mapped;
 
     type Mapped = MappedDispatch & MappedProps;
@@ -98,7 +95,7 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
                 };
             }
 
-            protected setContextFunc(
+            setContextFunc(
                 func: FuncType,
                 args: (Arg | any)[],
                 contextType: ContextType,

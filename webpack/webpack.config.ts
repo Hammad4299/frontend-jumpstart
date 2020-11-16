@@ -37,7 +37,9 @@ export default function buildBaseConfig(
     const cleanupPlugin = new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: projectSettings.toClean
     });
-    const copyPlugin = new CopyWebpackPlugin(projectSettings.toCopy);
+    const copyPlugin = new CopyWebpackPlugin({
+        patterns: projectSettings.toCopy
+    });
     //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
     const manifestSeed: { [index: string]: string } = {};
 
@@ -122,29 +124,31 @@ export default function buildBaseConfig(
                                 sourceMap: options.shouldGenerateSourceMaps
                             }
                         },
-                        {
-                            loader: "postcss-loader", // creates style nodes from JS strings
-                            options: {
-                                sourceMap: options.shouldGenerateSourceMaps,
-                                ident: "postcss",
-                                plugins: () => {
-                                    const plugins = [
-                                        postcssPresetEnv({
-                                            /* use stage 3 features + css nesting rules */
-                                            stage: 3,
-                                            features: {
-                                                "nesting-rules": true
-                                            }
-                                        })
-                                    ];
-                                    if (options.minimizeCss) {
-                                        plugins.push(cssnano());
-                                    }
+                        // {
+                        //     loader: "postcss-loader", // creates style nodes from JS strings
+                        //     options: {
+                        //         sourceMap: options.shouldGenerateSourceMaps,
+                        //         execute: true,
+                        //         postcssOptions: {
+                        //             plugins: () => {
+                        //                 const plugins = [
+                        //                     postcssPresetEnv({
+                        //                         /* use stage 3 features + css nesting rules */
+                        //                         stage: 3,
+                        //                         features: {
+                        //                             "nesting-rules": true
+                        //                         }
+                        //                     })
+                        //                 ];
+                        //                 if (options.minimizeCss) {
+                        //                     plugins.push(cssnano());
+                        //                 }
 
-                                    return plugins;
-                                }
-                            }
-                        },
+                        //                 return plugins;
+                        //             }
+                        //         }
+                        //     }
+                        // },
                         // {
                         //      loader: 'resolve-url-loader',
                         //      options: {
@@ -251,38 +255,33 @@ export default function buildBaseConfig(
             options.shouldClean ? cleanupPlugin : new NullPlugin(),
             copyPlugin,
             new ForkTsCheckerWebpackPlugin({
-                checkSyntacticErrors: true,
-                tsconfig: process.env.TS_NODE_PROJECT
+                typescript: {
+                    configFile: process.env.TS_NODE_PROJECT,
+                    diagnosticOptions: {
+                        syntactic: true
+                    }
+                }
             }),
             options.favicon
                 ? new Favicon({
                       logo: options.favicon.logo,
                       prefix: options.buildOutputName("favicon"),
-                      // Emit all stats of the generated icons
-                      emitStats: true,
-                      // The name of the json containing all favicon information
-                      statsFilename: "faviconstats.json",
-                      // Generate a cache file with control hashes and
-                      // don't rebuild the favicons until those hashes change
-                      persistentCache: options.cacheResults,
+
                       // Inject the html into the html-webpack-plugin
                       inject: false,
-                      // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-                      background: "#fff",
-                      // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-                      title: "Untitled",
-                      // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
-                      icons: {
-                          android: true,
-                          appleIcon: true,
-                          appleStartup: true,
-                          coast: true,
-                          favicons: true,
-                          firefox: true,
-                          opengraph: true,
-                          twitter: true,
-                          yandex: true,
-                          windows: true
+
+                      favicons: {
+                          // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+                          icons: {
+                              android: true,
+                              appleIcon: true,
+                              appleStartup: true,
+                              coast: true,
+                              favicons: true,
+                              firefox: true,
+                              yandex: true,
+                              windows: true
+                          }
                       }
                   })
                 : new NullPlugin(),

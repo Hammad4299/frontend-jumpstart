@@ -2,22 +2,22 @@
 @import "mixins";
 @import "extendables";
 
-body{
-  //background: $color-panel-header-bg;
-  background: url('~images/test.png');
+body {
+    //background: $color-panel-header-bg;
+    background: url("~images/test.png");
 }
 
 @font-face {
-  font-family: myFirstFont;
-  src: url('~fonts/Pacifico.ttf');
+    font-family: myFirstFont;
+    src: url("~fonts/Pacifico.ttf");
 }
 
-.bg1{
-  font-family: myFirstFont;
-  background: url('~webp-images/test.png');
-  background: $color-primary2-bg;
+.bg1 {
+    font-family: myFirstFont;
+    background: url("~webp-images/test.png");
+    background: $color-primary2-bg;
 }
 
-.bg2{
-  background: $color-text-primary;
+.bg2 {
+    background: $color-text-primary;
 }

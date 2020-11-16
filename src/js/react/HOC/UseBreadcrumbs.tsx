@@ -27,6 +27,23 @@ interface Arg {
 
 type FuncType = keyof BreadcrumbContextContract;
 
+export interface MappedProps {
+    breadcrumbs: BreadcrumbInfo[];
+    breadcrumbContext: BreadcrumbContextContract;
+}
+
+export interface State {
+    func: FuncType;
+    args: Arg[];
+    ready: boolean;
+    contextType: ContextType;
+}
+
+export interface MappedDispatch {
+    setBreadcrumbs: (crumbs: BreadcrumbInfo[]) => void;
+}
+
+
 /**
  * Coordinates with BreadcrumbContextContract.
  * Can load unavailable data before coordination using deferred.
@@ -35,22 +52,8 @@ type FuncType = keyof BreadcrumbContextContract;
 function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
     WrappedComponent: React.ComponentType<WrappedProps>
 ) {
-    interface State {
-        func: FuncType;
-        args: Arg[];
-        ready: boolean;
-        contextType: ContextType;
-    }
-
-    interface MappedProps {
-        breadcrumbs: BreadcrumbInfo[];
-        breadcrumbContext: BreadcrumbContextContract;
-    }
-
-    interface MappedDispatch {
-        setBreadcrumbs: (crumbs: BreadcrumbInfo[]) => void;
-    }
-
+   
+    
     type Props = Mapped;
 
     type Mapped = MappedDispatch & MappedProps;
@@ -143,7 +146,7 @@ function UseBreadcrumbs<WrappedProps extends UseBreadcrumbsInjectedProps>(
                         context[state.func].apply(
                             context,
                             this.state.args.map(arg => arg.value)
-                        )
+                        );
                         /* eslint-enable */
                         this.setState({
                             func: null

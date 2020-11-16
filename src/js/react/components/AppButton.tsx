@@ -13,17 +13,17 @@ const useStyles = makeStyles(styles);
 export interface AppButtonProps
     extends StandardProps<ButtonProps, AppButtonClassKey> {}
 
-function Component(props: AppButtonProps) {
+export function AppButton(props: AppButtonProps) {
     const classes = useStyles(props);
 
     return <Button {...props} />;
 }
 
-Component.displayName = "AppButton";
+AppButton.displayName = "AppButton";
 
-Component.defaultProps = {
+AppButton.defaultProps = {
     color: "primary",
     variant: "contained"
 } as AppButtonProps;
-export const AppButton = Component;
+
 export default AppButton;

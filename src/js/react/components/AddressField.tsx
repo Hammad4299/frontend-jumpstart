@@ -37,7 +37,7 @@ export interface AddressAutoComplete {
     country: string;
 }
 
-function Component(props: AddressFieldProps) {
+export function AddressField(props: AddressFieldProps) {
     const { onChange } = props;
     const [predictions, setPredictions] = useState<
         google.maps.places.AutocompletePrediction[]
@@ -122,11 +122,10 @@ function Component(props: AddressFieldProps) {
     );
 }
 
-Component.defaultProps = {
+AddressField.defaultProps = {
     onChange: () => {},
     value: ""
 };
 
-Component.displayName = "AddressField";
-export const AddressField = Component;
+AddressField.displayName = "AddressField";
 export default AddressField;

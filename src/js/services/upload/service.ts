@@ -71,7 +71,7 @@ export class UploadService extends BaseService {
                     return prev;
                 }, b);
                 return {
-                    validityState: {},
+                    validityState: [],
                     data: b,
                     status: true,
                     errors: {}

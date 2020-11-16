@@ -12,7 +12,7 @@ export type AppAsyncCreatableSelectProps<
 > = ComposedSelect<AsyncCreatableSelectProps<OptionType>, OptionType>;
 
 function Component(props: AppAsyncCreatableSelectProps) {
-    return <CustomSelect {...props} Component={AsyncCreatable} />;
+    return <CustomSelect  {...props} Component={AsyncCreatable} />;
 }
 
 export const AppAsyncCreatableSelect = Component;

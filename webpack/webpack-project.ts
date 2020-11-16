@@ -39,7 +39,7 @@ export const projectConfig: ProjectSettings = {
             automaticNameDelimiter: "-",
             cacheGroups: {
                 default: false,
-                vendors: {
+                defaultVendors: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
                     name: "vendor",

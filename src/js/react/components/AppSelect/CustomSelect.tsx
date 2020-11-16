@@ -139,7 +139,7 @@ export type CustomSelectProps<
         Component: React.ComponentType<TProps>;
     };
 
-function Component<
+export function CustomSelect<
     TProps extends CustomSelectProps<SProps, OptionType>,
     SProps extends Props<OptionType>,
     OptionType
@@ -178,7 +178,7 @@ function Component<
         fixedSizeListProps: fixedSizeListProps
     };
 
-    const TComponent: React.ComponentType<SProps> = props.Component;
+    const TComponent: React.ComponentType<SProps> = props.CustomSelect;
 
     return (
         <TComponent
@@ -209,8 +209,8 @@ function Component<
         />
     );
 }
-Component.displayName = "CustomSelect";
-Component.defaultProps = {
+CustomSelect.displayName = "CustomSelect";
+CustomSelect.defaultProps = {
     menuShouldBlockScroll: false,
     showDropdownIndicator: true,
     hideSelectedOptions: false,
@@ -226,5 +226,5 @@ Component.defaultProps = {
     fullWidth: false
 };
 
-export const CustomSelect = Component;
+
 export default CustomSelect;

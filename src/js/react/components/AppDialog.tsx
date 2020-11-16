@@ -26,14 +26,14 @@ const useStyles = makeStyles(styles);
 export interface AppDialogProps
     extends StandardProps<DialogProps, AppDialogClassKey> {}
 
-function Component(props: AppDialogProps) {
+export function AppDialog(props: AppDialogProps) {
     const classes = useStyles(props);
     return <Dialog {...props} classes={classes} />;
 }
 
-Component.defaultProps = {
+AppDialog.defaultProps = {
     scroll: "body"
 } as AppDialogProps;
-Component.displayName = "AppDialog";
-export const AppDialog = Component;
+AppDialog.displayName = "AppDialog";
+
 export default AppDialog;

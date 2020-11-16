@@ -6,8 +6,8 @@ import {
     extractResponseErrors,
     WithPaginationParams,
     AppResponse,
-    isStateValid,
-    PaginationRequestToPaginatedResponse
+    PaginationRequestToPaginatedResponse,
+    ValidityStateManager
 } from "types";
 import { routesForContext } from "routing";
 
@@ -59,7 +59,7 @@ export class BaseService {
     ) {
         const ret: WithValidityState<AppResponse<T>, X> = d as any;
         ret.validityState = extractResponseErrors(d);
-        ret.status = isStateValid(ret.validityState);
+        ret.status = new ValidityStateManager(ret.validityState).isStateValid();
         const response = ret;
         if (isPaginatedResult(response)) {
             response.pagination_meta.current_page = parseInt(

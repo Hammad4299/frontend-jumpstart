@@ -2,14 +2,14 @@ import React, { useMemo } from "react";
 import { uniqueId } from "lodash-es";
 import Input, { InputProps } from "@material-ui/core/Input";
 import { ButtonBaseProps } from "@material-ui/core/ButtonBase";
+export interface Props {
+    onFilesChange?: (files: FileList) => void;
+    inputProps?: InputProps;
+}
 
 export function fileButton<T extends ButtonBaseProps>(
     Component: React.ComponentType<T>
 ) {
-    interface Props {
-        onFilesChange?: (files: FileList) => void;
-        inputProps?: InputProps;
-    }
 
     type FileButtonProps = Props & T;
 

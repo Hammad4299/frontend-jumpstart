@@ -1,0 +1,45 @@
+//Need for es6 and then es6 to es5 because of
+//https://www.reddit.com/r/typescript/comments/4fuo7v/is_it_possible_to_typescriptes6babeles5/
+//#Awesome
+{
+    "compilerOptions": {
+        "plugins": [
+            {
+                "transform": "typescript-transform-paths",
+                "afterDeclarations": true
+            }
+        ],
+        "sourceMap": true,
+        "declaration": true,
+        "allowSyntheticDefaultImports": true,
+        // "emitDeclarationOnly": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "outDir": "build-lib/typings",
+        "noEmit": true,
+        "sourceRoot": "/",
+        "declarationDir": "build-lib/typings",
+        "isolatedModules": false,
+        "noImplicitAny": false,
+        "module": "esnext", //to es6 modules. So, webpack can handle it after passing through babel
+        "target": "esnext",
+        //default was (module === "AMD" or "System" or "ES6" ? "Classic" : "Node").
+        //Since for ModuleConcatenationPlugin, we changed module from "commonjs" to "es6", this reverted to "Node".
+        //For previous behaviour, it needs to be node again.
+        "baseUrl": "./src",
+        "paths": {
+            "Types": [
+                "shared/Types"
+            ],
+        },
+        "moduleResolution": "node",
+        "jsx": "preserve", //let babel do it
+        "allowJs": false //Necessary. To run js files as typescript,
+    },
+    "include": [
+        "./src/shared/*.ts"
+    ],
+    "exclude": [
+        "**/*.spec.ts"
+    ]
+}

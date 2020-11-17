@@ -96,7 +96,7 @@ const imageMinOptions: Partial<ProjectBuildOptions> = {
     }
 };
 
-export const testDevConfig = webpackMerge(
+export const testConfig = webpackMerge(
     commonConfig(projectConfig, {
         ...imageMinOptions,
         hmrNeeded: false,
@@ -111,40 +111,10 @@ export const testDevConfig = webpackMerge(
         shouldGenerateSourceMaps: true
     }),
     {
-        //devtool: 'source-map',            //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
         mode: "development",
         target: ["web", "es5"],
-        watch: true,
-        name: "web-test-dev",
-        devtool: "source-map", //Production ready separate sourcemap files with no original source code. SourceMaps Can be deployed securely
-        optimization: {
-            minimize: false
-        },
-        plugins: [new MomentLocalesPlugin()]
-    }
-);
-
-export const testProductionConfig = webpackMerge(
-    commonConfig(projectConfig, {
-        ...imageMinOptions,
-        hmrNeeded: false,
-        cacheResults: false, //don't cache production, run from scratch
-        enableCacheBusting: false,
-        extractCss: true,
-        lint: false,
-        imagemin: true,
-        minimizeCss: true,
-        responsiveImages: true,
-        shouldClean: true,
-        shouldGenerateSourceMaps: true
-    }),
-    {
-        //devtool: 'source-map',            //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
-        mode: "development",
-        target: ["web", "es5"],
-        watch: false,
-        name: "web-test-production",
-        devtool: "source-map", //Production ready separate sourcemap files with no original source code. SourceMaps Can be deployed securely
+        name: "web-test",
+        devtool: "source-map",
         optimization: {
             minimize: false
         },

@@ -1,4 +1,3 @@
-delete process.env.TS_NODE_PROJECT;
 import webpack from "webpack";
 import path from "path";
 import nodeExternals from "webpack-node-externals";
@@ -96,6 +95,6 @@ export const libESConfig = webpackMerge(libUmdConfig, {
         outputModule: true
     },
     output: {
-        path: path.join(output, "esmodules")
+        path: path.join(output, "esm")
     }
 });

@@ -49,62 +49,62 @@ const projectConfig: ProjectSettings = {
     }, {})
 };
 
-const imageMinOptions: Partial<ProjectBuildOptions> = {
-    imageminOptions: {
-        imageminOptions: {
-            // Lossless optimization with custom option
-            plugins: [
-                [
-                    "gifsicle",
-                    {
-                        interlaced: true
-                    }
-                ],
-                [
-                    "jpegtran",
-                    {
-                        progressive: true
-                    }
-                ],
-                [
-                    "optipng",
-                    {
-                        optimizationLevel: 1
-                    }
-                ],
-                [
-                    "svgo",
-                    {
-                        removeViewBox: true
-                    }
-                ]
-            ]
-        }
-    },
-    imageminWebpOptions: {
-        imageminOptions: {
-            // Lossless optimization with custom option
-            plugins: [
-                [
-                    "webp",
-                    {
-                        loseless: true
-                    }
-                ]
-            ]
-        }
-    }
-};
+// const imageMinOptions: Partial<ProjectBuildOptions> = {
+//     imageminOptions: {
+//         imageminOptions: {
+//             // Lossless optimization with custom option
+//             plugins: [
+//                 [
+//                     "gifsicle",
+//                     {
+//                         interlaced: true
+//                     }
+//                 ],
+//                 [
+//                     "jpegtran",
+//                     {
+//                         progressive: true
+//                     }
+//                 ],
+//                 [
+//                     "optipng",
+//                     {
+//                         optimizationLevel: 1
+//                     }
+//                 ],
+//                 [
+//                     "svgo",
+//                     {
+//                         removeViewBox: true
+//                     }
+//                 ]
+//             ]
+//         }
+//     },
+//     imageminWebpOptions: {
+//         imageminOptions: {
+//             // Lossless optimization with custom option
+//             plugins: [
+//                 [
+//                     "webp",
+//                     {
+//                         loseless: true
+//                     }
+//                 ]
+//             ]
+//         }
+//     }
+// };
 
 export const testConfig = webpackMerge(
     commonConfig(projectConfig, {
-        ...imageMinOptions,
+        // ...imageMinOptions,
         hmrNeeded: false,
         cacheResults: false, //don't cache production, run from scratch
         enableCacheBusting: false,
         extractCss: true,
         lint: false,
-        imagemin: true,
+        imagemin: false,
         minimizeCss: true,
         responsiveImages: true,
         shouldClean: true,

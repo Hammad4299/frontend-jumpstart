@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { withStyles, createStyles } from "@material-ui/styles";
 import { AppSelect, SimpleOption } from "./";
-import InternationalIcon from "react-phone-number-input/international-icon";
+import {InternationalIcon} from "react-phone-number-input";
 import {
     parseIncompletePhoneNumber,
     formatIncompletePhoneNumber

@@ -14,7 +14,7 @@ const output = path.resolve(__dirname, "../../build-lib", prefix || "");
 
 export const libUmdConfig: webpack.Configuration = {
     entry: {
-        "shared/index": path.join(src, "shared/index.ts")
+        "shared/index": path.join(src, "shared/index.ts"),
     },
     target: ["web", "es5"],
     mode: "production",
@@ -26,7 +26,7 @@ export const libUmdConfig: webpack.Configuration = {
         pathinfo: false,
         libraryTarget: "umd",
         globalObject: "this",
-        library: "shared"
+        library: "shared",
     },
     externals: [nodeExternals()],
     resolve: {
@@ -34,9 +34,9 @@ export const libUmdConfig: webpack.Configuration = {
         extensions: [".js", ".jsx", ".ts", ".tsx"],
         plugins: [
             new TsconfigPathsPlugin({
-                configFile: process.env.TS_NODE_PROJECT
-            })
-        ]
+                configFile: process.env.TS_NODE_PROJECT,
+            }),
+        ],
     },
     module: {
         rules: [
@@ -54,47 +54,47 @@ export const libUmdConfig: webpack.Configuration = {
                                         targets: {
                                             esmodules: true,
                                             node: "12",
-                                            browsers: "defaults"
+                                            browsers: "defaults",
                                         },
                                         useBuiltIns: "entry",
-                                        corejs: "3.2.1"
-                                    }
-                                ]
-                            ]
-                        }
+                                        corejs: "3.7.0",
+                                    },
+                                ],
+                            ],
+                        },
                     },
                     {
                         loader: "ts-loader",
                         options: {
                             configFile: process.env.TS_NODE_PROJECT,
-                            transpileOnly: true
-                        }
-                    }
-                ]
-            }
-        ]
+                            transpileOnly: true,
+                        },
+                    },
+                ],
+            },
+        ],
     },
     plugins: [
         new CaseSensitivePathsPlugin(),
         new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: ["**/*"]
+            cleanOnceBeforeBuildPatterns: ["**/*"],
         }),
         new CircularDependencyPlugin(),
         new ForkTsCheckerWebpackPlugin({
             typescript: {
-                configFile: process.env.TS_NODE_PROJECT
-            }
-        })
-    ]
+                configFile: process.env.TS_NODE_PROJECT,
+            },
+        }),
+    ],
 };
 
 export const libESConfig = webpackMerge(libUmdConfig, {
     name: "lib-es",
     target: ["web", "es2020"],
     experiments: {
-        outputModule: true
+        outputModule: true,
     },
     output: {
-        path: path.join(output, "esm")
-    }
+        path: path.join(output, "esm"),
+    },
 });

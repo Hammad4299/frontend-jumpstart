@@ -34,11 +34,11 @@ export interface ProjectBuildOptions {
     readonly enableCacheBusting?: boolean;
     readonly cacheResults?: boolean;
     readonly shouldGenerateSourceMaps?: boolean;
-    readonly imagemin?: boolean;
+    readonly imagemin?: false;
     readonly hmrNeeded?: boolean;
     readonly minimizeCss?: boolean;
-    readonly imageminOptions?: any;
-    readonly imageminWebpOptions?: any;
+    // readonly imageminOptions?: any;
+    // readonly imageminWebpOptions?: any;
 }
 
 export interface CopySetting {

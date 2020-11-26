@@ -1,9 +1,6 @@
 //Base config file.
-//TODO make css source map work with eval-source-map
-//TODO webp-loader might help in producing 2 outputs for images, one in current format, other in webp
-//TODO dynamic code splitting
 import webpack from "webpack";
-import ImageminWebpackPlugin from "imagemin-webpack";
+// import ImageminWebpackPlugin from "imagemin-webpack";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import Dotenv from "dotenv-webpack";
 import path from "path";
@@ -21,7 +18,7 @@ import ManifestPlugin from "webpack-manifest-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import NullPlugin from "webpack-null-plugin";
 import postcssPresetEnv from "postcss-preset-env";
-import ImageminWebpack from "imagemin-webpack";
+// import ImageminWebpack from "imagemin-webpack";
 import { ProjectBuildOptions, ProjectSettings } from "./Types";
 
 function getLoader(
@@ -38,9 +35,9 @@ export default function buildBaseConfig(
     const cleanupPlugin = new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: projectSettings.toClean
     });
-    const copyPlugin = new CopyWebpackPlugin({
+    const copyPlugin = projectSettings.toCopy && projectSettings.toCopy.length>0 ? new CopyWebpackPlugin({
         patterns: projectSettings.toCopy
-    });
+    }) : new NullPlugin();
     //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
     const manifestSeed: { [index: string]: string } = {};
 
@@ -52,18 +49,7 @@ export default function buildBaseConfig(
           ]
         : [];
 
-    const cacheLoader = getLoader(
-        {
-            loader: "cache-loader",
-            options: {
-                cacheDirectory: path.resolve(
-                    projectSettings.root,
-                    "node_modules/.cache/cache-loader"
-                )
-            }
-        },
-        options.cacheResults
-    );
+    
 
     const config: webpack.Configuration = {
         entry: projectSettings.entry,
@@ -95,8 +81,6 @@ export default function buildBaseConfig(
                     test: /\.(tsx|jsx|ts|js)$/,
                     exclude: /node_modules/,
                     use: [
-                        // 'awesome-typescript-loader', //IMPORTANT this doesn't seem to either tsconfig or calls babel correctly for transpiling. Make sure to test by setting debug true for babel preset env
-                        ...cacheLoader,
                         { loader: "babel-loader" }, //ts also handled by babel. It seems faster but doesn't provide typechecking. For that TypeCheckFork plugin is used or run tsc separately
                         ...eslintLoader,
                         {
@@ -113,7 +97,6 @@ export default function buildBaseConfig(
 
                     // include: path.resolve(projectSettings.src),
                     use: [
-                        ...cacheLoader,
                         options.hmrNeeded || !options.extractCss
                             ? {
                                   loader: "style-loader"
@@ -191,10 +174,10 @@ export default function buildBaseConfig(
                         },
                         ...(options.imagemin
                             ? [
-                                  {
-                                      loader: ImageminWebpack.loader,
-                                      options: options.imageminOptions
-                                  }
+                                //   {
+                                //       loader: ImageminWebpack.loader,
+                                //       options: options.imageminOptions
+                                //   }
                               ]
                             : [])
                     ]
@@ -221,10 +204,10 @@ export default function buildBaseConfig(
                         },
                         ...(options.imagemin
                             ? [
-                                  {
-                                      loader: ImageminWebpack.loader,
-                                      options: options.imageminWebpOptions
-                                  }
+                                //   {
+                                //       loader: ImageminWebpack.loader,
+                                //       options: options.imageminWebpOptions
+                                //   }
                               ]
                             : [])
                     ]
@@ -304,57 +287,58 @@ export default function buildBaseConfig(
                 // exclude detection of files based on a RegExp
                 exclude: /node_modules/,
                 // add errors to webpack instead of warnings
-                failOnError: true,
+                failOnError: false,
                 // allow import cycles that include an asyncronous import,
                 // e.g. via import(/* webpackMode: "weak" */ './file.js')
                 allowAsyncCycles: false,
                 // set the current working directory for displaying module paths
                 cwd: path.resolve(projectSettings.src)
             }),
-            new ManifestPlugin({
-                fileName: "webpack-manifest.json",
-                writeToFileEmit: true,
-                seed: manifestSeed,
-                map: (obj: any) => {
-                    let name: string = obj.name;
-                    if (name) {
-                        name = obj.name.replace(/\.hash-.*\./, "."); //fixes imagemin hashes
-                        obj.name =
-                            name.charAt(0) === "/" ? name.substring(1) : name;
-                    }
+            //TODO add when compatible with webpack 5
+            // new ManifestPlugin({
+            //     fileName: "webpack-manifest.json",
+            //     writeToFileEmit: true,
+            //     seed: manifestSeed,
+            //     map: (obj: any) => {
+            //         let name: string = obj.name;
+            //         if (name) {
+            //             name = obj.name.replace(/\.hash-.*\./, "."); //fixes imagemin hashes
+            //             obj.name =
+            //                 name.charAt(0) === "/" ? name.substring(1) : name;
+            //         }
 
-                    return obj;
-                }
-            })
+            //         return obj;
+            //     }
+            // })
         ]
     };
 
-    if (options.imagemin) {
-        const imagemin = new ImageminWebpackPlugin({
-            test: /\.(jpe?g|png|gif|svg)$/i,
-            exclude: /webp-images/,
-            loader: false,
-            name: projectSettings.buildOutputName(
-                "image-imagemin",
-                options.enableCacheBusting
-            ),
-            ...options.imageminOptions
-        });
+    // if (options.imagemin) {
+    //     const imagemin = new ImageminWebpackPlugin({
+    //         test: /\.(jpe?g|png|gif|svg)$/i,
+    //         exclude: /webp-images/,
+    //         loader: false,
+    //         name: projectSettings.buildOutputName(
+    //             "image-imagemin",
+    //             options.enableCacheBusting
+    //         ),
+    //         ...options.imageminOptions
+    //     });
 
-        const imagemin2 = new ImageminWebpackPlugin({
-            test: /\.(png|jpe?g|webp)$/i,
-            loader: false,
-            include: /webp-images/,
-            name: projectSettings.buildOutputName(
-                "image-imagemin",
-                options.enableCacheBusting
-            ),
-            ...options.imageminWebpOptions
-        });
+    //     const imagemin2 = new ImageminWebpackPlugin({
+    //         test: /\.(png|jpe?g|webp)$/i,
+    //         loader: false,
+    //         include: /webp-images/,
+    //         name: projectSettings.buildOutputName(
+    //             "image-imagemin",
+    //             options.enableCacheBusting
+    //         ),
+    //         ...options.imageminWebpOptions
+    //     });
 
-        config.plugins.push(imagemin);
-        config.plugins.push(imagemin2);
-    }
+    //     config.plugins.push(imagemin);
+    //     config.plugins.push(imagemin2);
+    // }
 
     return config;
 }

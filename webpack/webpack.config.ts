@@ -1,3 +1,7 @@
+import dotenv from "dotenv-defaults";
+dotenv.config({
+    defaults: ".env.defaults",
+});
 import * as libConfigs from "./lib/webpack.lib.config";
 import * as nodeConfigs from "./node/webpack-project-node";
 import * as webConfigs from "./web/webpack-project";
@@ -10,5 +14,5 @@ export default [
     nodeConfigs.nodeDevConfig,
     libConfigs.libESConfig,
     libConfigs.libUmdConfig,
-    webTestConfigs.testConfig
+    webTestConfigs.testConfig,
 ];

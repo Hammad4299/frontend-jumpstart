@@ -81,7 +81,7 @@ export const nodeDevConfig = webpackMerge(
     }),
     {
         mode: "development",
-        target: ["node12"],
+        target: "node12",
         watch: true,
         name: "node-dev",
         node: {
@@ -118,7 +118,7 @@ export const nodeProductionConfig = webpackMerge(
     {
         devtool: "source-map", //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
         mode: "production",
-        target: ["node12"],
+        target: "node12",
         optimization: {
             runtimeChunk: false,
             splitChunks: false

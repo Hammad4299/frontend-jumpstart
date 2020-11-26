@@ -210,7 +210,7 @@ export function MenuList<OptionType>(
             {...fixedSizeListProps}
         >
             {renderProps => (
-                <div style={renderProps.style}>{childs[renderProps.index]}</div>
+                <div style={renderProps.style as React.CSSProperties}>{childs[renderProps.index]}</div>
             )}
         </FixedSizeList>
     );

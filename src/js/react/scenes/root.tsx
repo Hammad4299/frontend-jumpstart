@@ -4,19 +4,17 @@ import { routesForContext } from "../../routing";
 import { Snackbar } from "@material-ui/core";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { Sample } from "./sample";
-import { PhoneInput, AddressField } from "components";
+// import { Sample } from "./sample";
+
 library.add(faFilter);
 
 const routes = routesForContext();
 const Root = () => (
     // <ContextManager>
     <React.Fragment>
-        <PhoneInput onChange={() => {}} value={""} />
-        <AddressField  />
-        <Switch>
-            <Route component={Sample} />
-        </Switch>
+        {/* <PhoneInput onChange={() => {}} value={""} /> */}
+
+        <Switch>{/* <Route component={Sample} /> */}</Switch>
         {/* <Snackbar
                 open={this.props.snackbarData.open}
                 autoHideDuration={6000}

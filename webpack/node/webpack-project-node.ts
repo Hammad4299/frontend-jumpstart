@@ -9,8 +9,9 @@ const src = path.resolve(__dirname, "../../src");
 const output = path.resolve(__dirname, "../../dist-node");
 
 const projectConfig: ProjectSettings = {
+    tsconfigPath: path.resolve(__dirname, "../tsconfig.json"),
     entry: {
-        index: path.join(src, "js/index.ts")
+        index: path.join(src, "js/index.ts"),
     },
     externals: [nodeExternals()],
     favicon: null,
@@ -19,23 +20,23 @@ const projectConfig: ProjectSettings = {
         images: path.join(src, "images"),
         styles: path.join(src, "styles"),
         fonts: path.join(src, "fonts"),
-        "webp-images": path.join(src, "webp-images")
+        "webp-images": path.join(src, "webp-images"),
     },
     contentOutput: output,
     toClean: [
         //relative to "root"
-        "**/*"
+        "**/*",
     ],
     toCopy: [
         { from: path.join(src, "images"), to: path.join(output, "images") },
         {
             from: path.join(src, "webp-images"),
-            to: path.join(output, "webp-images")
+            to: path.join(output, "webp-images"),
         },
-        { from: path.join(src, "fonts"), to: path.join(output, "fonts") }
+        { from: path.join(src, "fonts"), to: path.join(output, "fonts") },
     ],
     root: path.resolve(src, "../"),
-    buildOutputName: function(type: AssetsType): string {
+    buildOutputName: function (type: AssetsType): string {
         let toRet = "";
         switch (type) {
             case "font":
@@ -63,7 +64,7 @@ const projectConfig: ProjectSettings = {
                 toRet = `[name].[ext]`;
         }
         return toRet;
-    }
+    },
 };
 
 export const nodeDevConfig = webpackMerge(
@@ -77,7 +78,7 @@ export const nodeDevConfig = webpackMerge(
         extractCss: false,
         minimizeCss: false,
         responsiveImages: false,
-        shouldClean: false
+        shouldClean: false,
     }),
     {
         mode: "development",
@@ -85,20 +86,20 @@ export const nodeDevConfig = webpackMerge(
         watch: true,
         name: "node-dev",
         node: {
-            __dirname: false
+            __dirname: false,
         },
         optimization: {
             runtimeChunk: false,
-            splitChunks: false
+            splitChunks: false,
         },
         devtool: "source-map",
         plugins: [
             new webpack.BannerPlugin({
                 banner: 'require("source-map-support").install();', //stacktrace sourcemaps for nodejs
                 raw: true,
-                entryOnly: false
-            })
-        ]
+                entryOnly: false,
+            }),
+        ],
     }
 );
 
@@ -113,7 +114,7 @@ export const nodeProductionConfig = webpackMerge(
         minimizeCss: false,
         responsiveImages: false,
         shouldClean: true,
-        shouldGenerateSourceMaps: true
+        shouldGenerateSourceMaps: true,
     }),
     {
         devtool: "source-map", //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
@@ -121,18 +122,18 @@ export const nodeProductionConfig = webpackMerge(
         target: "node12",
         optimization: {
             runtimeChunk: false,
-            splitChunks: false
+            splitChunks: false,
         },
         name: "node-production",
         node: {
-            __dirname: false
+            __dirname: false,
         },
         plugins: [
             new webpack.BannerPlugin({
                 banner: 'require("source-map-support").install();', //stacktrace sourcemaps for nodejs
                 raw: true,
-                entryOnly: false
-            })
-        ]
+                entryOnly: false,
+            }),
+        ],
     } as webpack.Configuration
 );

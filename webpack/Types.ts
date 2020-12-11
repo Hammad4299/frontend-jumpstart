@@ -15,6 +15,7 @@ export type AssetsType =
 
 export interface ProjectSettings {
     root: string;
+    tsconfigPath: string;
     entry: webpack.Configuration["entry"];
     alias: webpack.Configuration["resolve"]["alias"];
     externals?: webpack.Configuration["externals"];

@@ -4,6 +4,8 @@ import webpack from "webpack";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import Dotenv from "dotenv-webpack";
 import path from "path";
+import ESLintPlugin from 'eslint-webpack-plugin';
+
 import CircularDependencyPlugin from "circular-dependency-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
@@ -14,24 +16,19 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import Favicon from "favicons-webpack-plugin";
 import cssnano from "cssnano";
 
-import ManifestPlugin from "webpack-manifest-plugin";
+// import ManifestPlugin from "webpack-manifest-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import NullPlugin from "webpack-null-plugin";
 import postcssPresetEnv from "postcss-preset-env";
 // import ImageminWebpack from "imagemin-webpack";
 import { ProjectBuildOptions, ProjectSettings } from "./Types";
 
-function getLoader(
-    loaderConfig: webpack.RuleSetUseItem,
-    condition: boolean
-): webpack.RuleSetUseItem[] {
-    return condition ? [loaderConfig] : [];
-}
 
 export default function buildBaseConfig(
     projectSettings: ProjectSettings,
     options: ProjectBuildOptions
 ) {
+    process.env.TS_NODE_PROJECT = projectSettings.tsconfigPath;
     const cleanupPlugin = new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: projectSettings.toClean
     });
@@ -40,16 +37,6 @@ export default function buildBaseConfig(
     }) : new NullPlugin();
     //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
     const manifestSeed: { [index: string]: string } = {};
-
-    const eslintLoader = options.lint
-        ? [
-              {
-                  loader: "eslint-loader"
-              }
-          ]
-        : [];
-
-    
 
     const config: webpack.Configuration = {
         entry: projectSettings.entry,
@@ -61,13 +48,11 @@ export default function buildBaseConfig(
                 "js",
                 options.enableCacheBusting
             ),
-            pathinfo: false,
             publicPath: process.env.STATIC_CONTENT_URL
         },
         externals: projectSettings.externals,
         resolve: {
             alias: projectSettings.alias,
-            symlinks: false, // if you don't use symlinks (e.g. npm link or yarn link).
             extensions: [".js", ".jsx", ".ts", ".tsx"],
             plugins: [
                 new TsconfigPathsPlugin({
@@ -82,7 +67,6 @@ export default function buildBaseConfig(
                     exclude: /node_modules/,
                     use: [
                         { loader: "babel-loader" }, //ts also handled by babel. It seems faster but doesn't provide typechecking. For that TypeCheckFork plugin is used or run tsc separately
-                        ...eslintLoader,
                         {
                             loader: "ts-loader",
                             options: {
@@ -231,6 +215,7 @@ export default function buildBaseConfig(
             ]
         },
         plugins: [
+            options.lint ? new ESLintPlugin() : new NullPlugin(),
             new CaseSensitivePathsPlugin(),
             options.hmrNeeded || !options.extractCss
                 ? new NullPlugin()

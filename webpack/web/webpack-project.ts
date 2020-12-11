@@ -12,6 +12,7 @@ const src = path.resolve(__dirname, "../../src");
 const output = path.resolve(__dirname, "../../dist");
 process.env.TS_NODE_PROJECT = path.resolve(__dirname, "../../tsconfig.json");
 export const projectConfig: ProjectSettings = {
+    tsconfigPath: path.resolve(__dirname, "../tsconfig.json"),
     entry: {
         index: path.join(src, "js/index.ts"),
     },

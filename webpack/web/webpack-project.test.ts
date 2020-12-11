@@ -11,6 +11,7 @@ let files = glob.sync(path.join(src, "**/*.spec.ts"));
 process.env.TS_NODE_PROJECT = path.resolve(__dirname, "../../tsconfig.json");
 const projectConfig: ProjectSettings = {
     ...baseConfig,
+    tsconfigPath: path.resolve(__dirname, "../tsconfig.json"),
     buildOutputName: function(type: AssetsType): string {
         let toRet = "";
         switch (type) {

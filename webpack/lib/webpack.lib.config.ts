@@ -8,15 +8,15 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import webpackMerge from "webpack-merge";
 process.env.TS_NODE_PROJECT = path.resolve(__dirname, "./tsconfig.json");
-const prefix = process.env.CURRENT_BRANCH;
+
 const src = path.resolve(__dirname, "../../src");
-const output = path.resolve(__dirname, "../../build-lib", prefix || "");
+const output = path.resolve(__dirname, "../../dist/lib");
 
 export const libUmdConfig: webpack.Configuration = {
     entry: {
         "shared/index": path.join(src, "shared/index.ts"),
     },
-    target: ["web", "es5"],
+    target: "web",
     mode: "production",
     name: "lib-umd",
     devtool: "source-map",

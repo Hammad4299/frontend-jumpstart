@@ -52,7 +52,11 @@ branch().then(async (name) => {
         console.log(stdout);
     }
     {
-        let { stdout } = await execa("bit", ["export", collection]);
+        let { stdout } = await execa("bit", [
+            "export",
+            collection,
+            packageName,
+        ]);
         console.log(stdout);
     }
     if (fs.existsSync(umdRoot)) {

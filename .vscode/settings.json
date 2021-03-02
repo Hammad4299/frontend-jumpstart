@@ -1,8 +1,5 @@
 {
-    "recommendations": [
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint"
-    ],
+
     "typescript.tsdk": "node_modules\\typescript\\lib",
     "files.eol": "\n",
     "editor.formatOnSave": true,

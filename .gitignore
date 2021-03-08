@@ -19,3 +19,4 @@
 dist-node/
 yarn-error.log
 /tests
+.eslintcache

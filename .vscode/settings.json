@@ -1,7 +1,5 @@
 {
-
     "typescript.tsdk": "node_modules\\typescript\\lib",
-    "files.eol": "\n",
     "editor.formatOnSave": true,
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "[typescriptreact]": {
@@ -9,6 +7,9 @@
     },
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
     },
     "[javascriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -23,21 +24,9 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "eslint.validate": [
-        {
-            "language": "javascript",
-            "autoFix": true
-        },
-        {
-            "language": "javascriptreact",
-            "autoFix": true
-        },
-        {
-            "language": "typescript",
-            "autoFix": true
-        },
-        {
-            "language": "typescriptreact",
-            "autoFix": true
-        }
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
     ]
 }

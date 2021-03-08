@@ -4,7 +4,7 @@ import webpack from "webpack";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import Dotenv from "dotenv-webpack";
 import path from "path";
-import ESLintPlugin from 'eslint-webpack-plugin';
+import ESLintPlugin from "eslint-webpack-plugin";
 
 import CircularDependencyPlugin from "circular-dependency-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -23,18 +23,20 @@ import postcssPresetEnv from "postcss-preset-env";
 // import ImageminWebpack from "imagemin-webpack";
 import { ProjectBuildOptions, ProjectSettings } from "./Types";
 
-
 export default function buildBaseConfig(
     projectSettings: ProjectSettings,
-    options: ProjectBuildOptions
+    options: ProjectBuildOptions,
 ) {
     process.env.TS_NODE_PROJECT = projectSettings.tsconfigPath;
     const cleanupPlugin = new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: projectSettings.toClean
+        cleanOnceBeforeBuildPatterns: projectSettings.toClean,
     });
-    const copyPlugin = projectSettings.toCopy && projectSettings.toCopy.length>0 ? new CopyWebpackPlugin({
-        patterns: projectSettings.toCopy
-    }) : new NullPlugin();
+    const copyPlugin =
+        projectSettings.toCopy && projectSettings.toCopy.length > 0
+            ? new CopyWebpackPlugin({
+                  patterns: projectSettings.toCopy,
+              })
+            : new NullPlugin();
     //required to keep manifest of originally copied files during watch mode.  https://github.com/danethurber/webpack-manifest-plugin/issues/144. Marked to resolve at ManifestPlugin v3
     const manifestSeed: { [index: string]: string } = {};
 
@@ -46,19 +48,27 @@ export default function buildBaseConfig(
             //libraryTarget: 'umd',
             filename: projectSettings.buildOutputName(
                 "js",
-                options.enableCacheBusting
+                options.enableCacheBusting,
             ),
-            publicPath: process.env.STATIC_CONTENT_URL
+            publicPath: process.env.STATIC_CONTENT_URL,
         },
         externals: projectSettings.externals,
         resolve: {
             alias: projectSettings.alias,
-            extensions: [".js", ".jsx", ".ts", ".tsx"],
+            extensions: [
+                ".js",
+                ".jsx",
+                ".ts",
+                ".tsx",
+                ".wasm",
+                ".mjs",
+                ".json",
+            ],
             plugins: [
                 new TsconfigPathsPlugin({
-                    configFile: process.env.TS_NODE_PROJECT
-                })
-            ]
+                    configFile: process.env.TS_NODE_PROJECT,
+                }),
+            ],
         },
         module: {
             rules: [
@@ -71,10 +81,10 @@ export default function buildBaseConfig(
                             loader: "ts-loader",
                             options: {
                                 configFile: process.env.TS_NODE_PROJECT,
-                                transpileOnly: true
-                            }
-                        }
-                    ]
+                                transpileOnly: true,
+                            },
+                        },
+                    ],
                 },
                 {
                     test: /\.(css|scss|sass)$/,
@@ -83,15 +93,15 @@ export default function buildBaseConfig(
                     use: [
                         options.hmrNeeded || !options.extractCss
                             ? {
-                                  loader: "style-loader"
+                                  loader: "style-loader",
                               }
                             : MiniCssExtractPlugin.loader,
                         {
                             loader: "css-loader", // creates style nodes from JS strings
                             options: {
                                 importLoaders: 3, //how many loaders before css-loader should be applied to @imported resources.
-                                sourceMap: options.shouldGenerateSourceMaps
-                            }
+                                sourceMap: options.shouldGenerateSourceMaps,
+                            },
                         },
                         {
                             loader: "postcss-loader", // creates style nodes from JS strings
@@ -101,7 +111,7 @@ export default function buildBaseConfig(
                                 postcssOptions: () => {
                                     const opts = {
                                         // parser: "postcss-js",
-                                        plugins: []
+                                        plugins: [],
                                     };
 
                                     opts.plugins = [
@@ -109,31 +119,31 @@ export default function buildBaseConfig(
                                             /* use stage 3 features + css nesting rules */
                                             stage: 3,
                                             features: {
-                                                "nesting-rules": true
-                                            }
-                                        })
+                                                "nesting-rules": true,
+                                            },
+                                        }),
                                     ];
                                     if (options.minimizeCss) {
                                         opts.plugins.push(cssnano());
                                     }
 
                                     return opts;
-                                }
-                            }
+                                },
+                            },
                         },
                         {
                             loader: "resolve-url-loader",
                             options: {
-                                removeCR: true
-                            }
+                                removeCR: true,
+                            },
                         },
                         {
                             loader: "sass-loader", // creates style nodes from JS strings
                             options: {
-                                sourceMap: options.shouldGenerateSourceMaps
-                            }
-                        }
-                    ]
+                                sourceMap: options.shouldGenerateSourceMaps,
+                            },
+                        },
+                    ],
                 },
                 {
                     test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
@@ -147,24 +157,24 @@ export default function buildBaseConfig(
                                 limit: 10000,
                                 name: projectSettings.buildOutputName(
                                     "image",
-                                    options.enableCacheBusting
+                                    options.enableCacheBusting,
                                 ),
                                 fallback: options.responsiveImages
                                     ? "responsive-loader"
                                     : "file-loader",
                                 //    quality: 100,
-                                adapter: responsiveSharp
-                            }
+                                adapter: responsiveSharp,
+                            },
                         },
                         ...(options.imagemin
                             ? [
-                                //   {
-                                //       loader: ImageminWebpack.loader,
-                                //       options: options.imageminOptions
-                                //   }
+                                  //   {
+                                  //       loader: ImageminWebpack.loader,
+                                  //       options: options.imageminOptions
+                                  //   }
                               ]
-                            : [])
-                    ]
+                            : []),
+                    ],
                 },
                 {
                     test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
@@ -177,24 +187,24 @@ export default function buildBaseConfig(
                                 context: projectSettings.src, //[path] is relative to this context
                                 name: projectSettings.buildOutputName(
                                     "image",
-                                    options.enableCacheBusting
+                                    options.enableCacheBusting,
                                 ),
                                 fallback: options.responsiveImages
                                     ? "responsive-loader"
                                     : "file-loader",
                                 //    quality: 100,
-                                adapter: responsiveSharp
-                            }
+                                adapter: responsiveSharp,
+                            },
                         },
                         ...(options.imagemin
                             ? [
-                                //   {
-                                //       loader: ImageminWebpack.loader,
-                                //       options: options.imageminWebpOptions
-                                //   }
+                                  //   {
+                                  //       loader: ImageminWebpack.loader,
+                                  //       options: options.imageminWebpOptions
+                                  //   }
                               ]
-                            : [])
-                    ]
+                            : []),
+                    ],
                 },
                 {
                     test: /\.(ttf|woff|woff2|otf|eot)$/,
@@ -206,13 +216,13 @@ export default function buildBaseConfig(
                                 context: projectSettings.src, //[path] is relative to this context
                                 name: projectSettings.buildOutputName(
                                     "font",
-                                    options.enableCacheBusting
-                                )
-                            }
-                        }
-                    ]
-                }
-            ]
+                                    options.enableCacheBusting,
+                                ),
+                            },
+                        },
+                    ],
+                },
+            ],
         },
         plugins: [
             options.lint ? new ESLintPlugin() : new NullPlugin(),
@@ -224,13 +234,13 @@ export default function buildBaseConfig(
                       // both options are optional
                       filename: projectSettings.buildOutputName(
                           "style",
-                          options.enableCacheBusting
-                      )
+                          options.enableCacheBusting,
+                      ),
                       //chunkFilename: options.buildOutputName("css/[id].hash-[chunkhash].css",'.hash-[chunkhash]')
                   }),
             new Dotenv({
                 defaults: true,
-                systemvars: true
+                systemvars: true,
             }) as any,
             options.shouldClean ? cleanupPlugin : new NullPlugin(),
             copyPlugin,
@@ -238,16 +248,16 @@ export default function buildBaseConfig(
                 typescript: {
                     configFile: process.env.TS_NODE_PROJECT,
                     diagnosticOptions: {
-                        syntactic: true
-                    }
-                }
+                        syntactic: true,
+                    },
+                },
             }),
             projectSettings.favicon
                 ? new Favicon({
                       logo: projectSettings.favicon.logo,
                       prefix: projectSettings.buildOutputName(
                           "favicon",
-                          options.enableCacheBusting
+                          options.enableCacheBusting,
                       ),
 
                       // Inject the html into the html-webpack-plugin
@@ -263,9 +273,9 @@ export default function buildBaseConfig(
                               favicons: true,
                               firefox: true,
                               yandex: true,
-                              windows: true
-                          }
-                      }
+                              windows: true,
+                          },
+                      },
                   })
                 : new NullPlugin(),
             new CircularDependencyPlugin({
@@ -277,7 +287,7 @@ export default function buildBaseConfig(
                 // e.g. via import(/* webpackMode: "weak" */ './file.js')
                 allowAsyncCycles: false,
                 // set the current working directory for displaying module paths
-                cwd: path.resolve(projectSettings.src)
+                cwd: path.resolve(projectSettings.src),
             }),
             //TODO add when compatible with webpack 5
             // new ManifestPlugin({
@@ -295,7 +305,7 @@ export default function buildBaseConfig(
             //         return obj;
             //     }
             // })
-        ]
+        ],
     };
 
     // if (options.imagemin) {

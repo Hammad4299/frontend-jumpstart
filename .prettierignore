@@ -1,0 +1,10 @@
+build/
+build-bit/
+**/.build/**
+**/.webpack/**
+test/
+node_modules/
+*.spec.js
+
+devops/**/*.yml
+devops/**/*.yaml

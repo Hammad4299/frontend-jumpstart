@@ -1,0 +1,52 @@
+# These files are text and should be normalized (convert crlf =&gt; lf)
+text=auto
+
+#.NET
+*.cs      text diff=csharp
+*.csproj  text
+*.sln     text
+*.tt      text
+*.cmd     text
+*.msbuild text
+*.md      text
+
+
+*.ps1           text
+Dockerfile      text eol=lf
+*.xaml          text
+*.sh            text eol=lf
+*.md            text eol=lf
+*.sql           text eol=lf
+*.csv           text eol=lf
+*.yaml          text eol=lf
+*.yml           text eol=lf
+
+#PHP
+*.php       text eol=lf
+
+#Client
+*.js        text eol=lf
+*.jsx       text eol=lf
+*.css       text eol=lf
+*.scss      text eol=lf
+*.pug       text eol=lf
+*.json      text eol=lf
+*.html      text eol=lf
+*.less      text eol=lf
+*.sass      text eol=lf
+*.ts        text eol=lf
+*.tsx       text eol=lf
+
+# Images should be treated as binary
+# (binary is a macro for -text -diff)
+*.png     binary
+*.gif     binary
+*.webp    binary
+*.mp4     binary
+*.exe     binary
+*.bin     binary
+*.bin     binary
+*.jpeg    binary
+*.jpg     binary
+*.sdf     binary
+*.mdf     binary

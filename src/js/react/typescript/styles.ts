@@ -2,7 +2,7 @@ import { Theme } from "@material-ui/core";
 import { CreateCSSProperties } from "@material-ui/styles/withStyles";
 
 export type StyleClassKey<X> = X extends (
-    theme: Theme
+    theme: Theme,
 ) => Record<
     infer P,
     | CreateCSSProperties<{}>
@@ -11,5 +11,5 @@ export type StyleClassKey<X> = X extends (
     ? P
     : never; //withStyles HOC
 export type StylesType<ClassKeysUnion extends string | number | symbol> = (
-    theme: Theme
+    theme: Theme,
 ) => Record<ClassKeysUnion, CreateCSSProperties<{}>>;

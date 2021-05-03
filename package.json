@@ -31,7 +31,7 @@
     "author": "",
     "license": "UNLICENSED",
     "browserslist": [
-        "default"
+        "defaults"
     ],
     "devDependencies": {
         "@babel/core": "^7.12.3",

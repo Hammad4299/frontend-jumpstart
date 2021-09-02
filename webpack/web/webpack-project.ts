@@ -1,13 +1,14 @@
-import path from "path";
 import { AssetsType, ProjectBuildOptions, ProjectSettings } from "../Types";
 import { emptyStr } from "../Utils";
-import webpack from "webpack";
 import commonConfig from "../webpack-base-config";
-import MomentLocalesPlugin from "moment-locales-webpack-plugin";
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import CompressionPlugin from "compression-webpack-plugin";
-import webpackMerge from "webpack-merge";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import MomentLocalesPlugin from "moment-locales-webpack-plugin";
+import path from "path";
+import webpack from "webpack";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import webpackMerge from "webpack-merge";
+
 const src = path.resolve(__dirname, "../../src");
 const output = path.resolve(__dirname, "../../dist");
 process.env.TS_NODE_PROJECT = path.resolve(__dirname, "../../tsconfig.json");
@@ -41,7 +42,7 @@ export const projectConfig: ProjectSettings = {
     root: path.resolve(src, "../"),
     buildOutputName: function (
         type: AssetsType,
-        enableCacheBusting: boolean
+        enableCacheBusting: boolean,
     ): string {
         let toRet = "";
 
@@ -49,43 +50,43 @@ export const projectConfig: ProjectSettings = {
             case "font":
                 toRet = `[path][name]${emptyStr(
                     ".[contenthash]",
-                    enableCacheBusting
+                    enableCacheBusting,
                 )}.[ext]`;
                 break;
             case "image-imagemin":
                 toRet = `[path][name]${emptyStr(
                     ".hash-[contenthash]",
-                    enableCacheBusting
+                    enableCacheBusting,
                 )}.[ext]`; // "/" is very important otherwise it will skip first letter (on windows).
                 break;
             case "image":
                 toRet = `[path]loaded/[name]${emptyStr(
                     ".hash-[contenthash]",
-                    enableCacheBusting
+                    enableCacheBusting,
                 )}.[ext]`;
                 break;
             case "favicon":
                 toRet = `favicon${emptyStr(
                     "-[contenthash]",
-                    enableCacheBusting
+                    enableCacheBusting,
                 )}/`;
                 break;
             case "style":
                 toRet = `css/generated/[name]${emptyStr(
                     ".[chunkhash]",
-                    enableCacheBusting
+                    enableCacheBusting,
                 )}.css`;
                 break;
             case "html":
                 toRet = `html/generated/[name]${emptyStr(
                     ".[chunkhash]",
-                    enableCacheBusting
+                    enableCacheBusting,
                 )}.html`;
                 break;
             case "js":
                 toRet = `js/generated/[name]${emptyStr(
                     ".[chunkhash]",
-                    enableCacheBusting
+                    enableCacheBusting,
                 )}.js`;
                 break;
             default:
@@ -168,23 +169,27 @@ export const webDevConfig = webpackMerge(
             // proxy: {
             //     '/': process.env.DEV_SERVER_PROXY
             // },
-            publicPath: "/",
-            writeToDisk: true,
+
+            devMiddleware: {
+                writeToDisk: true,
+            },
             hot: true,
-            inline: true,
+            // inline: true,
             port: parseInt(process.env.DEV_SERVER_PORT) || undefined,
             host: process.env.DEV_SERVER_HOST || "0.0.0.0",
-            hotOnly: true,
-            contentBase: path.resolve(projectConfig.contentOutput),
+            // hotOnly: true,
+            static: {
+                publicPath: "/",
+                directory: path.resolve(projectConfig.contentOutput),
+            },
         },
         plugins: [
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
             }),
             new MomentLocalesPlugin(),
-            new webpack.HotModuleReplacementPlugin(),
         ],
-    } as webpack.Configuration
+    } as webpack.Configuration,
 );
 
 export const webProductionConfig = webpackMerge(
@@ -220,5 +225,5 @@ export const webProductionConfig = webpackMerge(
                 analyzerMode: "static",
             }),
         ],
-    } as webpack.Configuration
+    } as webpack.Configuration,
 );

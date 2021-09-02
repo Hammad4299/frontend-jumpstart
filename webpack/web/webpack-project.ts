@@ -169,7 +169,12 @@ export const webDevConfig = webpackMerge(
             // proxy: {
             //     '/': process.env.DEV_SERVER_PROXY
             // },
-
+            client: {
+                overlay: {
+                    warnings: false,
+                    errors: true,
+                },
+            },
             devMiddleware: {
                 writeToDisk: true,
             },

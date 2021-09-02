@@ -1,7 +1,4 @@
-import dotenv from "dotenv-defaults";
-dotenv.config({
-    defaults: ".env.defaults",
-});
+import "./loadenv";
 import * as libConfigs from "./lib/webpack.lib.config";
 import * as nodeConfigs from "./node/webpack-project-node";
 import * as webConfigs from "./web/webpack-project";

@@ -5,5 +5,5 @@ module.exports = {
     arrowParens: "always",
     // "endOfLine": "auto", //from editorconfig
     jsxBracketSameLine: true,
-    importOrder: ["core-js|regenerator-runtime", ".*"],
+    importOrder: ["./loadenv", "core-js|regenerator-runtime", ".*"],
 };

@@ -4,6 +4,7 @@ import commonConfig from "../webpack-base-config";
 import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MomentLocalesPlugin from "moment-locales-webpack-plugin";
+import ObsoleteWebpackPlugin from "obsolete-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -193,6 +194,7 @@ export const webDevConfig = webpackMerge(
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
             }),
+            new ObsoleteWebpackPlugin(),
             new MomentLocalesPlugin(),
         ],
     } as webpack.Configuration,
@@ -224,6 +226,7 @@ export const webProductionConfig = webpackMerge(
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
             }),
+            new ObsoleteWebpackPlugin(),
             new MomentLocalesPlugin(),
             new CompressionPlugin({
                 threshold: 0,

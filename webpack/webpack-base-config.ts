@@ -11,7 +11,6 @@ import Dotenv from "dotenv-webpack";
 import ESLintPlugin from "eslint-webpack-plugin";
 import Favicon from "favicons-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import postcssPresetEnv from "postcss-preset-env";
@@ -19,6 +18,7 @@ import responsiveSharp from "responsive-loader/sharp";
 // import ManifestPlugin from "webpack-manifest-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
+import { WebpackManifestPlugin } from "webpack-manifest-plugin";
 import NullPlugin from "webpack-null-plugin";
 
 export default function buildBaseConfig(
@@ -44,12 +44,13 @@ export default function buildBaseConfig(
             path: path.resolve(projectSettings.contentOutput),
             //library: '',
             //libraryTarget: 'umd',
-            filename: "[name].js",
+            filename: projectSettings.buildOutputName(
+                "js",
+                options.enableCacheBusting,
+            ),
             publicPath: process.env.STATIC_CONTENT_URL,
         },
-        externals: {
-            lodash: "_",
-        },
+        externals: projectSettings.externals,
         resolve: {
             alias: projectSettings.alias,
             extensions: [
@@ -286,22 +287,21 @@ export default function buildBaseConfig(
                 // set the current working directory for displaying module paths
                 cwd: path.resolve(projectSettings.src),
             }),
-            //TODO add when compatible with webpack 5
-            // new ManifestPlugin({
-            //     fileName: "webpack-manifest.json",
-            //     writeToFileEmit: true,
-            //     seed: manifestSeed,
-            //     map: (obj: any) => {
-            //         let name: string = obj.name;
-            //         if (name) {
-            //             name = obj.name.replace(/\.hash-.*\./, "."); //fixes imagemin hashes
-            //             obj.name =
-            //                 name.charAt(0) === "/" ? name.substring(1) : name;
-            //         }
+            new WebpackManifestPlugin({
+                fileName: "webpack-manifest.json",
+                writeToFileEmit: true,
+                seed: manifestSeed,
+                map: (obj: any) => {
+                    let name: string = obj.name;
+                    if (name) {
+                        name = obj.name.replace(/\.hash-.*\./, "."); //fixes imagemin hashes
+                        obj.name =
+                            name.charAt(0) === "/" ? name.substring(1) : name;
+                    }
 
-            //         return obj;
-            //     }
-            // })
+                    return obj;
+                },
+            }),
         ],
     };
 

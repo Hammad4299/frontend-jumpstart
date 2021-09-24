@@ -88,6 +88,7 @@ export const projectConfig: ProjectSettings = {
                     ".[chunkhash]",
                     enableCacheBusting,
                 )}.js`;
+
                 break;
             default:
                 toRet = `[name].[ext]`;
@@ -151,7 +152,7 @@ export const webDevConfig = webpackMerge(
         hmrNeeded: true,
         imagemin: false,
         cacheResults: false,
-        enableCacheBusting: false,
+        enableCacheBusting: true,
         extractCss: false,
         minimizeCss: false,
         responsiveImages: false,
@@ -196,6 +197,8 @@ export const webDevConfig = webpackMerge(
         ],
     } as webpack.Configuration,
 );
+
+console.log("asdsa", webDevConfig);
 
 export const webProductionConfig = webpackMerge(
     commonConfig(projectConfig, {

@@ -20,42 +20,18 @@
         //For previous behaviour, it needs to be node again.
         "baseUrl": "../src",
         "paths": {
-            "models": [
-                "js/models/index.ts"
-            ],
-            "types": [
-                "js/types/index.ts"
-            ],
-            "components": [
-                "js/react/components/index.ts"
-            ],
-            "services": [
-                "js/services/index.ts"
-            ],
-            "redux-store": [
-                "js/redux-store/index.ts"
-            ],
-            "custom-hooks": [
-                "js/react/hooks/index.ts"
-            ],
-            "breadcrumbs": [
-                "js/breadcrumbs/index.ts"
-            ],
-            "routing": [
-                "js/routing/index.ts"
-            ],
-            "typehelper": [
-                "js/typescript/index.ts"
-            ],
-            "externals/*": [
-                "js/externals/*"
-            ],
-            "react-hoc": [
-                "js/react/HOC/index.ts"
-            ],
-            "helpers": [
-                "js/helpers/index.ts"
-            ]
+            "models": ["js/models/index.ts"],
+            "types": ["js/types/index.ts"],
+            "components": ["js/react/components/index.ts"],
+            "services": ["js/services/index.ts"],
+            "redux-store": ["js/redux-store/index.ts"],
+            "custom-hooks": ["js/react/hooks/index.ts"],
+            "breadcrumbs": ["js/breadcrumbs/index.ts"],
+            "routing": ["js/routing/index.ts"],
+            "typehelper": ["js/typescript/index.ts"],
+            "externals/*": ["js/externals/*"],
+            "react-hoc": ["js/react/HOC/index.ts"],
+            "helpers": ["js/helpers/index.ts"]
         },
         "typeRoots": [
             "../src/js/custom-typings",
@@ -66,10 +42,7 @@
         "jsx": "preserve", //let babel do it
         "allowJs": true //Necessary. To run js files as typescript,
     },
-    "include": [
-        "../src/**/*.ts",
-        "../src/**/*.tsx"
-    ],
+    "include": ["../src/**/*.ts", "../src/**/*.tsx"],
     "exclude": [
         "../src/**/jquery-dependent/**/*.ts",
         "../src/**/jquery-dependent/**/*.tsx",

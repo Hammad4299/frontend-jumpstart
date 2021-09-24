@@ -1,28 +1,28 @@
 import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import createMuiTheme, {
-    ThemeOptions
-} from "@material-ui/core/styles/createMuiTheme";
+    ThemeOptions,
+} from "@material-ui/core/styles/createTheme";
 import React from "react";
 
-declare module "@material-ui/core/styles/createMuiTheme" {
+declare module "@material-ui/core/styles/createTheme" {
     //custom theme options typings
     /*eslint-disable*/
     interface Theme extends ThemeOptions {}
     interface ThemeOptions {
         drawer?: {
-            breakpoint: Breakpoint
-            width: React.CSSProperties["width"]
-        }
+            breakpoint: Breakpoint;
+            width: React.CSSProperties["width"];
+        };
         header?: {
-            height: React.CSSProperties["height"]
-        }
+            height: React.CSSProperties["height"];
+        };
     }
 }
 
 function createAppTheme(options: ThemeOptions) {
     const theme = createMuiTheme({
         typography: {},
-    })
+    });
     return createMuiTheme({
         typography: {
             fontFamily: "Roboto, Helvetica, Arial, sans-serif",
@@ -56,9 +56,9 @@ function createAppTheme(options: ThemeOptions) {
             tooltip: 1,
         },
         ...options,
-    })
+    });
 }
 
-const theme = createAppTheme({})
+const theme = createAppTheme({});
 
-export default theme
+export default theme;

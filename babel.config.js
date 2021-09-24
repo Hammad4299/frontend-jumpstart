@@ -8,7 +8,7 @@ module.exports = (api) => {
                 {
                     debug: true,
                     useBuiltIns: "entry",
-                    corejs: "3.7.0",
+                    corejs: "3.18.0",
                     //"auto" equals controlled by bundler https://babeljs.io/docs/en/babel-preset-env#modules
                     modules: "auto",
                     //targets seems to be controlled by browserlist rather than bundler https://babeljs.io/docs/en/babel-preset-env#targets

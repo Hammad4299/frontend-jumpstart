@@ -147,23 +147,15 @@ export default function buildBaseConfig(
                     test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
                     include: projectSettings.src,
                     exclude: path.resolve(projectSettings.src, "webp-images"), //they are handled by another loader
+                    type: "asset",
+                    generator: {
+                        filename: projectSettings.buildOutputName(
+                            "image",
+                            options.enableCacheBusting,
+                        ),
+                    },
                     use: [
-                        {
-                            loader: "url-loader",
-                            options: {
-                                context: projectSettings.src, //[path] is relative to this context
-                                limit: 10000,
-                                name: projectSettings.buildOutputName(
-                                    "image",
-                                    options.enableCacheBusting,
-                                ),
-                                fallback: options.responsiveImages
-                                    ? "responsive-loader"
-                                    : "file-loader",
-                                //    quality: 100,
-                                adapter: responsiveSharp,
-                            },
-                        },
+                        {} as any,
                         ...(options.imagemin
                             ? [
                                   //   {
@@ -177,23 +169,14 @@ export default function buildBaseConfig(
                 {
                     test: /\.(png|jpe?g|svg|bmp|gif|webp)$/,
                     include: path.resolve(projectSettings.src, "webp-images"),
+                    type: "asset",
+                    generator: {
+                        filename: projectSettings.buildOutputName(
+                            "image",
+                            options.enableCacheBusting,
+                        ),
+                    },
                     use: [
-                        {
-                            loader: "url-loader",
-                            options: {
-                                limit: 10000,
-                                context: projectSettings.src, //[path] is relative to this context
-                                name: projectSettings.buildOutputName(
-                                    "image",
-                                    options.enableCacheBusting,
-                                ),
-                                fallback: options.responsiveImages
-                                    ? "responsive-loader"
-                                    : "file-loader",
-                                //    quality: 100,
-                                adapter: responsiveSharp,
-                            },
-                        },
                         ...(options.imagemin
                             ? [
                                   //   {
@@ -207,18 +190,13 @@ export default function buildBaseConfig(
                 {
                     test: /\.(ttf|woff|woff2|otf|eot)$/,
                     include: path.resolve(projectSettings.src),
-                    use: [
-                        {
-                            loader: "file-loader",
-                            options: {
-                                context: projectSettings.src, //[path] is relative to this context
-                                name: projectSettings.buildOutputName(
-                                    "font",
-                                    options.enableCacheBusting,
-                                ),
-                            },
-                        },
-                    ],
+                    type: "asset/resource",
+                    generator: {
+                        filename: projectSettings.buildOutputName(
+                            "font",
+                            options.enableCacheBusting,
+                        ),
+                    },
                 },
             ],
         },

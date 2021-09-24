@@ -1,12 +1,13 @@
-import webpack from "webpack";
-import path from "path";
-import nodeExternals from "webpack-node-externals";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CircularDependencyPlugin from "circular-dependency-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import path from "path";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+import webpack from "webpack";
 import webpackMerge from "webpack-merge";
+import nodeExternals from "webpack-node-externals";
+
 process.env.TS_NODE_PROJECT = path.resolve(__dirname, "./tsconfig.json");
 
 const src = path.resolve(__dirname, "../../src");
@@ -35,7 +36,7 @@ export const libUmdConfig: webpack.Configuration = {
         plugins: [
             new TsconfigPathsPlugin({
                 configFile: process.env.TS_NODE_PROJECT,
-            }),
+            }) as any,
         ],
     },
     module: {

@@ -1,27 +1,25 @@
 //Base config file.
-import webpack from "webpack";
-// import ImageminWebpackPlugin from "imagemin-webpack";
-import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
-import Dotenv from "dotenv-webpack";
-import path from "path";
-import ESLintPlugin from "eslint-webpack-plugin";
-
-import CircularDependencyPlugin from "circular-dependency-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import CopyWebpackPlugin from "copy-webpack-plugin";
-import responsiveSharp from "responsive-loader/sharp";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import Favicon from "favicons-webpack-plugin";
-import cssnano from "cssnano";
-
-// import ManifestPlugin from "webpack-manifest-plugin";
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import NullPlugin from "webpack-null-plugin";
-import postcssPresetEnv from "postcss-preset-env";
 // import ImageminWebpack from "imagemin-webpack";
 import { ProjectBuildOptions, ProjectSettings } from "./Types";
+// import ImageminWebpackPlugin from "imagemin-webpack";
+import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+import CircularDependencyPlugin from "circular-dependency-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import cssnano from "cssnano";
+import Dotenv from "dotenv-webpack";
+import ESLintPlugin from "eslint-webpack-plugin";
+import Favicon from "favicons-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+import postcssPresetEnv from "postcss-preset-env";
+import responsiveSharp from "responsive-loader/sharp";
+// import ManifestPlugin from "webpack-manifest-plugin";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import webpack from "webpack";
+import NullPlugin from "webpack-null-plugin";
 
 export default function buildBaseConfig(
     projectSettings: ProjectSettings,
@@ -46,13 +44,12 @@ export default function buildBaseConfig(
             path: path.resolve(projectSettings.contentOutput),
             //library: '',
             //libraryTarget: 'umd',
-            filename: projectSettings.buildOutputName(
-                "js",
-                options.enableCacheBusting,
-            ),
+            filename: "[name].js",
             publicPath: process.env.STATIC_CONTENT_URL,
         },
-        externals: projectSettings.externals,
+        externals: {
+            lodash: "_",
+        },
         resolve: {
             alias: projectSettings.alias,
             extensions: [
@@ -67,7 +64,7 @@ export default function buildBaseConfig(
             plugins: [
                 new TsconfigPathsPlugin({
                     configFile: process.env.TS_NODE_PROJECT,
-                }),
+                }) as any,
             ],
         },
         module: {

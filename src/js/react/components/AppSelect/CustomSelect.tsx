@@ -17,8 +17,9 @@ import { createStyles, makeStyles, useTheme } from "@material-ui/styles";
 import classNames from "classnames";
 import { defaults } from "lodash-es";
 import React from "react";
+import { Props } from "react-select";
+import { useAsync } from "react-select/async";
 import { GroupBase } from "react-select/dist/declarations/src";
-import { Props } from "react-select/dist/declarations/src/Select";
 import { FixedSizeListProps } from "react-window";
 
 const styles = (theme: Theme) =>

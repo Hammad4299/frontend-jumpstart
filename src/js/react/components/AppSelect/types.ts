@@ -1,7 +1,7 @@
 import { CustomSelectClassKey, CustomSelectProps } from "./CustomSelect";
+import { Props } from "react-select";
 import { AsyncProps } from "react-select/async";
 import { CreatableProps } from "react-select/creatable";
-import { Props } from "react-select/dist/declarations/src/Select";
 import { GroupBase } from "react-select/dist/declarations/src/types";
 import { FixedSizeListProps } from "react-window";
 import { Subtract } from "utility-types";

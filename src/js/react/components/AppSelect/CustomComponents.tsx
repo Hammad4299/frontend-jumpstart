@@ -61,8 +61,7 @@ function TextFieldInputComponent<OptionType>({
             {controlProps.allowReload && (
                 <IconButton
                     className={classes.reloadIcon}
-                    onClick={controlProps.onReload}
-                >
+                    onClick={controlProps.onReload}>
                     <ReloadIcon />
                 </IconButton>
             )}
@@ -84,8 +83,7 @@ export function Control<OptionType>(
     return (
         <FormControl
             className={props.selectProps.classes.formControl}
-            fullWidth={props.selectProps.controlProps.fullWidth}
-        >
+            fullWidth={props.selectProps.controlProps.fullWidth}>
             <Input
                 className={props.selectProps.classes.formControlInput}
                 disableUnderline
@@ -107,8 +105,7 @@ export function Option<OptionType>(
             style={{
                 fontWeight: props.isSelected ? 500 : 400,
             }}
-            {...(props.innerProps as any)}
-        >
+            {...(props.innerProps as any)}>
             {props.children}
         </MenuItem>
     );
@@ -121,8 +118,7 @@ export function Placeholder<OptionType>(
         <Typography
             color="textSecondary"
             className={props.selectProps.classes.placeholder}
-            {...(props.innerProps as any)}
-        >
+            {...(props.innerProps as any)}>
             {props.children}
         </Typography>
     );
@@ -134,8 +130,7 @@ export function SingleValue<OptionType>(
     return (
         <Typography
             className={props.selectProps.classes.singleValue}
-            {...(props.innerProps as any)}
-        >
+            {...(props.innerProps as any)}>
             {props.children}
         </Typography>
     );
@@ -179,8 +174,7 @@ export function Menu<OptionType>(
             elevation={0}
             square
             className={props.selectProps.classes.paper}
-            {...(props.innerProps as any)}
-        >
+            {...(props.innerProps as any)}>
             {props.children}
         </Paper>
     );
@@ -207,8 +201,7 @@ export function MenuList<OptionType>(
             itemSize={40}
             height={40 * Math.min(5, count)}
             itemCount={count}
-            {...fixedSizeListProps}
-        >
+            {...fixedSizeListProps}>
             {(renderProps) => (
                 <div style={renderProps.style as React.CSSProperties}>
                     {childs[renderProps.index]}
@@ -225,8 +218,7 @@ export function NoOptionsMessage<OptionType>(
         <Typography
             color={"textSecondary"}
             className={props.selectProps.classes.noOptionsMessage}
-            {...(props.innerProps as any)}
-        >
+            {...(props.innerProps as any)}>
             {props.children}
         </Typography>
     );

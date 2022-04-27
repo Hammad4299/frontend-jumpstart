@@ -13,7 +13,7 @@ const styles = (theme: Theme) =>
     });
 
 export type PerPageSelectorClassKey = StyleClassKey<typeof styles>;
-
+w
 export interface PerPageSelectorProps
     extends StandardProps<{}, PerPageSelectorClassKey> {
     selected?: number;
@@ -28,7 +28,7 @@ const decorator = withStyles(styles);
 function Component({
     classes,
     onChange = () => {},
-    allowed = [10, 25, 50, 100],
+    allowed = [10, 25, 50, 100],w
     before = <Typography>Show&nbsp;</Typography>,
     after = <Typography>&nbsp;entries</Typography>,
     ...rest

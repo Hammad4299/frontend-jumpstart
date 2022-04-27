@@ -21,3 +21,4 @@ function Component(props: AppSelectProps) {
 
 export const AppSelect = Component;
 export default AppSelect;
+

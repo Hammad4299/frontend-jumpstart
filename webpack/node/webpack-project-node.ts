@@ -13,7 +13,26 @@ const projectConfig: ProjectSettings = {
     entry: {
         index: path.join(src, "js/index.ts"),
     },
-    externals: [nodeExternals()],
+    externals: [
+        nodeExternals({
+            allowlist: [
+                "lodash-es",
+                "formidable",
+                "url-join",
+                "normalize-url",
+                "crypto-random-string",
+                "parse-domain",
+                "is-ip",
+                "ip-regex",
+
+                //node-fetch es module
+                /^data-uri-to-buffer/,
+                /^formdata-polyfill/,
+                /^fetch-blob/,
+                /^node-fetch/,
+            ],
+        }),
+    ],
     favicon: null,
     src: src,
     alias: {

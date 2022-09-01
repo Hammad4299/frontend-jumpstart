@@ -1,17 +1,14 @@
-// import '../../publicpath';
-// import "core-js/stable";
-// import "regenerator-runtime/runtime";
-import React from "react";
+import theme from "../style/Theme";
+import Root from "./root";
+import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
-import { CssBaseline } from '@material-ui/core'
+import { createGenerateClassName, StylesProvider } from "@material-ui/styles";
+import React from "react";
+import ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import ReactDOM from "react-dom";
-import { createGenerateClassName, StylesProvider } from "@material-ui/styles";
-import theme from '../style/Theme';
-import { store } from 'redux-store';
-import Root from './root';
+import { store } from "redux-store";
 
 // if (process.env.NODE_ENV !== 'production') {
 //     const {whyDidYouUpdate} = require('why-did-you-update')
@@ -32,5 +29,5 @@ const App = () => (
     </StylesProvider>
 );
 
-ReactDOM.render(<App />, document.getElementById('main-content'));
+ReactDOM.render(<App />, document.getElementById("main-content"));
 export default hot(App);

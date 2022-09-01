@@ -5,8 +5,15 @@
     "compilerOptions": {
         "sourceMap": true,
         "allowSyntheticDefaultImports": true,
+        "strict": true,
         "esModuleInterop": true,
+        "lib": ["es2021"],
         "resolveJsonModule": true,
+        "noUnusedLocals": false, //handled by eslint
+
+        "noUnusedParameters": false, //handled by eslint
+
+        // "importsNotUsedAsValues": "error", handled by eslint
         // Don't emit; allow Babel to transform files.
         "noEmit": true,
         "sourceRoot": "/",
@@ -44,6 +51,7 @@
     },
     "include": ["../src/**/*.ts", "../src/**/*.tsx"],
     "exclude": [
+        "../**/node_modules/**",
         "../src/**/jquery-dependent/**/*.ts",
         "../src/**/jquery-dependent/**/*.tsx",
         "../src/**/needs-to-refactor/**/*.ts",

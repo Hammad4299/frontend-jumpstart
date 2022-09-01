@@ -1,9 +1,9 @@
-import nodeExternals from "webpack-node-externals";
-import path from "path";
 import { AssetsType, ProjectSettings } from "../Types";
-import webpackMerge from "webpack-merge";
-import webpack from "webpack";
 import commonConfig from "../webpack-base-config";
+import path from "path";
+import webpack from "webpack";
+import webpackMerge from "webpack-merge";
+import nodeExternals from "webpack-node-externals";
 
 const src = path.resolve(__dirname, "../../src");
 const output = path.resolve(__dirname, "../../dist-node");
@@ -85,6 +85,16 @@ export const nodeDevConfig = webpackMerge(
         target: "node12",
         watch: true,
         name: "node-dev",
+        externalsPresets: {
+            node: true,
+        },
+        resolve: {
+            fallback: {
+                //needed for packages bundled in webpack e.g. in allowlist of webpack node external
+                // path: require.resolve("path-browserify"),
+            },
+        },
+
         node: {
             __dirname: false,
         },
@@ -100,7 +110,7 @@ export const nodeDevConfig = webpackMerge(
                 entryOnly: false,
             }),
         ],
-    }
+    },
 );
 
 export const nodeProductionConfig = webpackMerge(
@@ -120,6 +130,15 @@ export const nodeProductionConfig = webpackMerge(
         devtool: "source-map", //Production ready separate sourcemap files with original source code. SourceMaps Can be deployed but make sure to not allow access to public users to them.
         mode: "production",
         target: "node12",
+        externalsPresets: {
+            node: true,
+        },
+        resolve: {
+            fallback: {
+                //needed for packages bundled in webpack e.g. in allowlist of webpack node external
+                // path: require.resolve("path-browserify"),
+            },
+        },
         optimization: {
             runtimeChunk: false,
             splitChunks: false,
@@ -135,5 +154,5 @@ export const nodeProductionConfig = webpackMerge(
                 entryOnly: false,
             }),
         ],
-    } as webpack.Configuration
+    } as webpack.Configuration,
 );

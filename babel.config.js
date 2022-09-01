@@ -7,7 +7,7 @@ module.exports = (api) => {
                 "@babel/preset-env",
                 {
                     debug: true,
-                    useBuiltIns: "entry",
+                    useBuiltIns: "usage",
                     corejs: "3.18.0",
                     //"auto" equals controlled by bundler https://babeljs.io/docs/en/babel-preset-env#modules
                     modules: "auto",

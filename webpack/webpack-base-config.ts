@@ -50,6 +50,9 @@ export default function buildBaseConfig(
             ),
             publicPath: process.env.STATIC_CONTENT_URL,
         },
+        watchOptions: {
+            ignored: "**/node_modules",
+        },
         externals: projectSettings.externals,
         resolve: {
             alias: projectSettings.alias,

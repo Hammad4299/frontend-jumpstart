@@ -1,6 +1,9 @@
 {
     "typescript.tsdk": "node_modules\\typescript\\lib",
     "editor.formatOnSave": true,
+    "terminal.integrated.env.windows": {
+        "PATH": "${env:NVM_HOME}/v16.17.0;${env:PATH}"
+    },
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "[typescriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"

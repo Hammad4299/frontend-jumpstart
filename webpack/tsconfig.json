@@ -16,7 +16,7 @@
         // "importsNotUsedAsValues": "error", handled by eslint
         // Don't emit; allow Babel to transform files.
         "noEmit": true,
-        "sourceRoot": "/",
+        //"sourceRoot": "", //default(""). setting to "" causes sourcemaps to be relative and doesn't hardcode build machice absolute paths in sourcemaps which is good
         "isolatedModules": true,
         "skipLibCheck": true,
         "noImplicitAny": false,

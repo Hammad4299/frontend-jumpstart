@@ -13,7 +13,7 @@
 
         "noUnusedParameters": false, //handled by eslint
 
-        // "importsNotUsedAsValues": "error", handled by eslint
+        "importsNotUsedAsValues": "error",
         // Don't emit; allow Babel to transform files.
         "noEmit": true,
         //"sourceRoot": "", //default(""). setting to "" causes sourcemaps to be relative and doesn't hardcode build machice absolute paths in sourcemaps which is good

@@ -40,7 +40,12 @@
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-floating-promises": "off",
-        "@typescript-eslint/consistent-type-imports": "error",
+        //https://github.com/typescript-eslint/typescript-eslint/issues/5468
+        //enabling it causing it to remove type imports via cli but add type imports (which is correct) when using vscode extension
+        // "@typescript-eslint/consistent-type-imports": [
+        //     "error",
+        //     { "prefer": "type-imports" }
+        // ],
         "unused-imports/no-unused-imports": "error",
         "@typescript-eslint/no-unsafe-argument": "warn",
         "@typescript-eslint/no-unsafe-member-access": "off",
